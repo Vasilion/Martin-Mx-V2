@@ -1,11 +1,5 @@
-"use client";
-
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
 export default function AdminPage() {
-  useEffect(() => {
-    window.location.href = "/admin/index.html";
-  }, []);
-
-  return <p className="text-white">Redirecting to CMS...</p>;
+  redirect("/admin/index.html");
 }

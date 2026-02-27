@@ -2,7 +2,7 @@ backend:
   name: github
   repo: Vasilion/Martin-Mx-V2
   branch: master
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
   base_url: https://www.martinmxpark.com
 
 media_folder: public/media
