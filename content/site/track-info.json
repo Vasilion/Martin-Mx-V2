@@ -1,6 +1,6 @@
 {
-  "hoursText": "Wednesday 3pm - 8pm, Saturday 10am - 3pm, Sunday 11am - 4pm",
-  "pricingText": "Main Track $40, Junior Track included as posted per event",
+  "hoursText": "Wednesday 3pm - 8pm, Saturday 10am - 3pm, Sundays 11am - 4pm, Bikes Only",
+  "pricingText": "Main Track $40 per class, Jr Track posted by event, Spectator $5 (ages 5 and under free).",
   "requirements": [
     "Helmet, boots, and protective gear required",
     "Waiver must be signed before riding",
@@ -19,6 +19,7 @@
   "rules": [
     "No pit riding in restricted zones",
     "Follow flaggers and track marshals",
-    "Do not enter track without gate approval"
+    "Do not enter track without gate approval",
+    "Practice cancellation status is posted through CMS and schedule controls"
   ]
 }

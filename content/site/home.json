@@ -1,20 +1,20 @@
 {
   "heroTitle": "Welcome to Martin MX Park",
-  "heroDescription": "Two tracks, pro-level prep, and a rider-first environment for all ages.",
-  "heroCtaLabel": "View Track Info",
+  "heroDescription": "Martin MX Park features two motocross tracks with modern rider-focused prep, reliable scheduling controls, and operations updates your team can manage directly in CMS.",
+  "heroCtaLabel": "VIEW Track Info",
   "heroCtaHref": "/track-info",
   "features": [
     {
-      "title": "Practice Scheduling",
-      "description": "Configurable open and closed states with cancellation messaging."
+      "title": "Interactive 3D Track Map",
+      "description": "Explore the layout in 3D with modern presentation and mobile-friendly controls."
     },
     {
-      "title": "Flexible Membership",
-      "description": "Toggle membership availability and update pricing from CMS."
+      "title": "Track Action Video",
+      "description": "Showcase rider highlights and key moments directly on the home page."
     },
     {
-      "title": "Full Editorial Control",
-      "description": "Update text, photos, and operations content from one admin."
+      "title": "Practice and Membership Controls",
+      "description": "Open and close registrations, post cancellations, and edit pricing from the CMS."
     }
   ]
 }

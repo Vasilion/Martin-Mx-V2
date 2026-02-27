@@ -1,11 +1,11 @@
 {
   "practicePrice": 40,
-  "membershipPrice": 350,
+  "membershipPrice": 750,
   "bikeClasses": [
-    "AB",
+    "A/B",
     "C",
     "Mini",
-    "JR"
+    "Jr Track"
   ],
   "bikeSizes": [
     "50cc",

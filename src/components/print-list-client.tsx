@@ -53,10 +53,10 @@ export function PrintListClient() {
           className="rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
         >
           <option value="">All classes</option>
-          <option value="AB">AB</option>
+          <option value="A/B">A/B</option>
           <option value="C">C</option>
           <option value="Mini">Mini</option>
-          <option value="JR">JR</option>
+          <option value="Jr Track">Jr Track</option>
         </select>
         <button type="button" onClick={load} className="rounded bg-red-700 px-4 py-2 text-white">
           Load Signups
