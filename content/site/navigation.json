@@ -9,7 +9,8 @@
     { "href": "/hiring", "label": "Hiring" },
     { "href": "/daily-signup", "label": "Daily Signup" },
     { "href": "/contact", "label": "Contact" },
-    { "href": "/print", "label": "Print List" }
+    { "href": "/print", "label": "Print List" },
+    { "href": "/admin-dashboard", "label": "Admin Dashboard" }
   ],
   "footerQuickLinks": [
     { "href": "/schedule", "label": "Track Status" },
