@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { ScheduleEvent } from "@/lib/content/schemas";
 
@@ -18,6 +19,14 @@ function formatDay(date: Date) {
 type Props = {
   events: ScheduleEvent[];
 };
+
+const eventImagePool = [
+  "/media/gallery/strapi-main-1.jpg",
+  "/media/gallery/strapi-main-2.jpg",
+  "/media/gallery/strapi-main-3.jpg",
+  "/media/gallery/strapi-youth-1.jpg",
+  "/media/gallery/strapi-youth-2.jpg",
+];
 
 export function ScheduleCalendar({ events }: Props) {
   const [activeMonth, setActiveMonth] = useState(() => toMonthKey(new Date()));
@@ -79,11 +88,20 @@ export function ScheduleCalendar({ events }: Props) {
           selectedEvents
             .slice()
             .sort((a, b) => a.date.localeCompare(b.date))
-            .map((event) => (
+            .map((event, index) => (
               <article
                 key={event.id}
                 className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
               >
+                <div className="relative mb-3 aspect-[16/7] w-full overflow-hidden rounded-xl bg-zinc-800">
+                  <Image
+                    src={eventImagePool[index % eventImagePool.length]}
+                    alt={`${event.title} event preview`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 70vw"
+                    className="object-cover"
+                  />
+                </div>
                 <h2 className="text-lg font-semibold">{event.title}</h2>
                 <p className="mt-1 text-sm text-zinc-300">
                   {formatDay(new Date(event.date))} {event.startTime}-{event.endTime}
