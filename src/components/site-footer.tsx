@@ -9,10 +9,10 @@ export async function SiteFooter() {
   ]);
 
   return (
-    <footer className="mt-10 border-t border-zinc-800 bg-zinc-950 text-zinc-300">
+    <footer className="mt-10 border-t border-white/10 bg-zinc-950/85 text-zinc-300 backdrop-blur">
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">{settings.siteName}</p>
+          <p className="text-xs uppercase tracking-[0.28em] text-zinc-500">{settings.siteName}</p>
           <p className="mt-2 text-sm">{settings.tagline}</p>
         </div>
         <div>
@@ -24,13 +24,13 @@ export async function SiteFooter() {
         <div>
           <p className="text-sm font-semibold text-white">Social</p>
           <div className="mt-2 flex flex-wrap gap-2 text-sm">
-            <a href={contact.facebookHref} className="rounded bg-zinc-800 px-3 py-1">
+            <a href={contact.facebookHref} className="rounded-lg bg-zinc-800 px-3 py-1.5 transition hover:bg-zinc-700">
               Facebook
             </a>
-            <a href={contact.instagramHref} className="rounded bg-zinc-800 px-3 py-1">
+            <a href={contact.instagramHref} className="rounded-lg bg-zinc-800 px-3 py-1.5 transition hover:bg-zinc-700">
               Instagram
             </a>
-            <a href={contact.twitterHref} className="rounded bg-zinc-800 px-3 py-1">
+            <a href={contact.twitterHref} className="rounded-lg bg-zinc-800 px-3 py-1.5 transition hover:bg-zinc-700">
               Twitter
             </a>
           </div>
@@ -39,7 +39,7 @@ export async function SiteFooter() {
           </Link>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">
             {navigation.footerQuickLinks.map((item) => (
-              <Link key={item.href} href={item.href} className="rounded bg-zinc-800 px-2 py-1">
+              <Link key={item.href} href={item.href} className="rounded-lg bg-zinc-800 px-2.5 py-1.5 transition hover:bg-zinc-700">
                 {item.label}
               </Link>
             ))}

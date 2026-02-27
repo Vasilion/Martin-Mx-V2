@@ -33,7 +33,7 @@ export default async function Home() {
   const nextSession = sortedSessions[0] ?? null;
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-8 md:space-y-10">
       <Script
         id="martinmx-ld-json"
         type="application/ld+json"
@@ -48,15 +48,24 @@ export default async function Home() {
           }),
         }}
       />
-      <div className="rounded-xl bg-zinc-950 p-8 text-white">
-        <p className="text-sm uppercase tracking-[0.25em] text-zinc-400">{settings.siteName}</p>
-        <h1 className="mt-2 text-4xl font-bold">{home.heroTitle}</h1>
-        <p className="mt-3 max-w-2xl text-zinc-300">{home.heroDescription}</p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={home.heroCtaHref} className="rounded bg-red-700 px-4 py-2 font-medium">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/80 p-8 text-white shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur md:p-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.26),transparent_42%)]" />
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-zinc-300">{settings.siteName}</p>
+          <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">{home.heroTitle}</h1>
+          <p className="mt-4 max-w-2xl text-zinc-200/90 md:text-lg">{home.heroDescription}</p>
+        </div>
+        <div className="relative mt-7 flex flex-wrap gap-3">
+          <Link
+            href={home.heroCtaHref}
+            className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-5 py-2.5 font-semibold text-white transition hover:from-red-600 hover:to-red-500"
+          >
             {home.heroCtaLabel}
           </Link>
-          <Link href="/register" className="rounded border border-zinc-600 px-4 py-2">
+          <Link
+            href="/register"
+            className="rounded-xl border border-zinc-500 bg-zinc-900/50 px-5 py-2.5 font-medium transition hover:border-zinc-300"
+          >
             Register Now
           </Link>
         </div>
@@ -64,18 +73,21 @@ export default async function Home() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {home.features.map((feature) => (
-          <article key={feature.title} className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
-            <h2 className="text-lg font-semibold">{feature.title}</h2>
-            <p className="mt-2 text-sm text-zinc-300">{feature.description}</p>
+          <article
+            key={feature.title}
+            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
+          >
+            <h2 className="text-lg font-semibold tracking-tight">{feature.title}</h2>
+            <p className="mt-2 text-sm text-zinc-200/80">{feature.description}</p>
           </article>
         ))}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
+        <div className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
           <h2 className="text-xl font-semibold">Operations Snapshot</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <div className="rounded border border-zinc-700 bg-zinc-950 p-3">
+            <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
               <p className="text-xs uppercase tracking-wide text-zinc-400">Practice</p>
               <p
                 className={`mt-2 inline-block rounded px-2 py-1 text-xs font-semibold ${
@@ -84,15 +96,15 @@ export default async function Home() {
               >
                 {settings.practiceOpen ? "Open" : "Closed"}
               </p>
-              <p className="mt-2 text-sm text-zinc-300">{operations.practiceStatusLabel}</p>
+              <p className="mt-2 text-sm text-zinc-200">{operations.practiceStatusLabel}</p>
               <Link
                 href="/register#practice-signup"
-                className="mt-3 inline-block rounded bg-red-700 px-3 py-1.5 text-sm font-medium"
+                className="mt-3 inline-block rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-2 text-sm font-medium transition hover:from-red-600 hover:to-red-500"
               >
                 {operations.practiceCtaLabel}
               </Link>
             </div>
-            <div className="rounded border border-zinc-700 bg-zinc-950 p-3">
+            <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
               <p className="text-xs uppercase tracking-wide text-zinc-400">Membership</p>
               <p
                 className={`mt-2 inline-block rounded px-2 py-1 text-xs font-semibold ${
@@ -101,17 +113,17 @@ export default async function Home() {
               >
                 {settings.membershipOpen ? "Open" : "Closed"}
               </p>
-              <p className="mt-2 text-sm text-zinc-300">{operations.membershipStatusLabel}</p>
+              <p className="mt-2 text-sm text-zinc-200">{operations.membershipStatusLabel}</p>
               <Link
                 href="/register#membership-signup"
-                className="mt-3 inline-block rounded border border-zinc-600 px-3 py-1.5 text-sm font-medium"
+                className="mt-3 inline-block rounded-xl border border-zinc-500 bg-zinc-900/60 px-3 py-2 text-sm font-medium transition hover:border-zinc-300"
               >
                 {operations.membershipCtaLabel}
               </Link>
             </div>
           </div>
           {nextSession ? (
-            <div className="mt-4 rounded border border-zinc-700 bg-zinc-950 p-3">
+            <div className="mt-4 rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
               <p className="text-xs uppercase tracking-wide text-zinc-400">Next Session</p>
               <p className="mt-2 text-sm text-zinc-100">
                 {nextSession.label}: {nextSession.date} {nextSession.startTime}-{nextSession.endTime}
@@ -138,10 +150,10 @@ export default async function Home() {
             Visit Merch Store
           </a>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/schedule" className="rounded bg-zinc-800 px-3 py-2 text-sm">
+            <Link href="/schedule" className="rounded-xl bg-zinc-800 px-3 py-2 text-sm transition hover:bg-zinc-700">
               View Schedule
             </Link>
-            <Link href="/contact" className="rounded bg-zinc-800 px-3 py-2 text-sm">
+            <Link href="/contact" className="rounded-xl bg-zinc-800 px-3 py-2 text-sm transition hover:bg-zinc-700">
               Contact Park
             </Link>
           </div>
@@ -154,7 +166,7 @@ export default async function Home() {
           {announcements.map((announcement) => (
             <article
               key={announcement.id}
-              className={`rounded border p-4 text-sm ${
+              className={`rounded-2xl border p-4 text-sm shadow-[0_12px_30px_rgba(0,0,0,0.25)] ${
                 announcement.severity === "warning"
                   ? "border-amber-700 bg-amber-900/20 text-amber-100"
                   : announcement.severity === "success"
@@ -170,10 +182,10 @@ export default async function Home() {
       ) : null}
 
       <div className="grid gap-4 md:grid-cols-2">
-        <article className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
+        <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
           <h2 className="text-xl font-semibold">{home.trackMapTitle}</h2>
-          <p className="mt-2 text-sm text-zinc-300">{home.trackMapDescription}</p>
-          <div className="mt-4 aspect-video overflow-hidden rounded border border-zinc-700">
+          <p className="mt-2 text-sm text-zinc-200/85">{home.trackMapDescription}</p>
+          <div className="mt-4 aspect-video overflow-hidden rounded-2xl border border-zinc-700">
             <iframe
               title={home.trackMapTitle}
               src={home.trackMapEmbedUrl}
@@ -183,10 +195,10 @@ export default async function Home() {
             />
           </div>
         </article>
-        <article className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
+        <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
           <h2 className="text-xl font-semibold">{home.videoTitle}</h2>
-          <p className="mt-2 text-sm text-zinc-300">{home.videoDescription}</p>
-          <div className="mt-4 overflow-hidden rounded border border-zinc-700">
+          <p className="mt-2 text-sm text-zinc-200/85">{home.videoDescription}</p>
+          <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-700">
             <video controls preload="none" className="w-full" src={home.trackVideoUrl} />
           </div>
         </article>

@@ -17,19 +17,26 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="border-b border-zinc-800 bg-zinc-950 text-white">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/85 text-white backdrop-blur">
       <nav className="mx-auto max-w-6xl p-4">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="text-sm font-semibold tracking-wide text-zinc-200">
+          <Link href="/" className="text-sm font-semibold tracking-[0.16em] text-zinc-100">
             Martin MX Park
           </Link>
           <div className="hidden items-center gap-2 md:flex">
             {navLinks.map((item) => (
-              <Link key={item.href} href={item.href} className="rounded px-2 py-1 text-sm hover:bg-zinc-800">
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-2.5 py-1.5 text-sm text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
+              >
                 {item.label}
               </Link>
             ))}
-            <Link href="/admin" className="rounded bg-red-700 px-3 py-1 text-sm font-medium hover:bg-red-600">
+            <Link
+              href="/admin"
+              className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-1.5 text-sm font-medium hover:from-red-600 hover:to-red-500"
+            >
               {cmsButtonLabel}
             </Link>
           </div>
@@ -38,7 +45,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
             onClick={() => setIsOpen((value) => !value)}
             aria-expanded={isOpen}
             aria-controls="mobile-site-nav"
-            className="rounded border border-zinc-700 px-3 py-1 text-sm text-zinc-200 md:hidden"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-200 md:hidden"
           >
             Menu
           </button>
@@ -50,7 +57,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
               <Link
                 key={item.href}
                 href={item.href}
-                className="block rounded px-2 py-2 text-sm hover:bg-zinc-800"
+                className="block rounded-lg px-2 py-2 text-sm hover:bg-zinc-800"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
@@ -58,7 +65,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
             ))}
             <Link
               href="/admin"
-              className="mt-2 block rounded bg-red-700 px-3 py-2 text-sm font-medium hover:bg-red-600"
+              className="mt-2 block rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-2 text-sm font-medium hover:from-red-600 hover:to-red-500"
               onClick={() => setIsOpen(false)}
             >
               {cmsButtonLabel}

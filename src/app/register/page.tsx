@@ -17,7 +17,13 @@ export default async function RegisterPage() {
 
   return (
     <section className="space-y-6 text-white">
-      <h1 className="text-3xl font-bold">Register</h1>
+      <header className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+        <h1 className="text-3xl font-bold md:text-4xl">Register</h1>
+        <p className="mt-2 max-w-2xl text-sm text-zinc-300 md:text-base">
+          Complete practice or membership signups below. All submission details are emailed to riders with a
+          reference ID for support and verification.
+        </p>
+      </header>
       {announcements.length > 0 ? (
         <div className="space-y-2">
           {announcements.map((announcement) => (
@@ -38,7 +44,10 @@ export default async function RegisterPage() {
         </div>
       ) : null}
       <div className="grid gap-6 md:grid-cols-2">
-        <article id="practice-signup" className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <article
+          id="practice-signup"
+          className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
+        >
           <h2 className="text-xl font-semibold">Practice Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
             {settings.practiceOpen ? operations.practiceStatusLabel : "Practice is currently closed."}
@@ -97,7 +106,10 @@ export default async function RegisterPage() {
             ]}
           />
         </article>
-        <article id="membership-signup" className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <article
+          id="membership-signup"
+          className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
+        >
           <h2 className="text-xl font-semibold">Membership Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
             {settings.membershipOpen ? operations.membershipStatusLabel : "Membership is currently closed."}
