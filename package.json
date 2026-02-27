@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "cms:proxy": "decap-server",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -37,6 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^1.6.0",
+    "decap-server": "^3.5.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "jsdom": "^24.1.0",

@@ -7,6 +7,7 @@
   - Production: `https://www.martinmxpark.com/api/callback`
 - Use separate GitHub OAuth apps for local and production if needed.
 - Confirm `public/admin/config.yml` uses `auth_endpoint: /api/auth`.
+- For local-only editing without GitHub OAuth, run `npm run cms:proxy` and keep it running while using `/admin`.
 
 ## Form submit returns 400
 - Validate payload against the corresponding schema in `src/lib/forms/schemas.ts`.

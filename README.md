@@ -17,7 +17,9 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
    - `copy .env.example .env.local` (Windows PowerShell: `Copy-Item .env.example .env.local`)
 3. Run dev server:
    - `npm run dev`
-4. Open:
+4. Run local CMS proxy server (for local CMS auth bypass):
+   - `npm run cms:proxy`
+5. Open:
    - Site: `http://localhost:3000`
    - CMS: `http://localhost:3000/admin`
 
@@ -37,6 +39,7 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
 
 ## Commands
 - `npm run dev`
+- `npm run cms:proxy`
 - `npm run lint`
 - `npm run typecheck`
 - `npm run test`

@@ -4,6 +4,8 @@ backend:
   branch: master
   auth_endpoint: /api/auth
 
+local_backend: true
+
 media_folder: public/media
 public_folder: /media
 publish_mode: editorial_workflow
