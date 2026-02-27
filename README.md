@@ -19,6 +19,7 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
    - `npm run dev`
 4. Run local CMS proxy server (for local CMS auth bypass):
    - `npm run cms:proxy`
+   - or run both with one command: `npm run dev:all`
 5. Open:
    - Site: `http://localhost:3000`
    - CMS: `http://localhost:3000/admin`
@@ -40,6 +41,7 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
 ## Commands
 - `npm run dev`
 - `npm run cms:proxy`
+- `npm run dev:all`
 - `npm run lint`
 - `npm run typecheck`
 - `npm run test`
