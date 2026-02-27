@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getTrackInfoContent, getTracksContent } from "@/lib/content/loader";
 
@@ -30,6 +31,15 @@ export default async function TrackInfoPage() {
             {paragraph}
           </p>
         ))}
+        <div className="relative mt-4 aspect-[16/9] w-full overflow-hidden rounded-xl bg-zinc-800">
+          <Image
+            src="/media/gallery/track-photo.jpg"
+            alt="Main track photo at Martin MX Park"
+            fill
+            sizes="(max-width: 768px) 100vw, 70vw"
+            className="object-cover"
+          />
+        </div>
       </article>
 
       <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
@@ -39,6 +49,15 @@ export default async function TrackInfoPage() {
             {paragraph}
           </p>
         ))}
+        <div className="relative mt-4 aspect-[16/9] w-full overflow-hidden rounded-xl bg-zinc-800">
+          <Image
+            src="/media/gallery/blog-2.jpg"
+            alt="Junior track photo at Martin MX Park"
+            fill
+            sizes="(max-width: 768px) 100vw, 70vw"
+            className="object-cover"
+          />
+        </div>
       </article>
 
       <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
