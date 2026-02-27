@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Main Track Practice Placeholder">
+  <rect width="1200" height="675" fill="#1f1f23" />
+  <circle cx="260" cy="260" r="120" fill="#b90000" opacity="0.5" />
+  <rect x="120" y="420" width="960" height="120" rx="16" fill="#2a2a31" />
+  <text x="120" y="120" fill="#ffffff" font-size="56" font-family="Arial, sans-serif">Main Track Practice</text>
+  <text x="120" y="190" fill="#c7c7d1" font-size="28" font-family="Arial, sans-serif">Replace with official Martin MX media in CMS</text>
+</svg>

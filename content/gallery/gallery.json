@@ -3,14 +3,14 @@
     {
       "id": "gallery-1",
       "title": "Main Track Practice",
-      "image": "/media/gallery/main-track-practice.jpg",
+      "image": "/media/gallery/main-track-practice.svg",
       "alt": "Rider cornering on the Martin MX main track",
       "isFeatured": true
     },
     {
       "id": "gallery-2",
       "title": "Junior Track Session",
-      "image": "/media/gallery/junior-track-session.jpg",
+      "image": "/media/gallery/junior-track-session.svg",
       "alt": "Junior rider on tabletop jump",
       "isFeatured": false
     }

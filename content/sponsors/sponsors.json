@@ -4,7 +4,7 @@
       "id": "sponsor-1",
       "name": "Title Sponsor Example",
       "href": "https://example.com",
-      "logo": "/media/sponsors/title-sponsor.png",
+      "logo": "/media/sponsors/title-sponsor.svg",
       "isTitleSponsor": true,
       "isActive": true
     },
@@ -12,7 +12,7 @@
       "id": "sponsor-2",
       "name": "Local Powersports",
       "href": "https://example.com",
-      "logo": "/media/sponsors/local-powersports.png",
+      "logo": "/media/sponsors/local-powersports.svg",
       "isTitleSponsor": false,
       "isActive": true
     }
