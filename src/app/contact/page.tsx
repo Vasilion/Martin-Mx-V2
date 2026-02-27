@@ -16,6 +16,18 @@ export default async function ContactPage() {
       <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <h2 className="text-xl font-semibold">{contact.headline}</h2>
         <p className="mt-2 text-sm text-zinc-300">{contact.description}</p>
+        <div className="mt-4 grid gap-2 md:grid-cols-3">
+          {[
+            { label: "Response Speed", value: "Same Day" },
+            { label: "Best For", value: "Track Ops + Events" },
+            { label: "Channels", value: "Call, Email, Social" },
+          ].map((item) => (
+            <div key={item.label} className="rounded-xl border border-zinc-700 bg-zinc-950/60 p-3">
+              <p className="text-xs uppercase tracking-wide text-zinc-500">{item.label}</p>
+              <p className="mt-1 text-sm font-semibold text-zinc-100">{item.value}</p>
+            </div>
+          ))}
+        </div>
         <div className="mt-4 grid gap-2 text-sm text-zinc-300">
           <p>Email: {settings.contactEmail}</p>
           <p>Phone: {settings.contactPhone}</p>
@@ -60,6 +72,17 @@ export default async function ContactPage() {
           </div>
         </article>
       </div>
+      <article className="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+        <div className="pointer-events-none absolute inset-0 opacity-30">
+          <Image src="/media/gallery/strapi-main-1.jpg" alt="" fill sizes="100vw" className="object-cover" />
+        </div>
+        <div className="relative flex flex-wrap items-center justify-between gap-3">
+          <h3 className="text-lg font-semibold">Need directions to the track?</h3>
+          <a href={contact.googleMapsHref} className="rounded-xl bg-green-700 px-4 py-2 text-sm font-semibold text-white">
+            Open Navigation
+          </a>
+        </div>
+      </article>
       <FormSubmit
         formType="contact"
         fields={[

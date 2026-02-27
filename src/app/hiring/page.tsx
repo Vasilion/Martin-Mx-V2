@@ -21,6 +21,21 @@ export default function HiringPage() {
           />
         </div>
       </article>
+      <section className="grid gap-4 md:grid-cols-3">
+        {[
+          { role: "Track Crew", detail: "Prep and maintain riding surfaces through operating windows." },
+          { role: "Gate + Check-In", detail: "Support rider flow, waivers, and registration accuracy." },
+          { role: "Event Support", detail: "Help with race-day setup, transitions, and guest service." },
+        ].map((item) => (
+          <article
+            key={item.role}
+            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+          >
+            <h2 className="text-base font-semibold">{item.role}</h2>
+            <p className="mt-2 text-sm text-zinc-300">{item.detail}</p>
+          </article>
+        ))}
+      </section>
       <FormSubmit
         formType="hiring"
         fields={[

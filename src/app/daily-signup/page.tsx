@@ -17,6 +17,18 @@ export default async function DailySignupPage() {
         <p className="text-sm text-zinc-300">
           Use this form for day-of registration. A confirmation email will include all submitted rider details.
         </p>
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {[
+            { title: "Quick Entry", text: "Complete details before arriving at the gate." },
+            { title: "Waiver Ready", text: "Direct waiver links stay one tap away." },
+            { title: "Traceable", text: "Every signup is tied to a reference ID." },
+          ].map((item) => (
+            <div key={item.title} className="rounded-xl border border-zinc-700 bg-zinc-950/60 p-3">
+              <p className="text-sm font-semibold text-zinc-100">{item.title}</p>
+              <p className="mt-1 text-xs text-zinc-400">{item.text}</p>
+            </div>
+          ))}
+        </div>
         <div className="mt-3 flex flex-wrap gap-3">
           {trackInfo.waiverLinks.map((link) => (
             <a key={link.label} href={link.href} className="rounded-xl bg-zinc-800 px-3 py-2 text-sm">
