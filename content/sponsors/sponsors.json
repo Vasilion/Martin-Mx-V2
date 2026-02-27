@@ -2,17 +2,25 @@
   "sponsors": [
     {
       "id": "sponsor-1",
-      "name": "Title Sponsor Example",
-      "href": "https://example.com",
-      "logo": "/media/sponsors/title-sponsor.svg",
+      "name": "Martin MX Park",
+      "href": "https://www.martinmxpark.com",
+      "logo": "/media/sponsors/martin-logo.svg",
       "isTitleSponsor": true,
       "isActive": true
     },
     {
       "id": "sponsor-2",
-      "name": "Local Powersports",
-      "href": "https://example.com",
-      "logo": "/media/sponsors/local-powersports.svg",
+      "name": "Martin MX Brand Mark",
+      "href": "https://www.martinmxpark.com",
+      "logo": "/media/sponsors/martin-logo-white.svg",
+      "isTitleSponsor": false,
+      "isActive": true
+    },
+    {
+      "id": "sponsor-3",
+      "name": "Martin MX Alternate Logo",
+      "href": "https://www.martinmxpark.com",
+      "logo": "/media/sponsors/martin-logo-alt.svg",
       "isTitleSponsor": false,
       "isActive": true
     }

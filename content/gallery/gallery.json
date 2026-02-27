@@ -2,16 +2,30 @@
   "items": [
     {
       "id": "gallery-1",
-      "title": "Main Track Practice",
-      "image": "/media/gallery/main-track-practice.svg",
-      "alt": "Rider cornering on the Martin MX main track",
+      "title": "Track Session",
+      "image": "/media/gallery/track-photo.jpg",
+      "alt": "Rider on the Martin MX track during open practice",
       "isFeatured": true
     },
     {
       "id": "gallery-2",
-      "title": "Junior Track Session",
-      "image": "/media/gallery/junior-track-session.svg",
-      "alt": "Junior rider on tabletop jump",
+      "title": "Hero Track View",
+      "image": "/media/gallery/hero.webp",
+      "alt": "Martin MX hero image from the original site",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-3",
+      "title": "Rider Feature Photo",
+      "image": "/media/gallery/blog-1.jpg",
+      "alt": "Rider feature image from Martin MX media set",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-4",
+      "title": "Practice Day Photo",
+      "image": "/media/gallery/blog-2.jpg",
+      "alt": "Practice day image from Martin MX media set",
       "isFeatured": false
     }
   ]

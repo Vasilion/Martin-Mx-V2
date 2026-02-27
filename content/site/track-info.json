@@ -9,11 +9,15 @@
   "waiverLinks": [
     {
       "label": "Minor Waiver",
-      "href": "https://www.martinmxpark.com/track-info"
+      "href": "https://www.martinmxpark.com/media/waivers/minor-waiver.pdf"
     },
     {
       "label": "Adult Waiver",
-      "href": "https://www.martinmxpark.com/track-info"
+      "href": "https://www.martinmxpark.com/media/waivers/rider-waiver.pdf"
+    },
+    {
+      "label": "Guardian Release",
+      "href": "https://www.martinmxpark.com/media/waivers/guardian-release.pdf"
     }
   ],
   "rules": [
