@@ -45,7 +45,7 @@ export function ScheduleCalendar({ events }: Props) {
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
-          className="rounded border border-zinc-700 px-3 py-2 text-sm"
+          className="rounded-xl border border-zinc-600 bg-zinc-900/70 px-3 py-2 text-sm transition hover:border-zinc-400"
           onClick={() => {
             const idx = Math.max(0, orderedMonths.indexOf(activeMonth) - 1);
             setActiveMonth(orderedMonths[idx]);
@@ -53,10 +53,10 @@ export function ScheduleCalendar({ events }: Props) {
         >
           Previous
         </button>
-        <p className="text-lg font-semibold">{formatMonthLabel(monthDate)}</p>
+        <p className="text-lg font-semibold tracking-tight">{formatMonthLabel(monthDate)}</p>
         <button
           type="button"
-          className="rounded border border-zinc-700 px-3 py-2 text-sm"
+          className="rounded-xl border border-zinc-600 bg-zinc-900/70 px-3 py-2 text-sm transition hover:border-zinc-400"
           onClick={() => {
             const idx = Math.min(orderedMonths.length - 1, orderedMonths.indexOf(activeMonth) + 1);
             setActiveMonth(orderedMonths[idx]);
@@ -67,12 +67,12 @@ export function ScheduleCalendar({ events }: Props) {
       </div>
       <div className="space-y-3">
         <div className="flex flex-wrap gap-2 text-xs text-zinc-300">
-          <span className="rounded bg-zinc-800 px-2 py-1">Scheduled Practice</span>
-          <span className="rounded bg-green-900/40 px-2 py-1 text-green-300">Registration Open</span>
-          <span className="rounded bg-red-900/40 px-2 py-1 text-red-300">Practice Cancelled</span>
+          <span className="rounded-lg bg-zinc-800 px-2 py-1">Scheduled Practice</span>
+          <span className="rounded-lg bg-green-900/40 px-2 py-1 text-green-300">Registration Open</span>
+          <span className="rounded-lg bg-red-900/40 px-2 py-1 text-red-300">Practice Cancelled</span>
         </div>
         {selectedEvents.length === 0 ? (
-          <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+          <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
             <p className="text-sm text-zinc-300">No events in this month.</p>
           </article>
         ) : (
@@ -80,16 +80,22 @@ export function ScheduleCalendar({ events }: Props) {
             .slice()
             .sort((a, b) => a.date.localeCompare(b.date))
             .map((event) => (
-              <article key={event.id} className="rounded border border-zinc-700 bg-zinc-900 p-4">
+              <article
+                key={event.id}
+                className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
+              >
                 <h2 className="text-lg font-semibold">{event.title}</h2>
-                <p className="text-sm text-zinc-300">
+                <p className="mt-1 text-sm text-zinc-300">
                   {formatDay(new Date(event.date))} {event.startTime}-{event.endTime}
                 </p>
-                <p className={`text-sm ${event.isCancelled ? "text-red-300" : "text-green-300"}`}>
+                <p className={`mt-1 text-sm ${event.isCancelled ? "text-red-300" : "text-green-300"}`}>
                   {event.isCancelled ? "Cancelled" : "Open"}
                 </p>
                 {!event.isCancelled ? (
-                  <a href="/register" className="mt-3 inline-block rounded bg-red-700 px-3 py-1 text-xs font-medium">
+                  <a
+                    href="/register"
+                    className="mt-3 inline-block rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-1.5 text-xs font-medium"
+                  >
                     Sign Up
                   </a>
                 ) : null}
