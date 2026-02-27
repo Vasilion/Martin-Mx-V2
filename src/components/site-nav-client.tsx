@@ -20,7 +20,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
     <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/85 text-white backdrop-blur">
       <nav className="mx-auto max-w-6xl p-4">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="text-sm font-semibold tracking-[0.16em] text-zinc-100">
+          <Link href="/" className="rounded-xl border border-zinc-700/70 bg-zinc-900/80 px-3 py-1.5 text-sm font-semibold tracking-[0.16em] text-zinc-100">
             Martin MX Park
           </Link>
           <div className="hidden items-center gap-2 md:flex">
