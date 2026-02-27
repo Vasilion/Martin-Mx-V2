@@ -1,6 +1,6 @@
 # Production Release Checklist
 
-## Required before merge to `main`
+## Required before merge to `master`
 - CI workflow passed (lint, typecheck, unit/integration/contract tests, e2e tests).
 - Form email contract tests passed.
 - Redirect and metadata checks completed for impacted routes.
@@ -14,7 +14,7 @@
 - Verify SES delivery metrics and no errors in logs.
 
 ## GitHub branch protection settings
-- Protect `main`.
+- Protect `master`.
 - Require pull request approvals.
 - Require status checks: `CI / validate`.
 - Require branches to be up to date before merging.

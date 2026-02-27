@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 
 const geistSans = Geist({
@@ -42,6 +43,7 @@ export default function RootLayout({
       >
         <SiteNav />
         <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -12,7 +12,7 @@
 - Anti-spam settings: update thresholds in `src/lib/forms/rate-limit.ts` and honeypot handling in `src/app/api/forms/[formType]/route.ts`.
 
 ## Deployment and rollback
-- Deploy via Amplify on `main`.
+- Deploy via Amplify on `master`.
 - If production regression appears, rollback to previous Amplify build and revert offending commit.
 
 ## Monthly maintenance checklist

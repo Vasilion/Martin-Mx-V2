@@ -13,7 +13,7 @@
 - CI-equivalent local run: `npm run lint && npm run typecheck && npm run test && npm run test:e2e`
 
 ## CI gates
-`main` merges should require passing:
+`master` merges should require passing:
 - lint
 - typecheck
 - unit/integration/contract tests

@@ -66,6 +66,11 @@ export function ScheduleCalendar({ events }: Props) {
         </button>
       </div>
       <div className="space-y-3">
+        <div className="flex flex-wrap gap-2 text-xs text-zinc-300">
+          <span className="rounded bg-zinc-800 px-2 py-1">Scheduled Practice</span>
+          <span className="rounded bg-green-900/40 px-2 py-1 text-green-300">Registration Open</span>
+          <span className="rounded bg-red-900/40 px-2 py-1 text-red-300">Practice Cancelled</span>
+        </div>
         {selectedEvents.length === 0 ? (
           <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
             <p className="text-sm text-zinc-300">No events in this month.</p>
@@ -83,6 +88,11 @@ export function ScheduleCalendar({ events }: Props) {
                 <p className={`text-sm ${event.isCancelled ? "text-red-300" : "text-green-300"}`}>
                   {event.isCancelled ? "Cancelled" : "Open"}
                 </p>
+                {!event.isCancelled ? (
+                  <a href="/register" className="mt-3 inline-block rounded bg-red-700 px-3 py-1 text-xs font-medium">
+                    Sign Up
+                  </a>
+                ) : null}
               </article>
             ))
         )}

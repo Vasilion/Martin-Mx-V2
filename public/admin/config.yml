@@ -1,7 +1,7 @@
 backend:
   name: github
-  repo: lukev/martin-mx-v2
-  branch: main
+  repo: Vasilion/Martin-Mx-V2
+  branch: master
   auth_endpoint: api/auth
   base_url: https://www.martinmxpark.com
 
