@@ -1,0 +1,20 @@
+{
+  "heroTitle": "Welcome to Martin MX Park",
+  "heroDescription": "Two tracks, pro-level prep, and a rider-first environment for all ages.",
+  "heroCtaLabel": "View Track Info",
+  "heroCtaHref": "/track-info",
+  "features": [
+    {
+      "title": "Practice Scheduling",
+      "description": "Configurable open and closed states with cancellation messaging."
+    },
+    {
+      "title": "Flexible Membership",
+      "description": "Toggle membership availability and update pricing from CMS."
+    },
+    {
+      "title": "Full Editorial Control",
+      "description": "Update text, photos, and operations content from one admin."
+    }
+  ]
+}

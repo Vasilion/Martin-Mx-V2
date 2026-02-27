@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Martin MX V2
 
-## Getting Started
+Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email delivery, and a minimal transactional store for signup reliability.
 
-First, run the development server:
+## Stack
+- Next.js App Router + TypeScript
+- Decap CMS (`/admin`)
+- AWS SES for submitter confirmation emails
+- DynamoDB (or memory fallback) for idempotent signup records and spot counters
+- Vitest + Playwright testing
+- API anti-spam safeguards (honeypot + rate limiting)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Local setup
+1. Install dependencies:
+   - `npm install`
+2. Copy env template:
+   - `copy .env.example .env.local` (Windows PowerShell: `Copy-Item .env.example .env.local`)
+3. Run dev server:
+   - `npm run dev`
+4. Open:
+   - Site: `http://localhost:3000`
+   - CMS: `http://localhost:3000/admin`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment variables
+- `AWS_REGION`
+- `SES_FROM_EMAIL`
+- `SIGNUP_STORE_PROVIDER` (`dynamodb` or `memory`)
+- `SIGNUP_TABLE_NAME` (required for `dynamodb`)
+- `OAUTH_GITHUB_CLIENT_ID`
+- `OAUTH_GITHUB_CLIENT_SECRET`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Commands
+- `npm run dev`
+- `npm run lint`
+- `npm run typecheck`
+- `npm run test`
+- `npm run test:contracts`
+- `npm run test:e2e`
+- `npm run build`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## CMS editable content
+- `content/site/settings.json`
+- `content/site/home.json`
+- `content/site/track-info.json`
+- `content/site/contact.json`
+- `content/forms/pricing.json`
+- `content/schedule/events.json`
+- `content/sponsors/sponsors.json`
+- `content/gallery/gallery.json`
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Testing and maintenance docs
+- `docs/testing.md`
+- `docs/maintenance.md`
+- `docs/content-ops.md`
+- `docs/troubleshooting.md`
+- `docs/runbooks/forms-email.md`
+- `docs/release-checklist.md`

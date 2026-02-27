@@ -1,0 +1,150 @@
+backend:
+  name: github
+  repo: lukev/martin-mx-v2
+  branch: main
+  auth_endpoint: api/auth
+  base_url: https://www.martinmxpark.com
+
+media_folder: public/media
+public_folder: /media
+publish_mode: editorial_workflow
+
+collections:
+  - name: site_settings
+    label: Site Settings
+    files:
+      - label: Global Settings
+        name: global_settings
+        file: content/site/settings.json
+        fields:
+          - { label: Site Name, name: siteName, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Primary Color, name: primaryColor, widget: string }
+          - { label: Secondary Color, name: secondaryColor, widget: string }
+          - { label: Contact Email, name: contactEmail, widget: string }
+          - { label: Contact Phone, name: contactPhone, widget: string }
+          - { label: Address, name: address, widget: string }
+          - { label: Store Link, name: storeLink, widget: string }
+          - { label: Practice Open, name: practiceOpen, widget: boolean }
+          - { label: Membership Open, name: membershipOpen, widget: boolean }
+          - { label: Practice Cancelled, name: practiceCancelled, widget: boolean }
+          - { label: Practice Cancel Reason, name: practiceCancelReason, widget: string, required: false }
+  - name: home
+    label: Home
+    files:
+      - label: Home Content
+        name: home_content
+        file: content/site/home.json
+        fields:
+          - { label: Hero Title, name: heroTitle, widget: string }
+          - { label: Hero Description, name: heroDescription, widget: text }
+          - { label: Hero CTA Label, name: heroCtaLabel, widget: string }
+          - { label: Hero CTA Href, name: heroCtaHref, widget: string }
+          - label: Features
+            name: features
+            widget: list
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Description, name: description, widget: text }
+  - name: schedule
+    label: Schedule
+    files:
+      - label: Events
+        name: events
+        file: content/schedule/events.json
+        fields:
+          - label: Events
+            name: events
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Date, name: date, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Start Time, name: startTime, widget: string }
+              - { label: End Time, name: endTime, widget: string }
+              - { label: Cancelled, name: isCancelled, widget: boolean }
+  - name: track_info
+    label: Track Info
+    files:
+      - label: Track Information
+        name: track_information
+        file: content/site/track-info.json
+        fields:
+          - { label: Hours Text, name: hoursText, widget: string }
+          - { label: Pricing Text, name: pricingText, widget: string }
+          - label: Requirements
+            name: requirements
+            widget: list
+            field: { label: Requirement, name: requirement, widget: string }
+          - label: Waiver Links
+            name: waiverLinks
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Href, name: href, widget: string }
+          - label: Rules
+            name: rules
+            widget: list
+            field: { label: Rule, name: rule, widget: string }
+  - name: contact
+    label: Contact Block
+    files:
+      - label: Contact Content
+        name: contact_content
+        file: content/site/contact.json
+        fields:
+          - { label: Headline, name: headline, widget: string }
+          - { label: Description, name: description, widget: text }
+          - { label: Google Maps Link, name: googleMapsHref, widget: string }
+          - { label: Facebook Link, name: facebookHref, widget: string }
+          - { label: Instagram Link, name: instagramHref, widget: string }
+  - name: pricing
+    label: Pricing Config
+    files:
+      - label: Pricing
+        name: pricing
+        file: content/forms/pricing.json
+        fields:
+          - { label: Practice Price, name: practicePrice, widget: number, min: 0 }
+          - { label: Membership Price, name: membershipPrice, widget: number, min: 0 }
+          - label: Bike Classes
+            name: bikeClasses
+            widget: list
+            field: { label: Bike Class, name: bikeClass, widget: string }
+          - label: Bike Sizes
+            name: bikeSizes
+            widget: list
+            field: { label: Bike Size, name: bikeSize, widget: string }
+  - name: sponsors
+    label: Sponsors
+    files:
+      - label: Sponsor List
+        name: sponsor_list
+        file: content/sponsors/sponsors.json
+        fields:
+          - label: Sponsors
+            name: sponsors
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Name, name: name, widget: string }
+              - { label: Link, name: href, widget: string }
+              - { label: Logo, name: logo, widget: image }
+              - { label: Title Sponsor, name: isTitleSponsor, widget: boolean }
+              - { label: Active, name: isActive, widget: boolean }
+  - name: gallery
+    label: Gallery
+    files:
+      - label: Gallery List
+        name: gallery_list
+        file: content/gallery/gallery.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Image, name: image, widget: image }
+              - { label: Alt Text, name: alt, widget: string }
+              - { label: Featured, name: isFeatured, widget: boolean }

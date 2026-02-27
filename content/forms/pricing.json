@@ -1,0 +1,18 @@
+{
+  "practicePrice": 40,
+  "membershipPrice": 350,
+  "bikeClasses": [
+    "AB",
+    "C",
+    "Mini",
+    "JR"
+  ],
+  "bikeSizes": [
+    "50cc",
+    "65cc",
+    "85cc",
+    "125cc",
+    "250cc",
+    "450cc"
+  ]
+}

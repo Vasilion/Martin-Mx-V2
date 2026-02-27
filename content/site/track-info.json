@@ -1,0 +1,24 @@
+{
+  "hoursText": "Wednesday 3pm - 8pm, Saturday 10am - 3pm, Sunday 11am - 4pm",
+  "pricingText": "Main Track $40, Junior Track included as posted per event",
+  "requirements": [
+    "Helmet, boots, and protective gear required",
+    "Waiver must be signed before riding",
+    "Respect staff and posted track rules"
+  ],
+  "waiverLinks": [
+    {
+      "label": "Minor Waiver",
+      "href": "https://www.martinmxpark.com/track-info"
+    },
+    {
+      "label": "Adult Waiver",
+      "href": "https://www.martinmxpark.com/track-info"
+    }
+  ],
+  "rules": [
+    "No pit riding in restricted zones",
+    "Follow flaggers and track marshals",
+    "Do not enter track without gate approval"
+  ]
+}
