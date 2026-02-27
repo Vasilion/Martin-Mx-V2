@@ -37,5 +37,6 @@ test("practice signup form submits and returns reference", async ({ page }) => {
   await page.getByLabel("Price").first().fill("40");
   await page.getByLabel("Payment Status").first().selectOption("paid");
   await page.getByRole("button", { name: "Submit" }).first().click();
-  await expect(page.getByText("Submitted successfully. Reference:").first()).toBeVisible();
+  await expect(page).toHaveURL(/\/payment-success\?referenceId=/);
+  await expect(page.getByRole("heading", { name: "Practice Payment Success" })).toBeVisible();
 });

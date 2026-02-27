@@ -61,6 +61,7 @@ export default async function RegisterPage() {
           <FormSubmit
             formType="practice"
             disabled={!settings.practiceOpen || settings.practiceCancelled}
+            successRedirectPath="/payment-success"
             fields={[
               { name: "riderFullName", label: "Rider Name" },
               { name: "riderEmail", label: "Email", type: "email" },
@@ -105,6 +106,7 @@ export default async function RegisterPage() {
           <FormSubmit
             formType="membership"
             disabled={!settings.membershipOpen}
+            successRedirectPath="/membership-payment-success"
             fields={[
               { name: "riderFullName", label: "Rider Name" },
               { name: "riderEmail", label: "Email", type: "email" },

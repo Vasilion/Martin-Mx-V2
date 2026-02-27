@@ -5,6 +5,7 @@ import { useState } from "react";
 type FormSubmitProps = {
   formType: "practice" | "membership" | "contact" | "hiring" | "daily";
   disabled?: boolean;
+  successRedirectPath?: string;
   fields: Array<{
     name: string;
     label: string;
@@ -15,7 +16,12 @@ type FormSubmitProps = {
   }>;
 };
 
-export function FormSubmit({ formType, fields, disabled = false }: FormSubmitProps) {
+export function FormSubmit({
+  formType,
+  fields,
+  disabled = false,
+  successRedirectPath,
+}: FormSubmitProps) {
   const [status, setStatus] = useState<string>("");
   const [pending, setPending] = useState(false);
 
@@ -51,6 +57,14 @@ export function FormSubmit({ formType, fields, disabled = false }: FormSubmitPro
     if (!response.ok) {
       setStatus(result.error ?? "Failed to submit.");
       setPending(false);
+      return;
+    }
+
+    if (successRedirectPath) {
+      const destination = result.referenceId
+        ? `${successRedirectPath}?referenceId=${encodeURIComponent(result.referenceId)}`
+        : successRedirectPath;
+      window.location.href = destination;
       return;
     }
 
