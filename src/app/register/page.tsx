@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FormSubmit } from "@/components/form-submit";
 import {
   getAnnouncements,
@@ -43,6 +44,48 @@ export default async function RegisterPage() {
           ))}
         </div>
       ) : null}
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {[
+          { title: "Fast Check-In", text: "Pre-register online so gate operations stay smooth on ride day." },
+          { title: "Verified Details", text: "Every submission sends full rider details and a reference ID." },
+          { title: "Live Status", text: "Open/close state and cancellation notices update from CMS controls." },
+        ].map((item) => (
+          <article
+            key={item.title}
+            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+          >
+            <h2 className="text-base font-semibold">{item.title}</h2>
+            <p className="mt-2 text-sm text-zinc-300">{item.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <section className="grid gap-4 md:grid-cols-2">
+        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
+          <div className="relative aspect-[16/9] w-full bg-zinc-800">
+            <Image
+              src="/media/gallery/strapi-main-3.jpg"
+              alt="Main track registration day action"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </article>
+        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
+          <div className="relative aspect-[16/9] w-full bg-zinc-800">
+            <Image
+              src="/media/gallery/strapi-youth-3.jpg"
+              alt="Junior rider registration day visual"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </article>
+      </section>
+
       <div className="grid gap-6 md:grid-cols-2">
         <article
           id="practice-signup"
