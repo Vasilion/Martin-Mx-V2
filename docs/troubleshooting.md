@@ -2,7 +2,11 @@
 
 ## CMS auth fails
 - Confirm `OAUTH_GITHUB_CLIENT_ID` and `OAUTH_GITHUB_CLIENT_SECRET` are set in Amplify and local env.
-- Confirm callback URL points to `/api/callback`.
+- Confirm OAuth app callback URL exactly matches the environment:
+  - Local: `http://localhost:3000/api/callback`
+  - Production: `https://www.martinmxpark.com/api/callback`
+- Use separate GitHub OAuth apps for local and production if needed.
+- Confirm `public/admin/config.yml` uses `auth_endpoint: /api/auth`.
 
 ## Form submit returns 400
 - Validate payload against the corresponding schema in `src/lib/forms/schemas.ts`.

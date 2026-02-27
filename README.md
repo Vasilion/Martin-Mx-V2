@@ -29,6 +29,12 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
 - `OAUTH_GITHUB_CLIENT_ID`
 - `OAUTH_GITHUB_CLIENT_SECRET`
 
+## Local CMS OAuth setup
+- Create a GitHub OAuth app for local development with callback URL `http://localhost:3000/api/callback`.
+- Put that app's credentials in `.env.local` as `OAUTH_GITHUB_CLIENT_ID` and `OAUTH_GITHUB_CLIENT_SECRET`.
+- Keep a separate GitHub OAuth app for production callback `https://www.martinmxpark.com/api/callback`.
+- Restart `npm run dev` after updating env vars.
+
 ## Commands
 - `npm run dev`
 - `npm run lint`
