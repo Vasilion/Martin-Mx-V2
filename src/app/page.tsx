@@ -58,7 +58,7 @@ export default async function Home() {
         <div className="relative mt-7 flex flex-wrap gap-3">
           <Link
             href={home.heroCtaHref}
-            className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-5 py-2.5 font-semibold text-white transition hover:from-red-600 hover:to-red-500"
+            className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-5 py-2.5 font-semibold text-white transition hover:from-green-600 hover:to-green-500"
           >
             {home.heroCtaLabel}
           </Link>
@@ -91,7 +91,7 @@ export default async function Home() {
               <p className="text-xs uppercase tracking-wide text-zinc-400">Practice</p>
               <p
                 className={`mt-2 inline-block rounded px-2 py-1 text-xs font-semibold ${
-                  settings.practiceOpen ? "bg-emerald-600/20 text-emerald-300" : "bg-red-700/20 text-red-300"
+                  settings.practiceOpen ? "bg-green-700/20 text-green-300" : "bg-zinc-700/40 text-zinc-300"
                 }`}
               >
                 {settings.practiceOpen ? "Open" : "Closed"}
@@ -99,7 +99,7 @@ export default async function Home() {
               <p className="mt-2 text-sm text-zinc-200">{operations.practiceStatusLabel}</p>
               <Link
                 href="/register#practice-signup"
-                className="mt-3 inline-block rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-2 text-sm font-medium transition hover:from-red-600 hover:to-red-500"
+                className="mt-3 inline-block rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-3 py-2 text-sm font-medium transition hover:from-green-600 hover:to-green-500"
               >
                 {operations.practiceCtaLabel}
               </Link>
@@ -108,7 +108,7 @@ export default async function Home() {
               <p className="text-xs uppercase tracking-wide text-zinc-400">Membership</p>
               <p
                 className={`mt-2 inline-block rounded px-2 py-1 text-xs font-semibold ${
-                  settings.membershipOpen ? "bg-emerald-600/20 text-emerald-300" : "bg-red-700/20 text-red-300"
+                  settings.membershipOpen ? "bg-green-700/20 text-green-300" : "bg-zinc-700/40 text-zinc-300"
                 }`}
               >
                 {settings.membershipOpen ? "Open" : "Closed"}
@@ -146,7 +146,7 @@ export default async function Home() {
             </div>
           ) : null}
           <p className="mt-3 text-sm text-zinc-400">{settings.tagline}</p>
-          <a className="mt-3 inline-block text-sm text-red-300 underline" href={settings.storeLink}>
+          <a className="mt-3 inline-block text-sm text-green-300 underline" href={settings.storeLink}>
             Visit Merch Store
           </a>
           <div className="mt-4 flex flex-wrap gap-3">
@@ -170,7 +170,7 @@ export default async function Home() {
                 announcement.severity === "warning"
                   ? "border-amber-700 bg-amber-900/20 text-amber-100"
                   : announcement.severity === "success"
-                    ? "border-emerald-700 bg-emerald-900/20 text-emerald-100"
+                    ? "border-green-700 bg-green-900/20 text-green-100"
                     : "border-zinc-700 bg-zinc-900 text-zinc-200"
               }`}
             >

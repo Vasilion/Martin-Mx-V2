@@ -95,7 +95,7 @@ export function FormSubmit({
               required={field.required ?? true}
               disabled={disabled}
               defaultValue={typeof field.defaultValue === "string" ? field.defaultValue : undefined}
-              className="min-h-28 w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+              className="min-h-28 w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
             />
           ) : null}
           {field.type === "select" ? (
@@ -103,7 +103,7 @@ export function FormSubmit({
               name={field.name}
               required={field.required ?? true}
               disabled={disabled}
-              className="w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+              className="w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
               defaultValue={
                 typeof field.defaultValue === "string" || typeof field.defaultValue === "number"
                   ? String(field.defaultValue)
@@ -132,14 +132,14 @@ export function FormSubmit({
                   : undefined
               }
               defaultChecked={field.type === "checkbox" && field.defaultValue === true}
-              className="w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/30"
+              className="w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
             />
           ) : null}
         </label>
       ))}
       <button
         disabled={pending || disabled}
-        className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-4 py-2.5 font-medium text-white transition hover:from-red-600 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+        className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-4 py-2.5 font-medium text-white transition hover:from-green-600 hover:to-green-500 disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
       >
         {pending ? "Submitting..." : "Submit"}

@@ -18,7 +18,7 @@ export default async function MembershipPaymentSuccessPage({ searchParams }: Pag
         </p>
       </article>
       <div className="flex flex-wrap gap-3">
-        <Link href="/register" className="rounded bg-red-700 px-4 py-2 text-sm font-medium">
+        <Link href="/register" className="rounded bg-green-700 px-4 py-2 text-sm font-medium">
           Back to Registration
         </Link>
         <Link href="/contact" className="rounded bg-zinc-800 px-4 py-2 text-sm">

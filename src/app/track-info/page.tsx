@@ -57,7 +57,7 @@ export default async function TrackInfoPage() {
             <Link
               key={link.label}
               href={link.href}
-              className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-4 py-2 text-sm font-medium transition hover:from-red-600 hover:to-red-500"
+              className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-4 py-2 text-sm font-medium transition hover:from-green-600 hover:to-green-500"
             >
               {link.label}
             </Link>

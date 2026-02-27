@@ -15,7 +15,7 @@ export default async function GalleryPage() {
             </div>
             <div className="p-4">
               <h2 className="font-semibold">{item.title}</h2>
-              {item.isFeatured ? <p className="mt-1 text-xs text-red-300">Featured</p> : null}
+              {item.isFeatured ? <p className="mt-1 text-xs text-green-300">Featured</p> : null}
             </div>
           </article>
         ))}

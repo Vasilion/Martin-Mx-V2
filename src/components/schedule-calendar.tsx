@@ -94,7 +94,7 @@ export function ScheduleCalendar({ events }: Props) {
                 {!event.isCancelled ? (
                   <a
                     href="/register"
-                    className="mt-3 inline-block rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-1.5 text-xs font-medium"
+                    className="mt-3 inline-block rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-3 py-1.5 text-xs font-medium"
                   >
                     Sign Up
                   </a>

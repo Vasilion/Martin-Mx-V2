@@ -34,7 +34,7 @@ export async function SiteFooter() {
               Twitter
             </a>
           </div>
-          <Link href="/contact" className="mt-3 inline-block text-sm text-red-300 underline">
+          <Link href="/contact" className="mt-3 inline-block text-sm text-green-300 underline">
             Contact Martin MX
           </Link>
           <div className="mt-3 flex flex-wrap gap-2 text-xs">

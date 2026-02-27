@@ -9,8 +9,8 @@ export default async function SponsorsPage() {
     <section className="space-y-4 text-white">
       <h1 className="text-3xl font-bold">Sponsors</h1>
       {titleSponsors.length > 0 ? (
-        <div className="rounded border border-red-600/60 bg-zinc-900 p-4">
-          <h2 className="text-xl font-semibold text-red-300">Title Sponsors</h2>
+        <div className="rounded border border-green-600/60 bg-zinc-900 p-4">
+          <h2 className="text-xl font-semibold text-green-300">Title Sponsors</h2>
           <div className="mt-4 grid gap-4 md:grid-cols-3">
             {titleSponsors.map((sponsor) => (
               <a key={sponsor.id} href={sponsor.href} className="rounded border border-zinc-700 bg-zinc-950 p-3">

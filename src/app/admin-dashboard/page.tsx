@@ -80,7 +80,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
             className="rounded border border-zinc-700 bg-zinc-950 px-3 py-2 text-white"
           />
         </label>
-        <button type="submit" className="rounded bg-red-700 px-3 py-2 text-sm font-medium">
+        <button type="submit" className="rounded bg-green-700 px-3 py-2 text-sm font-medium">
           Apply
         </button>
         <Link href="/admin-dashboard" className="rounded border border-zinc-600 px-3 py-2 text-sm font-medium">
@@ -104,7 +104,7 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
       <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold">Recent Signups</h2>
-          <Link href="/print" className="rounded bg-red-700 px-3 py-1 text-sm font-medium">
+          <Link href="/print" className="rounded bg-green-700 px-3 py-1 text-sm font-medium">
             Open Print Tools
           </Link>
         </div>

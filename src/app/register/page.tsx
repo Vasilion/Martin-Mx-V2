@@ -33,7 +33,7 @@ export default async function RegisterPage() {
                 announcement.severity === "warning"
                   ? "border-amber-700 bg-amber-900/20 text-amber-100"
                   : announcement.severity === "success"
-                    ? "border-emerald-700 bg-emerald-900/20 text-emerald-100"
+                    ? "border-green-700 bg-green-900/20 text-green-100"
                     : "border-zinc-700 bg-zinc-900 text-zinc-200"
               }`}
             >

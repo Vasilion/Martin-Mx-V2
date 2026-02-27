@@ -35,7 +35,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
             ))}
             <Link
               href="/admin"
-              className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-1.5 text-sm font-medium hover:from-red-600 hover:to-red-500"
+              className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-3 py-1.5 text-sm font-medium hover:from-green-600 hover:to-green-500"
             >
               {cmsButtonLabel}
             </Link>
@@ -65,7 +65,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel }: SiteNavClientProps) 
             ))}
             <Link
               href="/admin"
-              className="mt-2 block rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-3 py-2 text-sm font-medium hover:from-red-600 hover:to-red-500"
+              className="mt-2 block rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-3 py-2 text-sm font-medium hover:from-green-600 hover:to-green-500"
               onClick={() => setIsOpen(false)}
             >
               {cmsButtonLabel}

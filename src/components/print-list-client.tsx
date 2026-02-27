@@ -81,7 +81,7 @@ export function PrintListClient() {
           <option value="Mini">Mini</option>
           <option value="Jr Track">Jr Track</option>
         </select>
-        <button type="button" onClick={load} className="rounded bg-red-700 px-4 py-2 text-white">
+        <button type="button" onClick={load} className="rounded bg-green-700 px-4 py-2 text-white">
           Load Signups
         </button>
         <button type="button" onClick={() => window.print()} className="rounded bg-zinc-700 px-4 py-2 text-white">

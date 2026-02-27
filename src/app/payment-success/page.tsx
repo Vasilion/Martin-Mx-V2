@@ -18,7 +18,7 @@ export default async function PaymentSuccessPage({ searchParams }: PageProps) {
         </p>
       </article>
       <div className="flex flex-wrap gap-3">
-        <Link href="/schedule" className="rounded bg-red-700 px-4 py-2 text-sm font-medium">
+        <Link href="/schedule" className="rounded bg-green-700 px-4 py-2 text-sm font-medium">
           View Schedule
         </Link>
         <Link href="/track-info" className="rounded bg-zinc-800 px-4 py-2 text-sm">
