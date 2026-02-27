@@ -63,14 +63,17 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
 
   return (
     <section className="space-y-6 text-white">
-      <header className="space-y-2">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-sm text-zinc-300">
+      <header className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+        <h1 className="text-3xl font-bold md:text-4xl">Admin Dashboard</h1>
+        <p className="mt-2 text-sm text-zinc-300">
           Live operations summary for signup volume and recent submissions.
         </p>
       </header>
 
-      <form method="get" className="flex flex-wrap items-end gap-3 rounded border border-zinc-700 bg-zinc-900 p-4">
+      <form
+        method="get"
+        className="flex flex-wrap items-end gap-3 rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
+      >
         <label className="flex flex-col gap-1 text-sm">
           <span className="text-zinc-300">Filter by date</span>
           <input
@@ -89,19 +92,22 @@ export default async function AdminDashboardPage({ searchParams }: PageProps) {
       </form>
 
       <div className="grid gap-4 md:grid-cols-4">
-        <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
           <p className="text-xs uppercase tracking-wider text-zinc-400">Total Signups</p>
           <p className="mt-2 text-2xl font-semibold">{summaryData?.summary.total ?? 0}</p>
         </article>
         {Object.entries(byFormType).map(([formType, count]) => (
-          <article key={formType} className="rounded border border-zinc-700 bg-zinc-900 p-4">
+          <article
+            key={formType}
+            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
+          >
             <p className="text-xs uppercase tracking-wider text-zinc-400">{formType}</p>
             <p className="mt-2 text-2xl font-semibold">{count}</p>
           </article>
         ))}
       </div>
 
-      <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold">Recent Signups</h2>
           <Link href="/print" className="rounded bg-green-700 px-3 py-1 text-sm font-medium">

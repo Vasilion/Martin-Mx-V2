@@ -9,19 +9,21 @@ export default async function PaymentSuccessPage({ searchParams }: PageProps) {
   const [content, params] = await Promise.all([getSuccessContent(), searchParams]);
 
   return (
-    <section className="space-y-4 text-white">
-      <h1 className="text-3xl font-bold">{content.practiceTitle}</h1>
-      <article className="rounded border border-zinc-700 bg-zinc-900 p-4 text-zinc-300">
+    <section className="space-y-6 text-white">
+      <header className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+        <h1 className="text-3xl font-bold md:text-4xl">{content.practiceTitle}</h1>
+      </header>
+      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 text-zinc-300 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <p>{content.practiceDescription}</p>
         <p className="mt-3 text-sm text-zinc-400">
           Reference: {params.referenceId ?? "Will appear after signup callback"}
         </p>
       </article>
       <div className="flex flex-wrap gap-3">
-        <Link href="/schedule" className="rounded bg-green-700 px-4 py-2 text-sm font-medium">
+        <Link href="/schedule" className="rounded-xl bg-green-700 px-4 py-2 text-sm font-medium">
           View Schedule
         </Link>
-        <Link href="/track-info" className="rounded bg-zinc-800 px-4 py-2 text-sm">
+        <Link href="/track-info" className="rounded-xl bg-zinc-800 px-4 py-2 text-sm">
           Track Info
         </Link>
       </div>

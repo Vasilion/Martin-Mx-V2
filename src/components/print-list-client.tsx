@@ -68,12 +68,12 @@ export function PrintListClient() {
           value={date}
           onChange={(event) => setDate(event.target.value)}
           type="date"
-          className="rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
+          className="rounded-xl border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
         />
         <select
           value={bikeClass}
           onChange={(event) => setBikeClass(event.target.value)}
-          className="rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
+          className="rounded-xl border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
         >
           <option value="">All classes</option>
           <option value="A/B">A/B</option>
@@ -81,17 +81,17 @@ export function PrintListClient() {
           <option value="Mini">Mini</option>
           <option value="Jr Track">Jr Track</option>
         </select>
-        <button type="button" onClick={load} className="rounded bg-green-700 px-4 py-2 text-white">
+        <button type="button" onClick={load} className="rounded-xl bg-green-700 px-4 py-2 text-white">
           Load Signups
         </button>
-        <button type="button" onClick={() => window.print()} className="rounded bg-zinc-700 px-4 py-2 text-white">
+        <button type="button" onClick={() => window.print()} className="rounded-xl bg-zinc-700 px-4 py-2 text-white">
           Print
         </button>
       </div>
       <select
         value={formType}
         onChange={(event) => setFormType(event.target.value)}
-        className="rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
+        className="rounded-xl border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
       >
         <option value="">All forms</option>
         <option value="practice">Practice</option>
@@ -100,11 +100,11 @@ export function PrintListClient() {
         <option value="hiring">Hiring</option>
         <option value="daily">Daily</option>
       </select>
-      <button type="button" onClick={exportCsv} className="rounded bg-zinc-700 px-4 py-2 text-sm text-white">
+      <button type="button" onClick={exportCsv} className="rounded-xl bg-zinc-700 px-4 py-2 text-sm text-white">
         Export CSV
       </button>
       {status ? <p className="text-sm text-zinc-300">{status}</p> : null}
-      <div className="rounded border border-zinc-700 bg-zinc-900 p-4">
+      <div className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <table className="w-full text-left text-sm">
           <thead className="text-zinc-400">
             <tr>
