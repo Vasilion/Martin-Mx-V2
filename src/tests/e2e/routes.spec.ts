@@ -22,3 +22,20 @@ test("contact form submits and returns reference", async ({ page }) => {
   await page.getByRole("button", { name: "Submit" }).click();
   await expect(page.getByText("Submitted successfully. Reference:")).toBeVisible();
 });
+
+test("practice signup form submits and returns reference", async ({ page }) => {
+  await page.goto("/register");
+  await page.getByLabel("Rider Name").first().fill("Practice Rider");
+  await page.getByLabel("Email").first().fill("practice-rider@example.com");
+  await page.getByLabel("Phone").first().fill("6167771234");
+  await page.getByLabel("Rider Age").first().fill("21");
+  await page.getByLabel("Bike Class").first().selectOption("A/B");
+  await page.getByLabel("Bike Size").first().selectOption("250cc");
+  await page.getByLabel("Practice Date").first().fill("2026-03-04");
+  await page.getByLabel("Session").first().selectOption("Wednesday Session");
+  await page.getByLabel("Track Type").first().selectOption("Main");
+  await page.getByLabel("Price").first().fill("40");
+  await page.getByLabel("Payment Status").first().selectOption("paid");
+  await page.getByRole("button", { name: "Submit" }).first().click();
+  await expect(page.getByText("Submitted successfully. Reference:").first()).toBeVisible();
+});

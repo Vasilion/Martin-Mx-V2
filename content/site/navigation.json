@@ -1,0 +1,20 @@
+{
+  "navLinks": [
+    { "href": "/", "label": "Home" },
+    { "href": "/track-info", "label": "Track Info" },
+    { "href": "/register", "label": "Register" },
+    { "href": "/schedule", "label": "Schedule" },
+    { "href": "/gallery", "label": "Gallery" },
+    { "href": "/sponsors", "label": "Sponsors" },
+    { "href": "/hiring", "label": "Hiring" },
+    { "href": "/daily-signup", "label": "Daily Signup" },
+    { "href": "/contact", "label": "Contact" },
+    { "href": "/print", "label": "Print List" }
+  ],
+  "footerQuickLinks": [
+    { "href": "/schedule", "label": "Track Status" },
+    { "href": "/register", "label": "Practice - Sign Up" },
+    { "href": "/track-info", "label": "Waivers" }
+  ],
+  "cmsButtonLabel": "CMS"
+}

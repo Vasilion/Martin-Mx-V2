@@ -3,6 +3,7 @@ import {
   getContactContent,
   getGalleryItems,
   getHomeContent,
+  getNavigationContent,
   getOperationsContent,
   getPricingConfig,
   getScheduleEvents,
@@ -67,5 +68,10 @@ describe("content contracts", () => {
   it("parses operations content", async () => {
     const value = await getOperationsContent();
     expect(value.practiceSessions.length).toBeGreaterThan(0);
+  });
+
+  it("parses navigation content", async () => {
+    const value = await getNavigationContent();
+    expect(value.navLinks.length).toBeGreaterThan(0);
   });
 });

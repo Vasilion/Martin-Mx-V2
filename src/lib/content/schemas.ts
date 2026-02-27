@@ -131,6 +131,22 @@ export const operationsContentSchema = z.object({
   ),
 });
 
+export const navigationContentSchema = z.object({
+  navLinks: z.array(
+    z.object({
+      href: z.string().min(1),
+      label: z.string().min(1),
+    }),
+  ),
+  footerQuickLinks: z.array(
+    z.object({
+      href: z.string().min(1),
+      label: z.string().min(1),
+    }),
+  ),
+  cmsButtonLabel: z.string().min(1),
+});
+
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type ScheduleEvent = z.infer<typeof scheduleEventSchema>;
@@ -142,3 +158,4 @@ export type GalleryItem = z.infer<typeof galleryItemSchema>;
 export type TracksContent = z.infer<typeof tracksContentSchema>;
 export type SuccessContent = z.infer<typeof successContentSchema>;
 export type OperationsContent = z.infer<typeof operationsContentSchema>;
+export type NavigationContent = z.infer<typeof navigationContentSchema>;

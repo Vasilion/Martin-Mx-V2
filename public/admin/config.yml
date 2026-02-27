@@ -153,6 +153,26 @@ collections:
               - { label: Date, name: date, widget: string }
               - { label: Start Time, name: startTime, widget: string }
               - { label: End Time, name: endTime, widget: string }
+  - name: navigation
+    label: Navigation
+    files:
+      - label: Navigation and Footer Links
+        name: navigation_content
+        file: content/site/navigation.json
+        fields:
+          - label: Nav Links
+            name: navLinks
+            widget: list
+            fields:
+              - { label: Href, name: href, widget: string }
+              - { label: Label, name: label, widget: string }
+          - label: Footer Quick Links
+            name: footerQuickLinks
+            widget: list
+            fields:
+              - { label: Href, name: href, widget: string }
+              - { label: Label, name: label, widget: string }
+          - { label: CMS Button Label, name: cmsButtonLabel, widget: string }
   - name: pricing
     label: Pricing Config
     files:

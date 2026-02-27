@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { getContactContent, getSiteSettings } from "@/lib/content/loader";
+import { getContactContent, getNavigationContent, getSiteSettings } from "@/lib/content/loader";
 
 export async function SiteFooter() {
-  const [settings, contact] = await Promise.all([getSiteSettings(), getContactContent()]);
+  const [settings, contact, navigation] = await Promise.all([
+    getSiteSettings(),
+    getContactContent(),
+    getNavigationContent(),
+  ]);
 
   return (
     <footer className="mt-10 border-t border-zinc-800 bg-zinc-950 text-zinc-300">
@@ -33,6 +37,13 @@ export async function SiteFooter() {
           <Link href="/contact" className="mt-3 inline-block text-sm text-red-300 underline">
             Contact Martin MX
           </Link>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            {navigation.footerQuickLinks.map((item) => (
+              <Link key={item.href} href={item.href} className="rounded bg-zinc-800 px-2 py-1">
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
