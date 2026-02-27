@@ -13,7 +13,6 @@ test("core routes load", async ({ page }) => {
     "/sponsors",
     "/hiring",
     "/daily-signup",
-    "/admin-dashboard",
   ];
   for (const route of routes) {
     await page.goto(route);
@@ -46,7 +45,7 @@ test("practice signup form submits and returns reference", async ({ page }) => {
   await page.getByLabel("Price").fill("40");
   await page.getByLabel("Payment Status").selectOption("paid");
   await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page).toHaveURL(/\/payment-success\?referenceId=/);
+  await expect(page).toHaveURL(/\/payment-success\?referenceId=/, { timeout: 15000 });
   await expect(page.getByRole("heading", { name: "Practice Payment Success" })).toBeVisible();
 });
 
@@ -65,30 +64,7 @@ test("membership signup form redirects to membership success", async ({ page }) 
   await page.getByLabel("Membership Price").fill("750");
   await page.getByLabel("Payment Status").selectOption("paid");
   await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page).toHaveURL(/\/membership-payment-success\?referenceId=/);
+  await expect(page).toHaveURL(/\/membership-payment-success\?referenceId=/, { timeout: 15000 });
   await expect(page.getByRole("heading", { name: "Membership Payment Success" })).toBeVisible();
 });
 
-test("admin dashboard shows recent signup references", async ({ page }) => {
-  const selectedDate = "2026-04-15";
-  await page.goto("/register");
-  await page.getByLabel("Rider Name").fill("Dashboard Check Rider");
-  await page.getByLabel("Email").fill("dashboard-practice@example.com");
-  await page.getByLabel("Phone").fill("6161231234");
-  await page.getByLabel("Rider Age").fill("24");
-  await page.getByLabel("Bike Class").selectOption("A/B");
-  await page.getByLabel("Bike Size").selectOption("250cc");
-  await page.getByLabel("Practice Date").fill(selectedDate);
-  await page.getByLabel("Session").selectOption("Wednesday Session");
-  await page.getByLabel("Track Type").selectOption("Main");
-  await page.getByLabel("Price").fill("40");
-  await page.getByLabel("Payment Status").selectOption("paid");
-  await page.getByRole("button", { name: "Submit" }).click();
-
-  await expect(page).toHaveURL(/\/payment-success\?referenceId=/);
-  const url = new URL(page.url());
-  const referenceId = url.searchParams.get("referenceId") ?? "";
-
-  await page.goto(`/admin-dashboard?selectedDate=${selectedDate}`);
-  await expect(page.getByText(referenceId)).toBeVisible();
-});

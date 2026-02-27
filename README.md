@@ -66,7 +66,6 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
 ## Operations tools
 - Print and filter signups at `/print`
 - Export filtered CSV via UI button on `/print`
-- View live signup totals and recent records at `/admin-dashboard`
 - Filters supported by APIs: `selectedDate`, `bikeClass`, `formType`
 
 ## Testing and maintenance docs

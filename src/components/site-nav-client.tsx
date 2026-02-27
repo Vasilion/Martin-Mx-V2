@@ -23,8 +23,8 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
   const [isOpen, setIsOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const pathname = usePathname();
-  const primaryLinks = navLinks.filter((item) => !["/daily-signup", "/print", "/admin-dashboard"].includes(item.href));
-  const utilityLinks = navLinks.filter((item) => ["/print", "/admin-dashboard"].includes(item.href));
+  const primaryLinks = navLinks.filter((item) => !["/daily-signup", "/print"].includes(item.href));
+  const utilityLinks = navLinks.filter((item) => item.href === "/print");
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/90 text-white backdrop-blur">

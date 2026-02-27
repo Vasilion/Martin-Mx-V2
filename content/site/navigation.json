@@ -7,9 +7,7 @@
     { "href": "/gallery", "label": "Gallery" },
     { "href": "/sponsors", "label": "Sponsors" },
     { "href": "/hiring", "label": "Hiring" },
-    { "href": "/contact", "label": "Contact" },
-    { "href": "/print", "label": "Print List" },
-    { "href": "/admin-dashboard", "label": "Admin Dashboard" }
+    { "href": "/contact", "label": "Contact" }
   ],
   "footerQuickLinks": [
     { "href": "/schedule", "label": "Track Status" },
