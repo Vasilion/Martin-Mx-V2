@@ -41,8 +41,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only absolute left-4 top-4 z-50 rounded bg-red-700 px-3 py-2 text-sm font-medium text-white focus:not-sr-only"
+        >
+          Skip to content
+        </a>
         <SiteNav />
-        <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">{children}</main>
+        <main id="main-content" className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
+          {children}
+        </main>
         <SiteFooter />
       </body>
     </html>
