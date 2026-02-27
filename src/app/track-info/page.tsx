@@ -39,7 +39,31 @@ export default async function TrackInfoPage() {
         <p className="mt-2 text-sm text-zinc-300 md:text-base">
           Everything riders need before arrival: hours, pricing, requirements, waivers, and park rules.
         </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link href="/register#practice-signup" className="rounded-xl bg-green-700 px-4 py-2 text-sm font-semibold text-white">
+            Practice Signup
+          </Link>
+          <Link href="/schedule" className="rounded-xl border border-zinc-500 px-4 py-2 text-sm font-semibold text-zinc-200">
+            View Schedule
+          </Link>
+        </div>
       </header>
+      <section className="grid gap-4 md:grid-cols-4">
+        {[
+          { label: "Track Types", value: "Main + Junior" },
+          { label: "Safety Ready", value: "Waivers + Rules" },
+          { label: "Ops Updates", value: "CMS Controlled" },
+          { label: "Rider Focus", value: "All Skill Levels" },
+        ].map((item) => (
+          <article
+            key={item.label}
+            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
+            <p className="mt-2 text-sm font-semibold text-zinc-100">{item.value}</p>
+          </article>
+        ))}
+      </section>
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
           <h2 className="text-xl font-semibold">Hours</h2>

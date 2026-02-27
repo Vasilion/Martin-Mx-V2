@@ -76,3 +76,4 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
 - `docs/troubleshooting.md`
 - `docs/runbooks/forms-email.md`
 - `docs/release-checklist.md`
+- `docs/design-phase-plan.md`
