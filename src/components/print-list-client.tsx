@@ -38,6 +38,25 @@ export function PrintListClient() {
     setStatus(`Loaded ${data.signups?.length ?? 0} records.`);
   }
 
+  async function exportCsv() {
+    const params = new URLSearchParams();
+    if (date) params.set("selectedDate", date);
+    if (bikeClass) params.set("bikeClass", bikeClass);
+
+    const response = await fetch(`/api/signups/export?${params.toString()}`);
+    const content = await response.text();
+    const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "signups-export.csv";
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(url);
+    setStatus("Export downloaded.");
+  }
+
   return (
     <section className="space-y-4">
       <div className="grid gap-3 md:grid-cols-4">
@@ -65,6 +84,9 @@ export function PrintListClient() {
           Print
         </button>
       </div>
+      <button type="button" onClick={exportCsv} className="rounded bg-zinc-700 px-4 py-2 text-sm text-white">
+        Export CSV
+      </button>
       {status ? <p className="text-sm text-zinc-300">{status}</p> : null}
       <div className="rounded border border-zinc-700 bg-zinc-900 p-4">
         <table className="w-full text-left text-sm">

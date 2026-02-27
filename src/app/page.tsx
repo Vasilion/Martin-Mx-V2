@@ -1,14 +1,21 @@
 import Link from "next/link";
 import Script from "next/script";
 import { WeatherCard } from "@/components/weather-card";
-import { getHomeContent, getOperationsContent, getSiteSettings } from "@/lib/content/loader";
+import {
+  getAnnouncements,
+  getHomeContent,
+  getOperationsContent,
+  getSiteSettings,
+} from "@/lib/content/loader";
 
 export default async function Home() {
-  const [home, settings, operations] = await Promise.all([
+  const [home, settings, operations, rawAnnouncements] = await Promise.all([
     getHomeContent(),
     getSiteSettings(),
     getOperationsContent(),
+    getAnnouncements(),
   ]);
+  const announcements = rawAnnouncements.filter((item) => item.active);
   return (
     <section className="space-y-8">
       <Script
@@ -86,6 +93,26 @@ export default async function Home() {
         </div>
         <WeatherCard />
       </div>
+
+      {announcements.length > 0 ? (
+        <section className="space-y-3">
+          {announcements.map((announcement) => (
+            <article
+              key={announcement.id}
+              className={`rounded border p-4 text-sm ${
+                announcement.severity === "warning"
+                  ? "border-amber-700 bg-amber-900/20 text-amber-100"
+                  : announcement.severity === "success"
+                    ? "border-emerald-700 bg-emerald-900/20 text-emerald-100"
+                    : "border-zinc-700 bg-zinc-900 text-zinc-200"
+              }`}
+            >
+              <p className="font-semibold">{announcement.title}</p>
+              <p className="mt-1">{announcement.message}</p>
+            </article>
+          ))}
+        </section>
+      ) : null}
 
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">

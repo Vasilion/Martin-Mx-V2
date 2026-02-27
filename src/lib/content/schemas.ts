@@ -147,6 +147,18 @@ export const navigationContentSchema = z.object({
   cmsButtonLabel: z.string().min(1),
 });
 
+export const announcementSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  message: z.string().min(1),
+  severity: z.enum(["info", "warning", "success"]),
+  active: z.boolean(),
+});
+
+export const announcementsSchema = z.object({
+  items: z.array(announcementSchema),
+});
+
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type ScheduleEvent = z.infer<typeof scheduleEventSchema>;
@@ -159,3 +171,4 @@ export type TracksContent = z.infer<typeof tracksContentSchema>;
 export type SuccessContent = z.infer<typeof successContentSchema>;
 export type OperationsContent = z.infer<typeof operationsContentSchema>;
 export type NavigationContent = z.infer<typeof navigationContentSchema>;
+export type Announcement = z.infer<typeof announcementSchema>;

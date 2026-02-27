@@ -1,16 +1,42 @@
 import { FormSubmit } from "@/components/form-submit";
-import { getOperationsContent, getPricingConfig, getSiteSettings } from "@/lib/content/loader";
+import {
+  getAnnouncements,
+  getOperationsContent,
+  getPricingConfig,
+  getSiteSettings,
+} from "@/lib/content/loader";
 
 export default async function RegisterPage() {
-  const [settings, pricing, operations] = await Promise.all([
+  const [settings, pricing, operations, rawAnnouncements] = await Promise.all([
     getSiteSettings(),
     getPricingConfig(),
     getOperationsContent(),
+    getAnnouncements(),
   ]);
+  const announcements = rawAnnouncements.filter((item) => item.active);
 
   return (
     <section className="space-y-6 text-white">
       <h1 className="text-3xl font-bold">Register</h1>
+      {announcements.length > 0 ? (
+        <div className="space-y-2">
+          {announcements.map((announcement) => (
+            <article
+              key={announcement.id}
+              className={`rounded border p-3 text-sm ${
+                announcement.severity === "warning"
+                  ? "border-amber-700 bg-amber-900/20 text-amber-100"
+                  : announcement.severity === "success"
+                    ? "border-emerald-700 bg-emerald-900/20 text-emerald-100"
+                    : "border-zinc-700 bg-zinc-900 text-zinc-200"
+              }`}
+            >
+              <p className="font-semibold">{announcement.title}</p>
+              <p className="mt-1">{announcement.message}</p>
+            </article>
+          ))}
+        </div>
+      ) : null}
       <div className="grid gap-6 md:grid-cols-2">
         <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
           <h2 className="text-xl font-semibold">Practice Signup</h2>

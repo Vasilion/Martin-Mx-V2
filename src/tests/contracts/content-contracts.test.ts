@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  getAnnouncements,
   getContactContent,
   getGalleryItems,
   getHomeContent,
@@ -73,5 +74,10 @@ describe("content contracts", () => {
   it("parses navigation content", async () => {
     const value = await getNavigationContent();
     expect(value.navLinks.length).toBeGreaterThan(0);
+  });
+
+  it("parses announcements content", async () => {
+    const value = await getAnnouncements();
+    expect(value.length).toBeGreaterThan(0);
   });
 });

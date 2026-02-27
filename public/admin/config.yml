@@ -173,6 +173,25 @@ collections:
               - { label: Href, name: href, widget: string }
               - { label: Label, name: label, widget: string }
           - { label: CMS Button Label, name: cmsButtonLabel, widget: string }
+  - name: announcements
+    label: Announcements
+    files:
+      - label: Announcement Items
+        name: announcement_items
+        file: content/site/announcements.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Message, name: message, widget: text }
+              - label: Severity
+                name: severity
+                widget: select
+                options: ["info", "warning", "success"]
+              - { label: Active, name: active, widget: boolean }
   - name: pricing
     label: Pricing Config
     files:

@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import {
+  announcementsSchema,
   contactContentSchema,
   gallerySchema,
   homeContentSchema,
@@ -72,4 +73,9 @@ export async function getOperationsContent() {
 
 export async function getNavigationContent() {
   return navigationContentSchema.parse(await readJsonFile("site/navigation.json"));
+}
+
+export async function getAnnouncements() {
+  const value = announcementsSchema.parse(await readJsonFile("site/announcements.json"));
+  return value.items;
 }
