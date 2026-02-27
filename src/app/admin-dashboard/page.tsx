@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSignupStore } from "@/lib/store";
 
 type SummaryResponse = {
+  selectedDate: string | null;
   summary: {
     total: number;
     byFormType: Record<string, number>;
@@ -16,9 +17,9 @@ type SummaryResponse = {
   }>;
 };
 
-async function getSummary(): Promise<SummaryResponse> {
+async function getSummary(selectedDate?: string): Promise<SummaryResponse> {
   const store = getSignupStore();
-  const signups = await store.listSignups();
+  const signups = await store.listSignups({ selectedDate });
 
   const byFormType = signups.reduce<Record<string, number>>((acc, item) => {
     acc[item.formType] = (acc[item.formType] ?? 0) + 1;
@@ -39,6 +40,7 @@ async function getSummary(): Promise<SummaryResponse> {
     }));
 
   return {
+    selectedDate: selectedDate ?? null,
     summary: {
       total: signups.length,
       byFormType,
@@ -47,8 +49,16 @@ async function getSummary(): Promise<SummaryResponse> {
   };
 }
 
-export default async function AdminDashboardPage() {
-  const summaryData = await getSummary();
+type PageProps = {
+  searchParams?: Promise<{
+    selectedDate?: string;
+  }>;
+};
+
+export default async function AdminDashboardPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const selectedDate = resolvedSearchParams?.selectedDate?.trim() || undefined;
+  const summaryData = await getSummary(selectedDate);
   const byFormType = summaryData?.summary.byFormType ?? {};
 
   return (
@@ -59,6 +69,24 @@ export default async function AdminDashboardPage() {
           Live operations summary for signup volume and recent submissions.
         </p>
       </header>
+
+      <form method="get" className="flex flex-wrap items-end gap-3 rounded border border-zinc-700 bg-zinc-900 p-4">
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-zinc-300">Filter by date</span>
+          <input
+            type="date"
+            name="selectedDate"
+            defaultValue={summaryData.selectedDate ?? ""}
+            className="rounded border border-zinc-700 bg-zinc-950 px-3 py-2 text-white"
+          />
+        </label>
+        <button type="submit" className="rounded bg-red-700 px-3 py-2 text-sm font-medium">
+          Apply
+        </button>
+        <Link href="/admin-dashboard" className="rounded border border-zinc-600 px-3 py-2 text-sm font-medium">
+          Clear
+        </Link>
+      </form>
 
       <div className="grid gap-4 md:grid-cols-4">
         <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
