@@ -27,7 +27,7 @@ describe("signups export API route", () => {
 
     const { GET } = await import("@/app/api/signups/export/route");
     const request = new NextRequest(
-      "http://localhost/api/signups/export?selectedDate=2026-03-01&bikeClass=A/B",
+      "http://localhost/api/signups/export?selectedDate=2026-03-01&bikeClass=A/B&formType=practice",
     );
     const response = await GET(request);
     const text = await response.text();

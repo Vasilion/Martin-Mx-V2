@@ -19,5 +19,6 @@ export interface SignupStore {
   listSignups(filters?: {
     selectedDate?: string;
     bikeClass?: string;
+    formType?: string;
   }): Promise<SignupRecordSummary[]>;
 }

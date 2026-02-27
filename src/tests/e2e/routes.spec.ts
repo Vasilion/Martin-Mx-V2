@@ -40,3 +40,19 @@ test("practice signup form submits and returns reference", async ({ page }) => {
   await expect(page).toHaveURL(/\/payment-success\?referenceId=/);
   await expect(page.getByRole("heading", { name: "Practice Payment Success" })).toBeVisible();
 });
+
+test("membership signup form redirects to membership success", async ({ page }) => {
+  await page.goto("/register");
+  await page.getByLabel("Rider Name").nth(1).fill("Membership Rider");
+  await page.getByLabel("Email").nth(1).fill("membership-rider@example.com");
+  await page.getByLabel("Phone").nth(1).fill("6168881234");
+  await page.getByLabel("Rider Age").nth(1).fill("29");
+  await page.getByLabel("Bike Class").nth(1).selectOption("A/B");
+  await page.getByLabel("Bike Size").nth(1).selectOption("250cc");
+  await page.getByLabel("Membership Type").selectOption("Unlimited");
+  await page.getByLabel("Membership Price").fill("750");
+  await page.getByLabel("Payment Status").nth(1).selectOption("paid");
+  await page.getByRole("button", { name: "Submit" }).nth(1).click();
+  await expect(page).toHaveURL(/\/membership-payment-success\?referenceId=/);
+  await expect(page.getByRole("heading", { name: "Membership Payment Success" })).toBeVisible();
+});

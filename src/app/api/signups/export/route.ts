@@ -11,9 +11,10 @@ function escapeCsv(value: string) {
 export async function GET(request: NextRequest) {
   const selectedDate = request.nextUrl.searchParams.get("selectedDate") ?? undefined;
   const bikeClass = request.nextUrl.searchParams.get("bikeClass") ?? undefined;
+  const formType = request.nextUrl.searchParams.get("formType") ?? undefined;
 
   const store = getSignupStore();
-  const signups = await store.listSignups({ selectedDate, bikeClass });
+  const signups = await store.listSignups({ selectedDate, bikeClass, formType });
 
   const header = ["referenceId", "formType", "createdAt", "riderName", "email", "bikeClass", "selectedDate"];
   const rows = signups.map((item) => [

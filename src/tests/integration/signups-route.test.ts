@@ -21,13 +21,14 @@ describe("signups API route", () => {
     ]);
     const { GET } = await import("@/app/api/signups/route");
     const request = new NextRequest(
-      "http://localhost/api/signups?selectedDate=2026-03-01&bikeClass=AB",
+      "http://localhost/api/signups?selectedDate=2026-03-01&bikeClass=AB&formType=practice",
     );
     const response = await GET(request);
     expect(response.status).toBe(200);
     expect(listSignups).toHaveBeenCalledWith({
       selectedDate: "2026-03-01",
       bikeClass: "AB",
+      formType: "practice",
     });
   });
 });

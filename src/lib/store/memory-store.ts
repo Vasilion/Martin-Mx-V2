@@ -21,7 +21,11 @@ export class MemorySignupStore implements SignupStore {
     return next;
   }
 
-  async listSignups(filters?: { selectedDate?: string; bikeClass?: string }): Promise<SignupRecordSummary[]> {
+  async listSignups(filters?: {
+    selectedDate?: string;
+    bikeClass?: string;
+    formType?: string;
+  }): Promise<SignupRecordSummary[]> {
     const list = Array.from(records.values()).map((record) => ({
       referenceId: record.referenceId,
       formType: record.formType,
@@ -36,6 +40,9 @@ export class MemorySignupStore implements SignupStore {
         return false;
       }
       if (filters?.bikeClass && bikeClass !== filters.bikeClass) {
+        return false;
+      }
+      if (filters?.formType && item.formType !== filters.formType) {
         return false;
       }
       return true;

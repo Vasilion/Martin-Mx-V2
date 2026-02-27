@@ -77,7 +77,11 @@ export class DynamoDbSignupStore implements SignupStore {
     return Number(result.Attributes?.spotsLeft ?? 0);
   }
 
-  async listSignups(filters?: { selectedDate?: string; bikeClass?: string }) {
+  async listSignups(filters?: {
+    selectedDate?: string;
+    bikeClass?: string;
+    formType?: string;
+  }) {
     const result = await this.client.send(
       new ScanCommand({
         TableName: tableName,
@@ -102,6 +106,9 @@ export class DynamoDbSignupStore implements SignupStore {
         return false;
       }
       if (filters?.bikeClass && bikeClass !== filters.bikeClass) {
+        return false;
+      }
+      if (filters?.formType && item.formType !== filters.formType) {
         return false;
       }
       return true;

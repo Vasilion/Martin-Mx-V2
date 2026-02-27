@@ -12,6 +12,7 @@ type SignupItem = {
 export function PrintListClient() {
   const [date, setDate] = useState("");
   const [bikeClass, setBikeClass] = useState("");
+  const [formType, setFormType] = useState("");
   const [items, setItems] = useState<SignupItem[]>([]);
   const [status, setStatus] = useState("");
 
@@ -21,6 +22,7 @@ export function PrintListClient() {
         referenceId: item.referenceId,
         riderName: String(item.payload.riderFullName ?? item.payload.fullName ?? ""),
         riderEmail: String(item.payload.riderEmail ?? item.payload.email ?? ""),
+        formType: item.formType,
         bikeClass: String(item.payload.bikeClass ?? ""),
         selectedDate: String(item.payload.selectedDate ?? ""),
       })),
@@ -31,6 +33,7 @@ export function PrintListClient() {
     const params = new URLSearchParams();
     if (date) params.set("selectedDate", date);
     if (bikeClass) params.set("bikeClass", bikeClass);
+    if (formType) params.set("formType", formType);
 
     const response = await fetch(`/api/signups?${params.toString()}`);
     const data = (await response.json()) as { signups?: SignupItem[] };
@@ -42,6 +45,7 @@ export function PrintListClient() {
     const params = new URLSearchParams();
     if (date) params.set("selectedDate", date);
     if (bikeClass) params.set("bikeClass", bikeClass);
+    if (formType) params.set("formType", formType);
 
     const response = await fetch(`/api/signups/export?${params.toString()}`);
     const content = await response.text();
@@ -84,6 +88,18 @@ export function PrintListClient() {
           Print
         </button>
       </div>
+      <select
+        value={formType}
+        onChange={(event) => setFormType(event.target.value)}
+        className="rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
+      >
+        <option value="">All forms</option>
+        <option value="practice">Practice</option>
+        <option value="membership">Membership</option>
+        <option value="contact">Contact</option>
+        <option value="hiring">Hiring</option>
+        <option value="daily">Daily</option>
+      </select>
       <button type="button" onClick={exportCsv} className="rounded bg-zinc-700 px-4 py-2 text-sm text-white">
         Export CSV
       </button>
@@ -95,6 +111,7 @@ export function PrintListClient() {
               <th className="pb-2">Reference</th>
               <th className="pb-2">Rider</th>
               <th className="pb-2">Email</th>
+              <th className="pb-2">Form</th>
               <th className="pb-2">Class</th>
               <th className="pb-2">Date</th>
             </tr>
@@ -105,6 +122,7 @@ export function PrintListClient() {
                 <td className="py-2">{row.referenceId}</td>
                 <td className="py-2">{row.riderName}</td>
                 <td className="py-2">{row.riderEmail}</td>
+                <td className="py-2">{row.formType}</td>
                 <td className="py-2">{row.bikeClass}</td>
                 <td className="py-2">{row.selectedDate}</td>
               </tr>
