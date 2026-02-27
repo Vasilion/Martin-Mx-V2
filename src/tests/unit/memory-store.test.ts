@@ -25,4 +25,26 @@ describe("memory signup store", () => {
     const value = await store.decrementSpotCounter("2026-03-01", "AB");
     expect(value).toBe(99);
   });
+
+  it("filters signups by form type", async () => {
+    const store = new MemorySignupStore();
+    await store.putIfAbsent({
+      idempotencyKey: "k1",
+      referenceId: "ref-practice",
+      formType: "practice-unique",
+      payload: { riderFullName: "Practice Rider" },
+      createdAt: new Date().toISOString(),
+    });
+    await store.putIfAbsent({
+      idempotencyKey: "k2",
+      referenceId: "ref-contact",
+      formType: "contact",
+      payload: { fullName: "Contact Person" },
+      createdAt: new Date().toISOString(),
+    });
+
+    const filtered = await store.listSignups({ formType: "practice-unique" });
+    expect(filtered.length).toBe(1);
+    expect(filtered[0].referenceId).toBe("ref-practice");
+  });
 });
