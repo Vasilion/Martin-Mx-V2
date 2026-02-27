@@ -29,26 +29,26 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/90 text-white backdrop-blur">
       <div className="border-b border-white/10 bg-black/45">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-1.5 text-[11px] text-zinc-300">
-          <p>{contactPhone}</p>
-          <p className="hidden sm:block">{contactEmail}</p>
-          <p className="hidden md:block">{address}</p>
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 text-xs text-zinc-200 md:text-sm">
+          <p className="whitespace-nowrap">{contactPhone}</p>
+          <p className="hidden whitespace-nowrap sm:block">{contactEmail}</p>
+          <p className="hidden whitespace-nowrap lg:block">{address}</p>
         </div>
       </div>
       <nav className="mx-auto max-w-6xl p-4">
         <div className="flex items-center justify-between gap-3">
           <Link href="/" className="rounded-xl border border-zinc-700/70 bg-zinc-900/80 px-3 py-2">
             <span className="sr-only">Martin MX Park</span>
-            <div className="relative h-7 w-44">
+            <div className="relative h-7 w-40">
               <Image src="/media/sponsors/martin-logo-white.svg" alt="Martin MX Park" fill sizes="176px" className="object-contain object-left" />
             </div>
           </Link>
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-1 lg:flex">
             {primaryLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-lg px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.06em] transition ${
+                className={`whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold leading-none transition ${
                   pathname === item.href ? "bg-green-700/20 text-green-300" : "text-zinc-200 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
@@ -59,7 +59,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-lg px-2 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] transition ${
+                className={`whitespace-nowrap rounded-lg px-2 py-2 text-xs font-semibold leading-none transition ${
                   pathname === item.href ? "bg-zinc-700/60 text-white" : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
@@ -78,7 +78,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
             onClick={() => setIsOpen((value) => !value)}
             aria-expanded={isOpen}
             aria-controls="mobile-site-nav"
-            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-200 md:hidden"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-200 lg:hidden"
           >
             Menu
           </button>
@@ -88,7 +88,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
           {isOpen ? (
             <motion.div
               id="mobile-site-nav"
-              className="mt-3 space-y-2 border-t border-zinc-800 pt-3 md:hidden"
+              className="mt-3 space-y-2 border-t border-zinc-800 pt-3 lg:hidden"
               initial={prefersReducedMotion ? undefined : { opacity: 0, y: -8 }}
               animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
               exit={prefersReducedMotion ? undefined : { opacity: 0, y: -8 }}
