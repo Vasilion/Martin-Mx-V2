@@ -34,18 +34,42 @@ export default async function TrackInfoPage() {
 
   return (
     <section className="space-y-6 text-white">
-      <header className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-        <h1 className="text-3xl font-bold md:text-4xl">Track Info</h1>
-        <p className="mt-2 text-sm text-zinc-300 md:text-base">
-          Everything riders need before arrival: hours, pricing, requirements, waivers, and park rules.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Link href="/register#practice-signup" className="rounded-xl bg-green-700 px-4 py-2 text-sm font-semibold text-white">
-            Practice Signup
-          </Link>
-          <Link href="/schedule" className="rounded-xl border border-zinc-500 px-4 py-2 text-sm font-semibold text-zinc-200">
-            View Schedule
-          </Link>
+      <header className="mx-glow-card relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/80 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+        <div className="mx-grid-overlay pointer-events-none absolute inset-0 opacity-20" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.2),transparent_48%)]" />
+        <div className="relative grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.28em] text-zinc-400">Rider Prep</p>
+            <h1 className="mt-2 text-3xl font-bold md:text-4xl">Track Info</h1>
+            <p className="mt-2 text-sm text-zinc-300 md:text-base">
+              Everything riders need before arrival: hours, pricing, requirements, waivers, and park rules.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href="/register#practice-signup"
+                className="mx-cta-primary px-4 py-2 text-sm"
+              >
+                Practice Signup
+              </Link>
+              <Link
+                href="/schedule"
+                className="mx-cta-secondary px-4 py-2 text-sm"
+              >
+                View Schedule
+              </Link>
+            </div>
+          </div>
+          <article className="overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-950/70">
+            <div className="relative aspect-[16/9] w-full">
+              <Image
+                src="/media/gallery/strapi-main-3.jpg"
+                alt="Track conditions and rider line visual"
+                fill
+                sizes="(max-width: 768px) 100vw, 45vw"
+                className="object-cover"
+              />
+            </div>
+          </article>
         </div>
       </header>
       <section className="grid gap-4 md:grid-cols-4">
@@ -57,7 +81,7 @@ export default async function TrackInfoPage() {
         ].map((item) => (
           <article
             key={item.label}
-            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
             <p className="mt-2 text-sm font-semibold text-zinc-100">{item.value}</p>
@@ -87,7 +111,7 @@ export default async function TrackInfoPage() {
             src="/media/gallery/track-photo.jpg"
             alt="Main track photo at Martin MX Park"
             fill
-            sizes="(max-width: 768px) 100vw, 70vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 65vw"
             className="object-cover"
           />
         </div>
@@ -105,7 +129,7 @@ export default async function TrackInfoPage() {
             src="/media/gallery/blog-2.jpg"
             alt="Junior track photo at Martin MX Park"
             fill
-            sizes="(max-width: 768px) 100vw, 70vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 65vw"
             className="object-cover"
           />
         </div>
@@ -127,7 +151,7 @@ export default async function TrackInfoPage() {
             <Link
               key={link.label}
               href={link.href}
-              className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-4 py-2 text-sm font-medium transition hover:from-green-600 hover:to-green-500"
+              className="mx-cta-primary px-4 py-2 text-sm"
             >
               {link.label}
             </Link>

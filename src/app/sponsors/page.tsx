@@ -22,7 +22,7 @@ export default async function SponsorsPage() {
               <a
                 key={sponsor.id}
                 href={sponsor.href}
-                className="rounded-xl border border-zinc-700 bg-zinc-950/80 p-3 transition hover:border-zinc-500"
+                className="mx-card-interactive rounded-xl border border-zinc-700 bg-zinc-950/80 p-3"
               >
                 <div className="relative aspect-[3/2] w-full rounded bg-zinc-800">
                   <Image src={sponsor.logo} alt={sponsor.name} fill sizes="30vw" className="object-contain p-3" />
@@ -40,7 +40,7 @@ export default async function SponsorsPage() {
             <a
               key={`${sponsor.id}-${index}`}
               href={sponsor.href}
-              className="flex h-20 w-44 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950/80 p-3"
+              className="mx-card-interactive flex h-20 w-44 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950/80 p-3"
             >
               <div className="relative h-full w-full">
                 <Image src={sponsor.logo} alt={sponsor.name} fill sizes="176px" className="object-contain" />
@@ -55,7 +55,7 @@ export default async function SponsorsPage() {
           <a
             key={sponsor.id}
             href={sponsor.href}
-            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur transition hover:border-zinc-500"
+            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
           >
             <div className="relative aspect-[3/2] w-full rounded bg-zinc-800">
               <Image src={sponsor.logo} alt={sponsor.name} fill sizes="30vw" className="object-contain p-3" />

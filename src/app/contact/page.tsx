@@ -13,7 +13,7 @@ export default async function ContactPage() {
           Reach the team for track questions, scheduling, rider support, or event information.
         </p>
       </header>
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+      <article className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <h2 className="text-xl font-semibold">{contact.headline}</h2>
         <p className="mt-2 text-sm text-zinc-300">{contact.description}</p>
         <div className="mt-4 grid gap-2 md:grid-cols-3">
@@ -34,22 +34,22 @@ export default async function ContactPage() {
           <p>Address: {settings.address}</p>
         </div>
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
-          <a className="rounded bg-zinc-800 px-3 py-2" href={contact.googleMapsHref}>
+          <a className="mx-cta-secondary px-3 py-2" href={contact.googleMapsHref}>
             View on Map
           </a>
-          <a className="rounded bg-zinc-800 px-3 py-2" href={contact.facebookHref}>
+          <a className="mx-cta-secondary px-3 py-2" href={contact.facebookHref}>
             Facebook
           </a>
-          <a className="rounded bg-zinc-800 px-3 py-2" href={contact.instagramHref}>
+          <a className="mx-cta-secondary px-3 py-2" href={contact.instagramHref}>
             Instagram
           </a>
-          <a className="rounded bg-zinc-800 px-3 py-2" href={contact.twitterHref}>
+          <a className="mx-cta-secondary px-3 py-2" href={contact.twitterHref}>
             Twitter
           </a>
         </div>
       </article>
       <div className="grid gap-4 md:grid-cols-2">
-        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
           <div className="relative aspect-[4/3] w-full bg-zinc-800">
             <Image
               src="/media/gallery/hero.webp"
@@ -60,7 +60,7 @@ export default async function ContactPage() {
             />
           </div>
         </article>
-        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
           <div className="relative aspect-[4/3] w-full bg-zinc-800">
             <Image
               src="/media/gallery/track-photo.jpg"
@@ -72,13 +72,19 @@ export default async function ContactPage() {
           </div>
         </article>
       </div>
-      <article className="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+      <article className="mx-card-interactive relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <div className="pointer-events-none absolute inset-0 opacity-30">
-          <Image src="/media/gallery/strapi-main-1.jpg" alt="" fill sizes="100vw" className="object-cover" />
+          <Image
+            src="/media/gallery/strapi-main-1.jpg"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
+            className="object-cover"
+          />
         </div>
         <div className="relative flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-semibold">Need directions to the track?</h3>
-          <a href={contact.googleMapsHref} className="rounded-xl bg-green-700 px-4 py-2 text-sm font-semibold text-white">
+          <a href={contact.googleMapsHref} className="mx-cta-primary px-4 py-2 text-sm">
             Open Navigation
           </a>
         </div>

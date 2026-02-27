@@ -139,7 +139,7 @@ export function FormSubmit({
       ))}
       <button
         disabled={pending || disabled}
-        className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-4 py-2.5 font-medium text-white transition hover:from-green-600 hover:to-green-500 disabled:cursor-not-allowed disabled:opacity-60"
+        className="mx-cta-primary px-4 py-2.5 disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
       >
         {pending ? "Submitting..." : "Submit"}

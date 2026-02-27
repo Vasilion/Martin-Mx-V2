@@ -53,7 +53,7 @@ export default async function RegisterPage() {
         ].map((item) => (
           <article
             key={item.title}
-            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
           >
             <h2 className="text-base font-semibold">{item.title}</h2>
             <p className="mt-2 text-sm text-zinc-300">{item.text}</p>
@@ -62,24 +62,24 @@ export default async function RegisterPage() {
       </div>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
-          <div className="relative aspect-[16/9] w-full bg-zinc-800">
+        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
+          <div className="relative aspect-[16/10] w-full bg-zinc-800 md:aspect-[16/9]">
             <Image
               src="/media/gallery/strapi-main-3.jpg"
               alt="Main track registration day action"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
               className="object-cover"
             />
           </div>
         </article>
-        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
-          <div className="relative aspect-[16/9] w-full bg-zinc-800">
+        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
+          <div className="relative aspect-[16/10] w-full bg-zinc-800 md:aspect-[16/9]">
             <Image
               src="/media/gallery/strapi-youth-3.jpg"
               alt="Junior rider registration day visual"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
               className="object-cover"
             />
           </div>
@@ -89,7 +89,7 @@ export default async function RegisterPage() {
       <div className="grid gap-6 md:grid-cols-2">
         <article
           id="practice-signup"
-          className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
+          className="mx-card-interactive rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
         >
           <h2 className="text-xl font-semibold">Practice Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
@@ -151,7 +151,7 @@ export default async function RegisterPage() {
         </article>
         <article
           id="membership-signup"
-          className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
+          className="mx-card-interactive rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
         >
           <h2 className="text-xl font-semibold">Membership Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">

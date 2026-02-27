@@ -10,13 +10,13 @@ export default function HiringPage() {
           Join the Martin MX team. Tell us about your background and preferred role at the track.
         </p>
       </header>
-      <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <div className="relative aspect-[5/2] w-full bg-zinc-800">
+      <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+        <div className="relative aspect-[16/8] w-full bg-zinc-800 md:aspect-[5/2]">
           <Image
             src="/media/gallery/blog-1.jpg"
             alt="Martin MX team and operations visual"
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
             className="object-cover"
           />
         </div>
@@ -29,7 +29,7 @@ export default function HiringPage() {
         ].map((item) => (
           <article
             key={item.role}
-            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
           >
             <h2 className="text-base font-semibold">{item.role}</h2>
             <p className="mt-2 text-sm text-zinc-300">{item.detail}</p>

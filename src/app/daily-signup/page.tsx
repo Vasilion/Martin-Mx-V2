@@ -13,7 +13,7 @@ export default async function DailySignupPage() {
           Same-day rider registration with direct waiver access and full confirmation email details.
         </p>
       </header>
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+      <article className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
         <p className="text-sm text-zinc-300">
           Use this form for day-of registration. A confirmation email will include all submitted rider details.
         </p>
@@ -31,19 +31,19 @@ export default async function DailySignupPage() {
         </div>
         <div className="mt-3 flex flex-wrap gap-3">
           {trackInfo.waiverLinks.map((link) => (
-            <a key={link.label} href={link.href} className="rounded-xl bg-zinc-800 px-3 py-2 text-sm">
+            <a key={link.label} href={link.href} className="mx-cta-secondary px-3 py-2 text-sm">
               {link.label}
             </a>
           ))}
         </div>
       </article>
-      <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <div className="relative aspect-[5/2] w-full bg-zinc-800">
+      <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+        <div className="relative aspect-[16/8] w-full bg-zinc-800 md:aspect-[5/2]">
           <Image
             src="/media/gallery/blog-2.jpg"
             alt="Daily signup track session visual"
             fill
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
             className="object-cover"
           />
         </div>

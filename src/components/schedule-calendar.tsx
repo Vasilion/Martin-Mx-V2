@@ -54,7 +54,7 @@ export function ScheduleCalendar({ events }: Props) {
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="button"
-          className="rounded-xl border border-zinc-600 bg-zinc-900/70 px-3 py-2 text-sm transition hover:border-zinc-400"
+          className="mx-cta-secondary px-3 py-2 text-sm"
           onClick={() => {
             const idx = Math.max(0, orderedMonths.indexOf(activeMonth) - 1);
             setActiveMonth(orderedMonths[idx]);
@@ -65,7 +65,7 @@ export function ScheduleCalendar({ events }: Props) {
         <p className="text-lg font-semibold tracking-tight">{formatMonthLabel(monthDate)}</p>
         <button
           type="button"
-          className="rounded-xl border border-zinc-600 bg-zinc-900/70 px-3 py-2 text-sm transition hover:border-zinc-400"
+          className="mx-cta-secondary px-3 py-2 text-sm"
           onClick={() => {
             const idx = Math.min(orderedMonths.length - 1, orderedMonths.indexOf(activeMonth) + 1);
             setActiveMonth(orderedMonths[idx]);
@@ -91,14 +91,14 @@ export function ScheduleCalendar({ events }: Props) {
             .map((event, index) => (
               <article
                 key={event.id}
-                className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
+                className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
               >
-                <div className="relative mb-3 aspect-[16/7] w-full overflow-hidden rounded-xl bg-zinc-800">
+                <div className="relative mb-3 aspect-[16/8] w-full overflow-hidden rounded-xl bg-zinc-800 md:aspect-[16/7]">
                   <Image
                     src={eventImagePool[index % eventImagePool.length]}
                     alt={`${event.title} event preview`}
                     fill
-                    sizes="(max-width: 768px) 100vw, 70vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
                     className="object-cover"
                   />
                 </div>
@@ -112,7 +112,7 @@ export function ScheduleCalendar({ events }: Props) {
                 {!event.isCancelled ? (
                   <a
                     href="/register"
-                    className="mt-3 inline-block rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-3 py-1.5 text-xs font-medium"
+                    className="mx-cta-primary mt-3 inline-block px-3 py-1.5 text-xs"
                   >
                     Sign Up
                   </a>
