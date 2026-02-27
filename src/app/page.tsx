@@ -48,12 +48,12 @@ export default async function Home() {
           }),
         }}
       />
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/80 p-8 text-white shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur md:p-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.26),transparent_42%)]" />
+      <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50/95 p-8 text-zinc-900 shadow-[0_24px_70px_rgba(0,0,0,0.18)] md:p-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.12),transparent_45%)]" />
         <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-zinc-300">{settings.siteName}</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-zinc-600">{settings.siteName}</p>
           <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">{home.heroTitle}</h1>
-          <p className="mt-4 max-w-2xl text-zinc-200/90 md:text-lg">{home.heroDescription}</p>
+          <p className="mt-4 max-w-2xl text-zinc-700 md:text-lg">{home.heroDescription}</p>
         </div>
         <div className="relative mt-7 flex flex-wrap gap-3">
           <Link
@@ -64,7 +64,7 @@ export default async function Home() {
           </Link>
           <Link
             href="/register"
-            className="rounded-xl border border-zinc-500 bg-zinc-900/50 px-5 py-2.5 font-medium transition hover:border-zinc-300"
+            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 font-medium transition hover:border-zinc-500"
           >
             Register Now
           </Link>
