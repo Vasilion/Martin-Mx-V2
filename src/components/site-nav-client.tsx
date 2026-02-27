@@ -23,13 +23,15 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
   const [isOpen, setIsOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const pathname = usePathname();
+  const primaryLinks = navLinks.filter((item) => !["/daily-signup", "/print", "/admin-dashboard"].includes(item.href));
+  const utilityLinks = navLinks.filter((item) => ["/print", "/admin-dashboard"].includes(item.href));
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/90 text-white backdrop-blur">
       <div className="border-b border-white/10 bg-black/45">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-1.5 text-[11px] text-zinc-300">
           <p>{contactPhone}</p>
-          <p>{contactEmail}</p>
+          <p className="hidden sm:block">{contactEmail}</p>
           <p className="hidden md:block">{address}</p>
         </div>
       </div>
@@ -42,12 +44,23 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
             </div>
           </Link>
           <div className="hidden items-center gap-1 md:flex">
-            {navLinks.map((item) => (
+            {primaryLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`rounded-lg px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.06em] transition ${
                   pathname === item.href ? "bg-green-700/20 text-green-300" : "text-zinc-200 hover:bg-zinc-800 hover:text-white"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+            {utilityLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-lg px-2 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] transition ${
+                  pathname === item.href ? "bg-zinc-700/60 text-white" : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -81,7 +94,7 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
               exit={prefersReducedMotion ? undefined : { opacity: 0, y: -8 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              {navLinks.map((item) => (
+              {[...primaryLinks, ...utilityLinks].map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

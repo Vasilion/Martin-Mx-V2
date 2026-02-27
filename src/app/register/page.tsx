@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FormSubmit } from "@/components/form-submit";
 import {
   getAnnouncements,
@@ -7,13 +8,21 @@ import {
   getSiteSettings,
 } from "@/lib/content/loader";
 
-export default async function RegisterPage() {
+type RegisterPageProps = {
+  searchParams?: Promise<{
+    tab?: string;
+  }>;
+};
+
+export default async function RegisterPage({ searchParams }: RegisterPageProps) {
   const [settings, pricing, operations, rawAnnouncements] = await Promise.all([
     getSiteSettings(),
     getPricingConfig(),
     getOperationsContent(),
     getAnnouncements(),
   ]);
+  const params = (await searchParams) ?? {};
+  const activeTab = params.tab === "membership" ? "membership" : "practice";
   const announcements = rawAnnouncements.filter((item) => item.active);
 
   return (
@@ -45,11 +54,10 @@ export default async function RegisterPage() {
         </div>
       ) : null}
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {[
           { title: "Fast Check-In", text: "Pre-register online so gate operations stay smooth on ride day." },
           { title: "Verified Details", text: "Every submission sends full rider details and a reference ID." },
-          { title: "Live Status", text: "Open/close state and cancellation notices update from CMS controls." },
         ].map((item) => (
           <article
             key={item.title}
@@ -61,39 +69,71 @@ export default async function RegisterPage() {
         ))}
       </div>
 
-      <section className="grid gap-4 md:grid-cols-2">
-        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
-          <div className="relative aspect-[16/10] w-full bg-zinc-800 md:aspect-[16/9]">
-            <Image
-              src="/media/gallery/strapi-main-3.jpg"
-              alt="Main track registration day action"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
-              className="object-cover"
-            />
+      <section className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-700 pb-4">
+          <h2 className="text-xl font-semibold">Register To Ride</h2>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/register?tab=practice#practice-signup"
+              className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide ${
+                activeTab === "practice"
+                  ? "bg-green-700 text-white"
+                  : "border border-zinc-600 bg-zinc-800 text-zinc-200"
+              }`}
+            >
+              Register For Practice
+            </Link>
+            <Link
+              href="/register?tab=membership#membership-signup"
+              className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide ${
+                activeTab === "membership"
+                  ? "bg-green-700 text-white"
+                  : "border border-zinc-600 bg-zinc-800 text-zinc-200"
+              }`}
+            >
+              Unlimited Membership
+            </Link>
           </div>
-        </article>
-        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
-          <div className="relative aspect-[16/10] w-full bg-zinc-800 md:aspect-[16/9]">
-            <Image
-              src="/media/gallery/strapi-youth-3.jpg"
-              alt="Junior rider registration day visual"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
-              className="object-cover"
-            />
-          </div>
-        </article>
+        </div>
+
+        <div className="mt-4 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
+          <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
+            <div className="relative aspect-[16/10] w-full bg-zinc-800 md:aspect-[16/9]">
+              <Image
+                src={activeTab === "practice" ? "/media/gallery/strapi-main-3.jpg" : "/media/gallery/strapi-youth-3.jpg"}
+                alt={activeTab === "practice" ? "Practice registration visual" : "Membership registration visual"}
+                fill
+                sizes="(max-width: 768px) 100vw, 55vw"
+                className="object-cover"
+              />
+            </div>
+          </article>
+          <article className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-950/60 p-5">
+            <p className="text-xs uppercase tracking-[0.24em] text-zinc-400">Current Section</p>
+            <p className="mt-2 text-2xl font-bold">{activeTab === "practice" ? "Practice Registration" : "Unlimited Membership"}</p>
+            <p className="mt-3 text-sm text-zinc-300">
+              {activeTab === "practice"
+                ? settings.practiceOpen && !settings.practiceCancelled
+                  ? operations.practiceStatusLabel
+                  : "Online Registration is unavailable at this time."
+                : settings.membershipOpen
+                  ? operations.membershipStatusLabel
+                  : "Member Registration is unavailable at this time."}
+            </p>
+          </article>
+        </div>
       </section>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      {activeTab === "practice" ? (
         <article
           id="practice-signup"
           className="mx-card-interactive rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
         >
           <h2 className="text-xl font-semibold">Practice Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
-            {settings.practiceOpen ? operations.practiceStatusLabel : "Practice is currently closed."}
+            {settings.practiceOpen && !settings.practiceCancelled
+              ? operations.practiceStatusLabel
+              : "Online Registration is unavailable at this time."}
           </p>
           {operations.practiceCashOnly ? (
             <p className="mb-4 text-sm text-amber-300">Cash-only mode is active for this practice window.</p>
@@ -149,13 +189,14 @@ export default async function RegisterPage() {
             ]}
           />
         </article>
+      ) : (
         <article
           id="membership-signup"
           className="mx-card-interactive rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur"
         >
           <h2 className="text-xl font-semibold">Membership Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
-            {settings.membershipOpen ? operations.membershipStatusLabel : "Membership is currently closed."}
+            {settings.membershipOpen ? operations.membershipStatusLabel : "Member Registration is unavailable at this time."}
           </p>
           <p className="mb-4 text-sm text-zinc-400">{operations.membershipCtaLabel}</p>
           <FormSubmit
@@ -175,7 +216,7 @@ export default async function RegisterPage() {
             ]}
           />
         </article>
-      </div>
+      )}
     </section>
   );
 }

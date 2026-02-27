@@ -7,7 +7,6 @@
     { "href": "/gallery", "label": "Gallery" },
     { "href": "/sponsors", "label": "Sponsors" },
     { "href": "/hiring", "label": "Hiring" },
-    { "href": "/daily-signup", "label": "Daily Signup" },
     { "href": "/contact", "label": "Contact" },
     { "href": "/print", "label": "Print List" },
     { "href": "/admin-dashboard", "label": "Admin Dashboard" }
