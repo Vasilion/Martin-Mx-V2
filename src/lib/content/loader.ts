@@ -7,6 +7,7 @@ import {
   pricingSchema,
   scheduleEventsSchema,
   sponsorsSchema,
+  successContentSchema,
   siteSettingsSchema,
   tracksContentSchema,
   trackInfoSchema,
@@ -57,4 +58,8 @@ export async function getGalleryItems() {
 
 export async function getTracksContent() {
   return tracksContentSchema.parse(await readJsonFile("site/tracks.json"));
+}
+
+export async function getSuccessContent() {
+  return successContentSchema.parse(await readJsonFile("site/success.json"));
 }

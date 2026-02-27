@@ -122,6 +122,17 @@ collections:
           - { label: Facebook Link, name: facebookHref, widget: string }
           - { label: Instagram Link, name: instagramHref, widget: string }
           - { label: Twitter Link, name: twitterHref, widget: string }
+  - name: success
+    label: Success Pages
+    files:
+      - label: Payment Success Copy
+        name: success_content
+        file: content/site/success.json
+        fields:
+          - { label: Practice Title, name: practiceTitle, widget: string }
+          - { label: Practice Description, name: practiceDescription, widget: text }
+          - { label: Membership Title, name: membershipTitle, widget: string }
+          - { label: Membership Description, name: membershipDescription, widget: text }
   - name: pricing
     label: Pricing Config
     files:

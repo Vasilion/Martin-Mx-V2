@@ -6,6 +6,7 @@ import {
   getPricingConfig,
   getScheduleEvents,
   getSiteSettings,
+  getSuccessContent,
   getTracksContent,
   getSponsors,
   getTrackInfoContent,
@@ -55,5 +56,10 @@ describe("content contracts", () => {
   it("parses gallery content", async () => {
     const value = await getGalleryItems();
     expect(value.length).toBeGreaterThan(0);
+  });
+
+  it("parses success page content", async () => {
+    const value = await getSuccessContent();
+    expect(value.practiceTitle.length).toBeGreaterThan(0);
   });
 });

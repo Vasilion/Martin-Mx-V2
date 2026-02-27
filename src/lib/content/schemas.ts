@@ -108,6 +108,13 @@ export const tracksContentSchema = z.object({
   juniorTrackDescription: z.array(z.string().min(1)).min(1),
 });
 
+export const successContentSchema = z.object({
+  practiceTitle: z.string().min(1),
+  practiceDescription: z.string().min(1),
+  membershipTitle: z.string().min(1),
+  membershipDescription: z.string().min(1),
+});
+
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type ScheduleEvent = z.infer<typeof scheduleEventSchema>;
@@ -117,3 +124,4 @@ export type ContactContent = z.infer<typeof contactContentSchema>;
 export type Sponsor = z.infer<typeof sponsorSchema>;
 export type GalleryItem = z.infer<typeof galleryItemSchema>;
 export type TracksContent = z.infer<typeof tracksContentSchema>;
+export type SuccessContent = z.infer<typeof successContentSchema>;
