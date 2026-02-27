@@ -133,6 +133,26 @@ collections:
           - { label: Practice Description, name: practiceDescription, widget: text }
           - { label: Membership Title, name: membershipTitle, widget: string }
           - { label: Membership Description, name: membershipDescription, widget: text }
+  - name: operations
+    label: Operations
+    files:
+      - label: Practice and Membership Operations
+        name: operations_content
+        file: content/site/operations.json
+        fields:
+          - { label: Practice Cash Only, name: practiceCashOnly, widget: boolean }
+          - { label: Practice Status Label, name: practiceStatusLabel, widget: string }
+          - { label: Practice CTA Label, name: practiceCtaLabel, widget: string }
+          - { label: Membership Status Label, name: membershipStatusLabel, widget: string }
+          - { label: Membership CTA Label, name: membershipCtaLabel, widget: string }
+          - label: Practice Sessions
+            name: practiceSessions
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Date, name: date, widget: string }
+              - { label: Start Time, name: startTime, widget: string }
+              - { label: End Time, name: endTime, widget: string }
   - name: pricing
     label: Pricing Config
     files:

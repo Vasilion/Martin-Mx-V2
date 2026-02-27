@@ -1,10 +1,14 @@
 import Link from "next/link";
 import Script from "next/script";
 import { WeatherCard } from "@/components/weather-card";
-import { getHomeContent, getSiteSettings } from "@/lib/content/loader";
+import { getHomeContent, getOperationsContent, getSiteSettings } from "@/lib/content/loader";
 
 export default async function Home() {
-  const [home, settings] = await Promise.all([getHomeContent(), getSiteSettings()]);
+  const [home, settings, operations] = await Promise.all([
+    getHomeContent(),
+    getSiteSettings(),
+    getOperationsContent(),
+  ]);
   return (
     <section className="space-y-8">
       <Script
@@ -47,11 +51,25 @@ export default async function Home() {
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
           <p className="text-sm text-zinc-300">Practice Status: {settings.practiceOpen ? "Open" : "Closed"}</p>
+          <p className="text-sm text-zinc-400">Practice Label: {operations.practiceStatusLabel}</p>
           <p className="text-sm text-zinc-300">
             Membership Status: {settings.membershipOpen ? "Open" : "Closed"}
           </p>
+          <p className="text-sm text-zinc-400">Membership Label: {operations.membershipStatusLabel}</p>
           {settings.practiceCancelled ? (
             <p className="mt-2 text-sm text-red-300">Cancellation: {settings.practiceCancelReason}</p>
+          ) : null}
+          {operations.practiceCashOnly ? (
+            <p className="mt-2 text-sm text-amber-300">Practice sessions are currently cash only.</p>
+          ) : null}
+          {operations.practiceSessions.length > 0 ? (
+            <div className="mt-3 space-y-1 text-xs text-zinc-400">
+              {operations.practiceSessions.map((session) => (
+                <p key={session.label}>
+                  {session.label}: {session.date} {session.startTime}-{session.endTime}
+                </p>
+              ))}
+            </div>
           ) : null}
           <p className="mt-3 text-sm text-zinc-400">{settings.tagline}</p>
           <a className="mt-3 inline-block text-sm text-red-300 underline" href={settings.storeLink}>

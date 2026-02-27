@@ -4,6 +4,7 @@ import {
   contactContentSchema,
   gallerySchema,
   homeContentSchema,
+  operationsContentSchema,
   pricingSchema,
   scheduleEventsSchema,
   sponsorsSchema,
@@ -62,4 +63,8 @@ export async function getTracksContent() {
 
 export async function getSuccessContent() {
   return successContentSchema.parse(await readJsonFile("site/success.json"));
+}
+
+export async function getOperationsContent() {
+  return operationsContentSchema.parse(await readJsonFile("site/operations.json"));
 }

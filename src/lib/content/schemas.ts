@@ -115,6 +115,22 @@ export const successContentSchema = z.object({
   membershipDescription: z.string().min(1),
 });
 
+export const operationsContentSchema = z.object({
+  practiceCashOnly: z.boolean(),
+  practiceStatusLabel: z.string().min(1),
+  practiceCtaLabel: z.string().min(1),
+  membershipStatusLabel: z.string().min(1),
+  membershipCtaLabel: z.string().min(1),
+  practiceSessions: z.array(
+    z.object({
+      label: z.string().min(1),
+      date: z.string().min(1),
+      startTime: z.string().min(1),
+      endTime: z.string().min(1),
+    }),
+  ),
+});
+
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type ScheduleEvent = z.infer<typeof scheduleEventSchema>;
@@ -125,3 +141,4 @@ export type Sponsor = z.infer<typeof sponsorSchema>;
 export type GalleryItem = z.infer<typeof galleryItemSchema>;
 export type TracksContent = z.infer<typeof tracksContentSchema>;
 export type SuccessContent = z.infer<typeof successContentSchema>;
+export type OperationsContent = z.infer<typeof operationsContentSchema>;

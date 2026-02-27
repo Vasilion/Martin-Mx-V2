@@ -11,6 +11,7 @@ type FormSubmitProps = {
     type?: "text" | "email" | "number" | "date" | "checkbox" | "textarea" | "select";
     required?: boolean;
     options?: string[];
+    defaultValue?: string | number | boolean;
   }>;
 };
 
@@ -76,6 +77,7 @@ export function FormSubmit({ formType, fields, disabled = false }: FormSubmitPro
               name={field.name}
               required={field.required ?? true}
               disabled={disabled}
+              defaultValue={typeof field.defaultValue === "string" ? field.defaultValue : undefined}
               className="min-h-28 w-full rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
             />
           ) : null}
@@ -85,7 +87,11 @@ export function FormSubmit({ formType, fields, disabled = false }: FormSubmitPro
               required={field.required ?? true}
               disabled={disabled}
               className="w-full rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
-              defaultValue=""
+              defaultValue={
+                typeof field.defaultValue === "string" || typeof field.defaultValue === "number"
+                  ? String(field.defaultValue)
+                  : ""
+              }
             >
               <option value="" disabled>
                 Select an option
@@ -103,6 +109,12 @@ export function FormSubmit({ formType, fields, disabled = false }: FormSubmitPro
               type={field.type ?? "text"}
               required={field.required ?? true}
               disabled={disabled}
+              defaultValue={
+                typeof field.defaultValue === "string" || typeof field.defaultValue === "number"
+                  ? String(field.defaultValue)
+                  : undefined
+              }
+              defaultChecked={field.type === "checkbox" && field.defaultValue === true}
               className="w-full rounded border border-zinc-600 bg-zinc-800 px-3 py-2 text-white"
             />
           ) : null}

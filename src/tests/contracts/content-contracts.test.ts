@@ -3,6 +3,7 @@ import {
   getContactContent,
   getGalleryItems,
   getHomeContent,
+  getOperationsContent,
   getPricingConfig,
   getScheduleEvents,
   getSiteSettings,
@@ -61,5 +62,10 @@ describe("content contracts", () => {
   it("parses success page content", async () => {
     const value = await getSuccessContent();
     expect(value.practiceTitle.length).toBeGreaterThan(0);
+  });
+
+  it("parses operations content", async () => {
+    const value = await getOperationsContent();
+    expect(value.practiceSessions.length).toBeGreaterThan(0);
   });
 });
