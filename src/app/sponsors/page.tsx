@@ -14,8 +14,8 @@ export default async function SponsorsPage() {
           <div className="mt-4 grid gap-4 md:grid-cols-3">
             {titleSponsors.map((sponsor) => (
               <a key={sponsor.id} href={sponsor.href} className="rounded border border-zinc-700 bg-zinc-950 p-3">
-                <div className="relative h-20 w-full bg-zinc-800">
-                  <Image src={sponsor.logo} alt={sponsor.name} fill sizes="30vw" />
+                <div className="relative aspect-[3/2] w-full rounded bg-zinc-800">
+                  <Image src={sponsor.logo} alt={sponsor.name} fill sizes="30vw" className="object-contain p-3" />
                 </div>
                 <p className="mt-2 text-sm">{sponsor.name}</p>
               </a>
@@ -26,8 +26,8 @@ export default async function SponsorsPage() {
       <div className="grid gap-4 md:grid-cols-3">
         {sponsors.map((sponsor) => (
           <a key={sponsor.id} href={sponsor.href} className="rounded border border-zinc-700 bg-zinc-900 p-4">
-            <div className="relative h-20 w-full bg-zinc-800">
-              <Image src={sponsor.logo} alt={sponsor.name} fill sizes="30vw" />
+            <div className="relative aspect-[3/2] w-full rounded bg-zinc-800">
+              <Image src={sponsor.logo} alt={sponsor.name} fill sizes="30vw" className="object-contain p-3" />
             </div>
             <p className="mt-2 text-sm">{sponsor.name}</p>
           </a>
