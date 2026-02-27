@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Script from "next/script";
+import Image from "next/image";
 import { WeatherCard } from "@/components/weather-card";
 import {
   getAnnouncements,
@@ -180,6 +181,28 @@ export default async function Home() {
           ))}
         </section>
       ) : null}
+
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-white">Featured Track Media</h2>
+          <Link href="/gallery" className="rounded-xl bg-green-700 px-4 py-2 text-sm font-medium text-white">
+            Open Full Gallery
+          </Link>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            { src: "/media/gallery/strapi-gallery-1.jpg", alt: "Main track rider cornering" },
+            { src: "/media/gallery/strapi-gallery-3.jpg", alt: "Rider action on track section" },
+            { src: "/media/gallery/strapi-gallery-6.jpg", alt: "Practice rhythm lane action" },
+          ].map((item) => (
+            <article key={item.src} className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75">
+              <div className="relative aspect-[4/3] w-full bg-zinc-800">
+                <Image src={item.src} alt={item.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">

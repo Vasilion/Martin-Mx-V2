@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { getGalleryItems } from "@/lib/content/loader";
+import { InteractiveGallery } from "@/components/interactive-gallery";
 
 export default async function GalleryPage() {
   const items = await getGalleryItems();
@@ -12,28 +12,7 @@ export default async function GalleryPage() {
           Recent visuals from Martin MX sessions and rider activity.
         </p>
       </header>
-      <div className="grid gap-4 md:grid-cols-2">
-        {items.map((item) => (
-          <article
-            key={item.id}
-            className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
-          >
-            <div className="relative aspect-[4/3] w-full bg-zinc-800">
-              <Image
-                src={item.image}
-                alt={item.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4">
-              <h2 className="font-semibold">{item.title}</h2>
-              {item.isFeatured ? <p className="mt-1 text-xs text-green-300">Featured</p> : null}
-            </div>
-          </article>
-        ))}
-      </div>
+      <InteractiveGallery items={items} />
     </section>
   );
 }

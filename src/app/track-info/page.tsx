@@ -1,9 +1,36 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getTrackInfoContent, getTracksContent } from "@/lib/content/loader";
+import { InteractiveGallery } from "@/components/interactive-gallery";
 
 export default async function TrackInfoPage() {
   const [trackInfo, tracks] = await Promise.all([getTrackInfoContent(), getTracksContent()]);
+  const trackGalleryItems = [
+    {
+      id: "track-main-1",
+      title: "Main Track Action",
+      image: "/media/gallery/strapi-main-1.jpg",
+      alt: "Main track rider cornering",
+    },
+    {
+      id: "track-main-2",
+      title: "Main Track Session",
+      image: "/media/gallery/strapi-main-2.jpg",
+      alt: "Main track during practice",
+    },
+    {
+      id: "track-jr-1",
+      title: "Junior Track Rider",
+      image: "/media/gallery/strapi-youth-1.jpg",
+      alt: "Junior track rider progression",
+    },
+    {
+      id: "track-jr-2",
+      title: "Junior Track Turn",
+      image: "/media/gallery/strapi-youth-2.jpg",
+      alt: "Junior track turn section",
+    },
+  ];
 
   return (
     <section className="space-y-6 text-white">
@@ -92,6 +119,12 @@ export default async function TrackInfoPage() {
           ))}
         </ul>
       </article>
+
+      <section className="space-y-3">
+        <h2 className="text-xl font-semibold">Track Photo Viewer</h2>
+        <p className="text-sm text-zinc-300">Open any image to view full size and use keyboard arrows to navigate.</p>
+        <InteractiveGallery items={trackGalleryItems} />
+      </section>
     </section>
   );
 }

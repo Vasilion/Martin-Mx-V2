@@ -2,30 +2,72 @@
   "items": [
     {
       "id": "gallery-1",
-      "title": "Track Session",
-      "image": "/media/gallery/track-photo.jpg",
-      "alt": "Rider on the Martin MX track during open practice",
+      "title": "Corner Exit Push",
+      "image": "/media/gallery/strapi-gallery-1.jpg",
+      "alt": "Rider accelerating out of a turn at Martin MX",
       "isFeatured": true
     },
     {
       "id": "gallery-2",
-      "title": "Hero Track View",
-      "image": "/media/gallery/hero.webp",
-      "alt": "Martin MX hero image from the original site",
+      "title": "Roost Through the Berm",
+      "image": "/media/gallery/strapi-gallery-2.jpg",
+      "alt": "Rider throwing roost in a berm",
       "isFeatured": false
     },
     {
       "id": "gallery-3",
-      "title": "Rider Feature Photo",
-      "image": "/media/gallery/blog-1.jpg",
-      "alt": "Rider feature image from Martin MX media set",
+      "title": "Main Track Mid-Lap",
+      "image": "/media/gallery/strapi-gallery-3.jpg",
+      "alt": "Main track mid-lap action photo",
       "isFeatured": false
     },
     {
       "id": "gallery-4",
-      "title": "Practice Day Photo",
-      "image": "/media/gallery/blog-2.jpg",
-      "alt": "Practice day image from Martin MX media set",
+      "title": "Rider Flight Section",
+      "image": "/media/gallery/strapi-gallery-4.jpg",
+      "alt": "Rider in jump section at Martin MX",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-5",
+      "title": "Track Prep Conditions",
+      "image": "/media/gallery/strapi-gallery-5.jpg",
+      "alt": "Track conditions and prep for open ride day",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-6",
+      "title": "Practice Rhythm Lane",
+      "image": "/media/gallery/strapi-gallery-6.jpg",
+      "alt": "Rhythm lane section with rider approach",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-7",
+      "title": "Rider Line Choice",
+      "image": "/media/gallery/strapi-gallery-7.jpg",
+      "alt": "Rider choosing line through mixed terrain",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-8",
+      "title": "Main Track Pack",
+      "image": "/media/gallery/strapi-gallery-8.jpg",
+      "alt": "Multiple riders on the main track",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-9",
+      "title": "Late Session Lighting",
+      "image": "/media/gallery/strapi-gallery-9.jpg",
+      "alt": "Late-day practice under warm lighting",
+      "isFeatured": false
+    },
+    {
+      "id": "gallery-10",
+      "title": "Martin MX Action Frame",
+      "image": "/media/gallery/strapi-gallery-10.jpg",
+      "alt": "High-energy action frame from Martin MX",
       "isFeatured": false
     }
   ]

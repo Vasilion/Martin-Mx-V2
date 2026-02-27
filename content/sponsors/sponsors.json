@@ -2,25 +2,41 @@
   "sponsors": [
     {
       "id": "sponsor-1",
-      "name": "Martin MX Park",
-      "href": "https://www.martinmxpark.com",
-      "logo": "/media/sponsors/martin-logo.svg",
+      "name": "Magic Racing",
+      "href": "https://www.magicracing.com/",
+      "logo": "/media/sponsors/strapi-sponsor-1.png",
       "isTitleSponsor": true,
       "isActive": true
     },
     {
       "id": "sponsor-2",
-      "name": "Martin MX Brand Mark",
-      "href": "https://www.martinmxpark.com",
-      "logo": "/media/sponsors/martin-logo-white.svg",
+      "name": "Jnkyard Designs",
+      "href": "https://www.facebook.com/people/Jnkyard-Designs/100091737440847/",
+      "logo": "/media/sponsors/strapi-sponsor-2.png",
       "isTitleSponsor": false,
       "isActive": true
     },
     {
       "id": "sponsor-3",
-      "name": "Martin MX Alternate Logo",
-      "href": "https://www.martinmxpark.com",
-      "logo": "/media/sponsors/martin-logo-alt.svg",
+      "name": "KEI Electrical Construction & Maintenance",
+      "href": "https://keiecm.com/about/",
+      "logo": "/media/sponsors/strapi-sponsor-3.png",
+      "isTitleSponsor": false,
+      "isActive": true
+    },
+    {
+      "id": "sponsor-4",
+      "name": "Plummers Disposal",
+      "href": "http://plummersdisposal.com/",
+      "logo": "/media/sponsors/strapi-sponsor-4.jpg",
+      "isTitleSponsor": false,
+      "isActive": true
+    },
+    {
+      "id": "sponsor-5",
+      "name": "Veteran Roofing & Exteriors",
+      "href": "https://veteranroofs.com/",
+      "logo": "/media/sponsors/strapi-sponsor-5.jpg",
       "isTitleSponsor": false,
       "isActive": true
     }
