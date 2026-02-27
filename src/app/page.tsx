@@ -2,6 +2,7 @@ import Link from "next/link";
 import Script from "next/script";
 import Image from "next/image";
 import { WeatherCard } from "@/components/weather-card";
+import { InteractiveGallery } from "@/components/interactive-gallery";
 import {
   getAnnouncements,
   getHomeContent,
@@ -206,19 +207,29 @@ export default async function Home() {
             Open Full Gallery
           </Link>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            { src: "/media/gallery/strapi-gallery-1.jpg", alt: "Main track rider cornering" },
-            { src: "/media/gallery/strapi-gallery-3.jpg", alt: "Rider action on track section" },
-            { src: "/media/gallery/strapi-gallery-6.jpg", alt: "Practice rhythm lane action" },
-          ].map((item) => (
-            <article key={item.src} className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75">
-              <div className="relative aspect-[4/3] w-full bg-zinc-800">
-                <Image src={item.src} alt={item.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
-              </div>
-            </article>
-          ))}
-        </div>
+        <InteractiveGallery
+          items={[
+            {
+              id: "home-feature-1",
+              title: "Main Track Charge",
+              image: "/media/gallery/strapi-gallery-1.jpg",
+              alt: "Main track rider cornering",
+              isFeatured: true,
+            },
+            {
+              id: "home-feature-2",
+              title: "Mid-Corner Drive",
+              image: "/media/gallery/strapi-gallery-3.jpg",
+              alt: "Rider action on track section",
+            },
+            {
+              id: "home-feature-3",
+              title: "Rhythm Lane Pace",
+              image: "/media/gallery/strapi-gallery-6.jpg",
+              alt: "Practice rhythm lane action",
+            },
+          ]}
+        />
       </section>
 
       <div className="grid gap-4 md:grid-cols-2">
