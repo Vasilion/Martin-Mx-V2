@@ -8,6 +8,17 @@ import {
   getSiteSettings,
 } from "@/lib/content/loader";
 
+type PracticeSession = {
+  label: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+};
+
+function getSessionStartValue(session: PracticeSession) {
+  return Date.parse(`${session.date}T${session.startTime}:00`);
+}
+
 export default async function Home() {
   const [home, settings, operations, rawAnnouncements] = await Promise.all([
     getHomeContent(),
@@ -16,6 +27,11 @@ export default async function Home() {
     getAnnouncements(),
   ]);
   const announcements = rawAnnouncements.filter((item) => item.active);
+  const sortedSessions = operations.practiceSessions
+    .slice()
+    .sort((a, b) => getSessionStartValue(a) - getSessionStartValue(b));
+  const nextSession = sortedSessions[0] ?? null;
+
   return (
     <section className="space-y-8">
       <Script
@@ -57,12 +73,51 @@ export default async function Home() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
-          <p className="text-sm text-zinc-300">Practice Status: {settings.practiceOpen ? "Open" : "Closed"}</p>
-          <p className="text-sm text-zinc-400">Practice Label: {operations.practiceStatusLabel}</p>
-          <p className="text-sm text-zinc-300">
-            Membership Status: {settings.membershipOpen ? "Open" : "Closed"}
-          </p>
-          <p className="text-sm text-zinc-400">Membership Label: {operations.membershipStatusLabel}</p>
+          <h2 className="text-xl font-semibold">Operations Snapshot</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className="rounded border border-zinc-700 bg-zinc-950 p-3">
+              <p className="text-xs uppercase tracking-wide text-zinc-400">Practice</p>
+              <p
+                className={`mt-2 inline-block rounded px-2 py-1 text-xs font-semibold ${
+                  settings.practiceOpen ? "bg-emerald-600/20 text-emerald-300" : "bg-red-700/20 text-red-300"
+                }`}
+              >
+                {settings.practiceOpen ? "Open" : "Closed"}
+              </p>
+              <p className="mt-2 text-sm text-zinc-300">{operations.practiceStatusLabel}</p>
+              <Link
+                href="/register#practice-signup"
+                className="mt-3 inline-block rounded bg-red-700 px-3 py-1.5 text-sm font-medium"
+              >
+                {operations.practiceCtaLabel}
+              </Link>
+            </div>
+            <div className="rounded border border-zinc-700 bg-zinc-950 p-3">
+              <p className="text-xs uppercase tracking-wide text-zinc-400">Membership</p>
+              <p
+                className={`mt-2 inline-block rounded px-2 py-1 text-xs font-semibold ${
+                  settings.membershipOpen ? "bg-emerald-600/20 text-emerald-300" : "bg-red-700/20 text-red-300"
+                }`}
+              >
+                {settings.membershipOpen ? "Open" : "Closed"}
+              </p>
+              <p className="mt-2 text-sm text-zinc-300">{operations.membershipStatusLabel}</p>
+              <Link
+                href="/register#membership-signup"
+                className="mt-3 inline-block rounded border border-zinc-600 px-3 py-1.5 text-sm font-medium"
+              >
+                {operations.membershipCtaLabel}
+              </Link>
+            </div>
+          </div>
+          {nextSession ? (
+            <div className="mt-4 rounded border border-zinc-700 bg-zinc-950 p-3">
+              <p className="text-xs uppercase tracking-wide text-zinc-400">Next Session</p>
+              <p className="mt-2 text-sm text-zinc-100">
+                {nextSession.label}: {nextSession.date} {nextSession.startTime}-{nextSession.endTime}
+              </p>
+            </div>
+          ) : null}
           {settings.practiceCancelled ? (
             <p className="mt-2 text-sm text-red-300">Cancellation: {settings.practiceCancelReason}</p>
           ) : null}
@@ -71,7 +126,7 @@ export default async function Home() {
           ) : null}
           {operations.practiceSessions.length > 0 ? (
             <div className="mt-3 space-y-1 text-xs text-zinc-400">
-              {operations.practiceSessions.map((session) => (
+              {sortedSessions.map((session) => (
                 <p key={session.label}>
                   {session.label}: {session.date} {session.startTime}-{session.endTime}
                 </p>

@@ -38,7 +38,7 @@ export default async function RegisterPage() {
         </div>
       ) : null}
       <div className="grid gap-6 md:grid-cols-2">
-        <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <article id="practice-signup" className="rounded border border-zinc-700 bg-zinc-900 p-4">
           <h2 className="text-xl font-semibold">Practice Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
             {settings.practiceOpen ? operations.practiceStatusLabel : "Practice is currently closed."}
@@ -97,7 +97,7 @@ export default async function RegisterPage() {
             ]}
           />
         </article>
-        <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <article id="membership-signup" className="rounded border border-zinc-700 bg-zinc-900 p-4">
           <h2 className="text-xl font-semibold">Membership Signup</h2>
           <p className="mb-4 mt-2 text-sm text-zinc-300">
             {settings.membershipOpen ? operations.membershipStatusLabel : "Membership is currently closed."}

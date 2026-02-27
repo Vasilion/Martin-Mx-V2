@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("core routes load", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Welcome to Martin MX Park" })).toBeVisible();
-  await expect(page.getByText("Practice Status")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Operations Snapshot" })).toBeVisible();
 
   const routes = [
     "/register",
@@ -67,17 +67,25 @@ test("membership signup form redirects to membership success", async ({ page }) 
 });
 
 test("admin dashboard shows recent signup references", async ({ page }) => {
-  await page.goto("/contact");
-  await page.getByLabel("Full Name").fill("Dashboard Check");
-  await page.getByLabel("Email").fill("dashboard-check@example.com");
-  await page.getByLabel("Phone").fill("6161231234");
-  await page.getByLabel("Subject").fill("Dashboard visibility");
-  await page.getByLabel("Message").fill("Verifying dashboard recent signups.");
-  await page.getByRole("button", { name: "Submit" }).click();
+  const selectedDate = "2026-04-15";
+  await page.goto("/register");
+  await page.getByLabel("Rider Name").first().fill("Dashboard Check Rider");
+  await page.getByLabel("Email").first().fill("dashboard-practice@example.com");
+  await page.getByLabel("Phone").first().fill("6161231234");
+  await page.getByLabel("Rider Age").first().fill("24");
+  await page.getByLabel("Bike Class").first().selectOption("A/B");
+  await page.getByLabel("Bike Size").first().selectOption("250cc");
+  await page.getByLabel("Practice Date").first().fill(selectedDate);
+  await page.getByLabel("Session").first().selectOption("Wednesday Session");
+  await page.getByLabel("Track Type").first().selectOption("Main");
+  await page.getByLabel("Price").first().fill("40");
+  await page.getByLabel("Payment Status").first().selectOption("paid");
+  await page.getByRole("button", { name: "Submit" }).first().click();
 
-  const confirmationText = await page.getByText("Submitted successfully. Reference:").textContent();
-  const referenceId = confirmationText?.split("Reference:")[1]?.trim() ?? "";
+  await expect(page).toHaveURL(/\/payment-success\?referenceId=/);
+  const url = new URL(page.url());
+  const referenceId = url.searchParams.get("referenceId") ?? "";
 
-  await page.goto("/admin-dashboard");
+  await page.goto(`/admin-dashboard?selectedDate=${selectedDate}`);
   await expect(page.getByText(referenceId)).toBeVisible();
 });
