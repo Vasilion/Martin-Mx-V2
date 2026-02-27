@@ -65,3 +65,19 @@ test("membership signup form redirects to membership success", async ({ page }) 
   await expect(page).toHaveURL(/\/membership-payment-success\?referenceId=/);
   await expect(page.getByRole("heading", { name: "Membership Payment Success" })).toBeVisible();
 });
+
+test("admin dashboard shows recent signup references", async ({ page }) => {
+  await page.goto("/contact");
+  await page.getByLabel("Full Name").fill("Dashboard Check");
+  await page.getByLabel("Email").fill("dashboard-check@example.com");
+  await page.getByLabel("Phone").fill("6161231234");
+  await page.getByLabel("Subject").fill("Dashboard visibility");
+  await page.getByLabel("Message").fill("Verifying dashboard recent signups.");
+  await page.getByRole("button", { name: "Submit" }).click();
+
+  const confirmationText = await page.getByText("Submitted successfully. Reference:").textContent();
+  const referenceId = confirmationText?.split("Reference:")[1]?.trim() ?? "";
+
+  await page.goto("/admin-dashboard");
+  await expect(page.getByText(referenceId)).toBeVisible();
+});
