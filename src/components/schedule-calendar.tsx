@@ -16,6 +16,10 @@ function formatDay(date: Date) {
   return date.toLocaleString("en-US", { month: "short", day: "numeric" });
 }
 
+function getDaysInMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+}
+
 type Props = {
   events: ScheduleEvent[];
 };
@@ -46,8 +50,22 @@ export function ScheduleCalendar({ events }: Props) {
     return Array.from(months).sort();
   }, [activeMonth, grouped]);
 
-  const selectedEvents = grouped.get(activeMonth) ?? [];
+  const selectedEvents = useMemo(() => grouped.get(activeMonth) ?? [], [activeMonth, grouped]);
   const monthDate = new Date(`${activeMonth}-01T00:00:00`);
+  const monthEventMap = useMemo(() => {
+    const map = new Map<number, ScheduleEvent[]>();
+    selectedEvents.forEach((event) => {
+      const day = new Date(event.date).getDate();
+      map.set(day, [...(map.get(day) ?? []), event]);
+    });
+    return map;
+  }, [selectedEvents]);
+  const dayCount = getDaysInMonth(monthDate);
+  const firstWeekday = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1).getDay();
+  const calendarCells = [
+    ...Array.from({ length: firstWeekday }, () => null),
+    ...Array.from({ length: dayCount }, (_, index) => index + 1),
+  ];
 
   return (
     <div className="space-y-4">
@@ -80,6 +98,35 @@ export function ScheduleCalendar({ events }: Props) {
           <span className="rounded-lg bg-green-900/40 px-2 py-1 text-green-300">Registration Open</span>
           <span className="rounded-lg bg-red-900/40 px-2 py-1 text-red-300">Practice Cancelled</span>
         </div>
+        <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+          <div className="grid grid-cols-7 border-b border-zinc-800 bg-zinc-950/60 text-center text-xs uppercase tracking-wide text-zinc-400">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((dayLabel) => (
+              <p key={dayLabel} className="py-2">
+                {dayLabel}
+              </p>
+            ))}
+          </div>
+          <div className="grid grid-cols-7">
+            {calendarCells.map((day, index) => {
+              if (day === null) {
+                return <div key={`empty-${index}`} className="min-h-[90px] border border-zinc-900/70 bg-zinc-950/35" />;
+              }
+              const dayEvents = monthEventMap.get(day) ?? [];
+              const hasCancelled = dayEvents.some((event) => event.isCancelled);
+              const hasOpen = dayEvents.some((event) => !event.isCancelled);
+              return (
+                <div key={day} className="min-h-[90px] border border-zinc-900/70 bg-zinc-900/40 p-2">
+                  <p className="text-xs font-semibold text-zinc-200">{day}</p>
+                  <div className="mt-1 space-y-1">
+                    {hasOpen ? <div className="h-1.5 w-7 rounded-full bg-green-500/85" /> : null}
+                    {hasCancelled ? <div className="h-1.5 w-7 rounded-full bg-red-500/85" /> : null}
+                    {dayEvents.length > 0 ? <p className="text-[10px] text-zinc-400">{dayEvents.length} event(s)</p> : null}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </article>
         {selectedEvents.length === 0 ? (
           <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
             <p className="text-sm text-zinc-300">No events in this month.</p>

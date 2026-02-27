@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getContactContent, getNavigationContent, getSiteSettings } from "@/lib/content/loader";
 
@@ -12,8 +13,10 @@ export async function SiteFooter() {
     <footer className="mt-10 border-t border-white/10 bg-zinc-950/85 text-zinc-300 backdrop-blur">
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.28em] text-zinc-500">{settings.siteName}</p>
-          <p className="mt-2 text-sm">{settings.tagline}</p>
+          <div className="relative h-12 w-52">
+            <Image src="/media/sponsors/martin-logo-white.svg" alt={settings.siteName} fill sizes="208px" className="object-contain object-left" />
+          </div>
+          <p className="mt-3 text-sm">{settings.tagline}</p>
         </div>
         <div>
           <p className="text-sm font-semibold text-white">Contact</p>
@@ -24,13 +27,13 @@ export async function SiteFooter() {
         <div>
           <p className="text-sm font-semibold text-white">Social</p>
           <div className="mt-2 flex flex-wrap gap-2 text-sm">
-            <a href={contact.facebookHref} className="rounded-lg bg-zinc-800 px-3 py-1.5 transition hover:bg-zinc-700">
+            <a href={contact.facebookHref} className="mx-cta-secondary px-3 py-1.5">
               Facebook
             </a>
-            <a href={contact.instagramHref} className="rounded-lg bg-zinc-800 px-3 py-1.5 transition hover:bg-zinc-700">
+            <a href={contact.instagramHref} className="mx-cta-secondary px-3 py-1.5">
               Instagram
             </a>
-            <a href={contact.twitterHref} className="rounded-lg bg-zinc-800 px-3 py-1.5 transition hover:bg-zinc-700">
+            <a href={contact.twitterHref} className="mx-cta-secondary px-3 py-1.5">
               Twitter
             </a>
           </div>

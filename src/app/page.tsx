@@ -50,55 +50,43 @@ export default async function Home() {
           }),
         }}
       />
-      <div className="mx-glow-card relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50/95 p-6 text-zinc-900 md:p-8">
-        <div className="mx-grid-overlay pointer-events-none absolute inset-0 opacity-40" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.17),transparent_45%)]" />
-        <div className="relative grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:items-center">
+      <div className="mx-glow-card relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/75 p-6 text-white md:p-8">
+        <div className="absolute inset-0">
+          <Image src="/media/gallery/hero.webp" alt="Martin MX hero rider" fill sizes="100vw" className="object-cover opacity-35" />
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/70" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(51,142,0,0.25),transparent_40%)]" />
+        <div className="relative grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-zinc-600">{settings.siteName}</p>
-            <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">{home.heroTitle}</h1>
-            <p className="mt-4 max-w-2xl text-zinc-700 md:text-lg">{home.heroDescription}</p>
+            <p className="text-xs uppercase tracking-[0.32em] text-green-300/85">Welcome To The Track</p>
+            <h1 className="mt-3 text-4xl font-black leading-tight md:text-6xl">{home.heroTitle}</h1>
+            <p className="mt-4 max-w-2xl text-zinc-200 md:text-lg">{home.heroDescription}</p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Link
-                href={home.heroCtaHref}
-                className="mx-cta-primary px-5 py-2.5"
-              >
+              <Link href={home.heroCtaHref} className="mx-cta-primary px-5 py-2.5">
                 {home.heroCtaLabel}
               </Link>
-              <Link
-                href="/register"
-                className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 font-medium transition hover:border-zinc-500"
-              >
+              <Link href="/register" className="mx-cta-secondary border-white/60 bg-black/35 px-5 py-2.5">
                 Register Now
               </Link>
-              <div className="ml-1 rounded-xl border border-zinc-200 bg-white px-4 py-2">
-                <p className="text-xl font-bold leading-none">200k+</p>
-                <p className="text-xs uppercase tracking-wide text-zinc-500">Satisfied Riders</p>
+              <div className="ml-1 rounded-xl border border-green-500/40 bg-black/55 px-4 py-2">
+                <p className="text-xl font-bold leading-none text-green-300">200k+</p>
+                <p className="text-xs uppercase tracking-wide text-zinc-200">Satisfied Riders</p>
               </div>
             </div>
           </div>
-          <div className="grid gap-4">
-            <article className="mx-float overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100">
-              <div className="relative aspect-[4/3] w-full">
-                <Image
-                  src="/media/gallery/strapi-gallery-6.jpg"
-                  alt="Martin MX featured hero action"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-cover"
-                />
-              </div>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-1">
+            <article className="rounded-2xl border border-white/15 bg-black/45 p-4 backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.2em] text-zinc-300">Track Status</p>
+              <p className="mt-2 text-lg font-bold text-green-300">{settings.practiceOpen ? "Open For Practice" : "Currently Closed"}</p>
+              <p className="mt-1 text-sm text-zinc-200">{settings.practiceCancelled ? settings.practiceCancelReason : operations.practiceStatusLabel}</p>
             </article>
-            <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100">
-              <div className="relative aspect-[5/2] w-full">
-                <Image
-                  src="/media/gallery/strapi-main-2.jpg"
-                  alt="Main track high-speed section"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-cover"
-                />
-              </div>
+            <article className="rounded-2xl border border-white/15 bg-black/45 p-4 backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.2em] text-zinc-300">Next Session</p>
+              <p className="mt-2 text-sm text-zinc-100">
+                {nextSession
+                  ? `${nextSession.label}: ${nextSession.date} ${nextSession.startTime}-${nextSession.endTime}`
+                  : "No upcoming sessions set"}
+              </p>
             </article>
           </div>
         </div>
