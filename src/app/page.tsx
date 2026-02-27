@@ -49,26 +49,43 @@ export default async function Home() {
           }),
         }}
       />
-      <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50/95 p-8 text-zinc-900 shadow-[0_24px_70px_rgba(0,0,0,0.18)] md:p-10">
+      <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50/95 p-6 text-zinc-900 shadow-[0_24px_70px_rgba(0,0,0,0.18)] md:p-8">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.12),transparent_45%)]" />
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-zinc-600">{settings.siteName}</p>
-          <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">{home.heroTitle}</h1>
-          <p className="mt-4 max-w-2xl text-zinc-700 md:text-lg">{home.heroDescription}</p>
-        </div>
-        <div className="relative mt-7 flex flex-wrap gap-3">
-          <Link
-            href={home.heroCtaHref}
-            className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-5 py-2.5 font-semibold text-white transition hover:from-green-600 hover:to-green-500"
-          >
-            {home.heroCtaLabel}
-          </Link>
-          <Link
-            href="/register"
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 font-medium transition hover:border-zinc-500"
-          >
-            Register Now
-          </Link>
+        <div className="relative grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.35em] text-zinc-600">{settings.siteName}</p>
+            <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">{home.heroTitle}</h1>
+            <p className="mt-4 max-w-2xl text-zinc-700 md:text-lg">{home.heroDescription}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link
+                href={home.heroCtaHref}
+                className="rounded-xl bg-gradient-to-r from-green-700 to-green-600 px-5 py-2.5 font-semibold text-white transition hover:from-green-600 hover:to-green-500"
+              >
+                {home.heroCtaLabel}
+              </Link>
+              <Link
+                href="/register"
+                className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 font-medium transition hover:border-zinc-500"
+              >
+                Register Now
+              </Link>
+              <div className="ml-1 rounded-xl border border-zinc-200 bg-white px-4 py-2">
+                <p className="text-xl font-bold leading-none">200k+</p>
+                <p className="text-xs uppercase tracking-wide text-zinc-500">Satisfied Riders</p>
+              </div>
+            </div>
+          </div>
+          <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100">
+            <div className="relative aspect-[4/3] w-full">
+              <Image
+                src="/media/gallery/strapi-gallery-6.jpg"
+                alt="Martin MX featured hero action"
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="object-cover"
+              />
+            </div>
+          </article>
         </div>
       </div>
 
