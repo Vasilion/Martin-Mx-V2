@@ -27,5 +27,7 @@
 
 ## Current contract coverage checklist
 - Signup email payload contracts include all submitted fields.
-- CMS content loaders validate settings, home, track-info, contact, pricing, schedule, sponsors, and gallery.
+- CMS content loaders validate settings, home, track-info, tracks, contact, navigation, announcements, operations, success copy, pricing, schedule, sponsors, and gallery.
 - Form API integration tests cover valid payloads, invalid payloads, honeypot behavior, and rate limiting.
+- Signup API integration tests cover filtered list and CSV export behavior.
+- E2E includes contact submit, practice submit redirect, and membership submit redirect.

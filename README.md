@@ -43,10 +43,19 @@ Next.js rebuild for Martin MX Park with Decap CMS, Amplify hosting, SES email de
 - `content/site/home.json`
 - `content/site/track-info.json`
 - `content/site/contact.json`
+- `content/site/navigation.json`
+- `content/site/announcements.json`
+- `content/site/operations.json`
+- `content/site/success.json`
 - `content/forms/pricing.json`
 - `content/schedule/events.json`
 - `content/sponsors/sponsors.json`
 - `content/gallery/gallery.json`
+
+## Operations tools
+- Print and filter signups at `/print`
+- Export filtered CSV via UI button on `/print`
+- Filters supported by APIs: `selectedDate`, `bikeClass`, `formType`
 
 ## Testing and maintenance docs
 - `docs/testing.md`

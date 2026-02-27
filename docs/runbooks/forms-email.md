@@ -23,3 +23,7 @@ Each form confirmation email must include all submitted fields. This is enforced
    - `npm run test:contracts`
    - `npm run test`
 7. Deploy and verify with live test submission.
+
+## Related operations endpoint checks
+- `GET /api/signups` supports `selectedDate`, `bikeClass`, and `formType` filters.
+- `GET /api/signups/export` returns CSV for the same filters and is used by `/print`.
