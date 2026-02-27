@@ -50,9 +50,10 @@ export default async function Home() {
           }),
         }}
       />
-      <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50/95 p-6 text-zinc-900 shadow-[0_24px_70px_rgba(0,0,0,0.18)] md:p-8">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.12),transparent_45%)]" />
-        <div className="relative grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+      <div className="mx-glow-card relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50/95 p-6 text-zinc-900 md:p-8">
+        <div className="mx-grid-overlay pointer-events-none absolute inset-0 opacity-40" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.17),transparent_45%)]" />
+        <div className="relative grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.35em] text-zinc-600">{settings.siteName}</p>
             <h1 className="mt-3 text-4xl font-bold leading-tight md:text-5xl">{home.heroTitle}</h1>
@@ -76,19 +77,49 @@ export default async function Home() {
               </div>
             </div>
           </div>
-          <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100">
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/media/gallery/strapi-gallery-6.jpg"
-                alt="Martin MX featured hero action"
-                fill
-                sizes="(max-width: 768px) 100vw, 40vw"
-                className="object-cover"
-              />
-            </div>
-          </article>
+          <div className="grid gap-4">
+            <article className="mx-float overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100">
+              <div className="relative aspect-[4/3] w-full">
+                <Image
+                  src="/media/gallery/strapi-gallery-6.jpg"
+                  alt="Martin MX featured hero action"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            </article>
+            <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100">
+              <div className="relative aspect-[5/2] w-full">
+                <Image
+                  src="/media/gallery/strapi-main-2.jpg"
+                  alt="Main track high-speed section"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            </article>
+          </div>
         </div>
       </div>
+
+      <section className="grid gap-4 md:grid-cols-4">
+        {[
+          { label: "Practice Windows", value: "3x Weekly" },
+          { label: "Track Experience", value: "Main + Junior" },
+          { label: "Rider Community", value: "200k+" },
+          { label: "Location", value: "Martin, MI" },
+        ].map((item) => (
+          <article
+            key={item.label}
+            className="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
+            <p className="mt-2 text-2xl font-bold leading-none">{item.value}</p>
+          </article>
+        ))}
+      </section>
 
       <div className="grid gap-4 md:grid-cols-3">
         {home.features.map((feature) => (
@@ -101,6 +132,38 @@ export default async function Home() {
           </article>
         ))}
       </div>
+
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-white">Featured Track Media</h2>
+          <Link href="/gallery" className="rounded-xl bg-green-700 px-4 py-2 text-sm font-medium text-white">
+            Open Full Gallery
+          </Link>
+        </div>
+        <InteractiveGallery
+          items={[
+            {
+              id: "home-feature-1",
+              title: "Main Track Charge",
+              image: "/media/gallery/strapi-gallery-1.jpg",
+              alt: "Main track rider cornering",
+              isFeatured: true,
+            },
+            {
+              id: "home-feature-2",
+              title: "Mid-Corner Drive",
+              image: "/media/gallery/strapi-gallery-3.jpg",
+              alt: "Rider action on track section",
+            },
+            {
+              id: "home-feature-3",
+              title: "Rhythm Lane Pace",
+              image: "/media/gallery/strapi-gallery-6.jpg",
+              alt: "Practice rhythm lane action",
+            },
+          ]}
+        />
+      </section>
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
@@ -199,38 +262,6 @@ export default async function Home() {
           ))}
         </section>
       ) : null}
-
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-white">Featured Track Media</h2>
-          <Link href="/gallery" className="rounded-xl bg-green-700 px-4 py-2 text-sm font-medium text-white">
-            Open Full Gallery
-          </Link>
-        </div>
-        <InteractiveGallery
-          items={[
-            {
-              id: "home-feature-1",
-              title: "Main Track Charge",
-              image: "/media/gallery/strapi-gallery-1.jpg",
-              alt: "Main track rider cornering",
-              isFeatured: true,
-            },
-            {
-              id: "home-feature-2",
-              title: "Mid-Corner Drive",
-              image: "/media/gallery/strapi-gallery-3.jpg",
-              alt: "Rider action on track section",
-            },
-            {
-              id: "home-feature-3",
-              title: "Rhythm Lane Pace",
-              image: "/media/gallery/strapi-gallery-6.jpg",
-              alt: "Practice rhythm lane action",
-            },
-          ]}
-        />
-      </section>
 
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">

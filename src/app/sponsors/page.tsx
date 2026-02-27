@@ -4,6 +4,7 @@ import { getSponsors } from "@/lib/content/loader";
 export default async function SponsorsPage() {
   const sponsors = (await getSponsors()).filter((s) => s.isActive);
   const titleSponsors = sponsors.filter((s) => s.isTitleSponsor);
+  const marqueeSponsors = [...sponsors, ...sponsors];
 
   return (
     <section className="space-y-6 text-white">
@@ -32,6 +33,23 @@ export default async function SponsorsPage() {
           </div>
         </div>
       ) : null}
+
+      <section className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 py-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
+        <div className="mx-marquee-track flex items-center gap-6 px-4">
+          {marqueeSponsors.map((sponsor, index) => (
+            <a
+              key={`${sponsor.id}-${index}`}
+              href={sponsor.href}
+              className="flex h-20 w-44 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950/80 p-3"
+            >
+              <div className="relative h-full w-full">
+                <Image src={sponsor.logo} alt={sponsor.name} fill sizes="176px" className="object-contain" />
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <div className="grid gap-4 md:grid-cols-3">
         {sponsors.map((sponsor) => (
           <a
