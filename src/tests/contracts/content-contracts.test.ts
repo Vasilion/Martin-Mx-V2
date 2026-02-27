@@ -6,6 +6,7 @@ import {
   getPricingConfig,
   getScheduleEvents,
   getSiteSettings,
+  getTracksContent,
   getSponsors,
   getTrackInfoContent,
 } from "@/lib/content/loader";
@@ -34,6 +35,11 @@ describe("content contracts", () => {
   it("parses track info content", async () => {
     const value = await getTrackInfoContent();
     expect(value.requirements.length).toBeGreaterThan(0);
+  });
+
+  it("parses tracks content", async () => {
+    const value = await getTracksContent();
+    expect(value.mainTrackDescription.length).toBeGreaterThan(0);
   });
 
   it("parses contact content", async () => {

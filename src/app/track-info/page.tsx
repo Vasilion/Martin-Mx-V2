@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getTrackInfoContent } from "@/lib/content/loader";
+import { getTrackInfoContent, getTracksContent } from "@/lib/content/loader";
 
 export default async function TrackInfoPage() {
-  const trackInfo = await getTrackInfoContent();
+  const [trackInfo, tracks] = await Promise.all([getTrackInfoContent(), getTracksContent()]);
 
   return (
     <section className="space-y-4 text-white">
@@ -17,6 +17,24 @@ export default async function TrackInfoPage() {
           <p className="mt-2 text-sm text-zinc-300">{trackInfo.pricingText}</p>
         </article>
       </div>
+
+      <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <h2 className="text-xl font-semibold">{tracks.mainTrackTitle}</h2>
+        {tracks.mainTrackDescription.map((paragraph) => (
+          <p key={paragraph} className="mt-2 text-sm text-zinc-300">
+            {paragraph}
+          </p>
+        ))}
+      </article>
+
+      <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
+        <h2 className="text-xl font-semibold">{tracks.juniorTrackTitle}</h2>
+        {tracks.juniorTrackDescription.map((paragraph) => (
+          <p key={paragraph} className="mt-2 text-sm text-zinc-300">
+            {paragraph}
+          </p>
+        ))}
+      </article>
 
       <article className="rounded border border-zinc-700 bg-zinc-900 p-4">
         <h2 className="text-xl font-semibold">Track Requirements</h2>

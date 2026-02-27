@@ -8,6 +8,7 @@ import {
   scheduleEventsSchema,
   sponsorsSchema,
   siteSettingsSchema,
+  tracksContentSchema,
   trackInfoSchema,
 } from "@/lib/content/schemas";
 
@@ -52,4 +53,8 @@ export async function getSponsors() {
 export async function getGalleryItems() {
   const value = gallerySchema.parse(await readJsonFile("gallery/gallery.json"));
   return value.items;
+}
+
+export async function getTracksContent() {
+  return tracksContentSchema.parse(await readJsonFile("site/tracks.json"));
 }

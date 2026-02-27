@@ -67,6 +67,7 @@ export const contactContentSchema = z.object({
   googleMapsHref: z.string().url(),
   facebookHref: z.string().url(),
   instagramHref: z.string().url(),
+  twitterHref: z.string().url(),
 });
 
 export const sponsorSchema = z.object({
@@ -94,6 +95,13 @@ export const gallerySchema = z.object({
   items: z.array(galleryItemSchema),
 });
 
+export const tracksContentSchema = z.object({
+  mainTrackTitle: z.string().min(1),
+  mainTrackDescription: z.array(z.string().min(1)).min(1),
+  juniorTrackTitle: z.string().min(1),
+  juniorTrackDescription: z.array(z.string().min(1)).min(1),
+});
+
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 export type HomeContent = z.infer<typeof homeContentSchema>;
 export type ScheduleEvent = z.infer<typeof scheduleEventSchema>;
@@ -102,3 +110,4 @@ export type TrackInfoContent = z.infer<typeof trackInfoSchema>;
 export type ContactContent = z.infer<typeof contactContentSchema>;
 export type Sponsor = z.infer<typeof sponsorSchema>;
 export type GalleryItem = z.infer<typeof galleryItemSchema>;
+export type TracksContent = z.infer<typeof tracksContentSchema>;

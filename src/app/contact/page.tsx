@@ -25,6 +25,9 @@ export default async function ContactPage() {
           <a className="rounded bg-zinc-800 px-3 py-2" href={contact.instagramHref}>
             Instagram
           </a>
+          <a className="rounded bg-zinc-800 px-3 py-2" href={contact.twitterHref}>
+            Twitter
+          </a>
         </div>
       </article>
       <FormSubmit

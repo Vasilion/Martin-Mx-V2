@@ -86,6 +86,23 @@ collections:
             name: rules
             widget: list
             field: { label: Rule, name: rule, widget: string }
+  - name: tracks
+    label: Tracks Content
+    files:
+      - label: Tracks
+        name: tracks_content
+        file: content/site/tracks.json
+        fields:
+          - { label: Main Track Title, name: mainTrackTitle, widget: string }
+          - label: Main Track Description
+            name: mainTrackDescription
+            widget: list
+            field: { label: Paragraph, name: paragraph, widget: text }
+          - { label: Junior Track Title, name: juniorTrackTitle, widget: string }
+          - label: Junior Track Description
+            name: juniorTrackDescription
+            widget: list
+            field: { label: Paragraph, name: paragraph, widget: text }
   - name: contact
     label: Contact Block
     files:
@@ -98,6 +115,7 @@ collections:
           - { label: Google Maps Link, name: googleMapsHref, widget: string }
           - { label: Facebook Link, name: facebookHref, widget: string }
           - { label: Instagram Link, name: instagramHref, widget: string }
+          - { label: Twitter Link, name: twitterHref, widget: string }
   - name: pricing
     label: Pricing Config
     files:
