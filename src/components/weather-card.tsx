@@ -3,10 +3,8 @@
 import { useEffect, useState } from "react";
 
 type WeatherResponse = {
-  current_weather?: {
-    temperature: number;
-    windspeed: number;
-  };
+  temperature: number | null;
+  windspeed: number | null;
 };
 
 export function WeatherCard() {
@@ -16,12 +14,10 @@ export function WeatherCard() {
   useEffect(() => {
     async function run() {
       try {
-        const response = await fetch(
-          "https://api.open-meteo.com/v1/forecast?latitude=42.54&longitude=-85.64&current_weather=true",
-        );
+        const response = await fetch("/api/weather");
         const data = (await response.json()) as WeatherResponse;
-        setTemperature(String(data.current_weather?.temperature ?? "--"));
-        setWind(String(data.current_weather?.windspeed ?? "--"));
+        setTemperature(String(data.temperature ?? "--"));
+        setWind(String(data.windspeed ?? "--"));
       } catch {
         setTemperature("--");
         setWind("--");
