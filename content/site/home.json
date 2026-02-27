@@ -3,6 +3,12 @@
   "heroDescription": "Martin MX Park features two motocross tracks with modern rider-focused prep, reliable scheduling controls, and operations updates your team can manage directly in CMS.",
   "heroCtaLabel": "VIEW Track Info",
   "heroCtaHref": "/track-info",
+  "trackMapTitle": "Interactive 3D Track Map",
+  "trackMapDescription": "Explore our track layout in 3D - rotate, zoom, and discover every detail.",
+  "trackMapEmbedUrl": "https://sketchfab.com/models/5906f6e7236b4afdbd7509fdbf0734f2/embed?autostart=0",
+  "videoTitle": "Track Action Video",
+  "videoDescription": "Watch riders in action on our world-class motocross track.",
+  "trackVideoUrl": "https://a3edrone.com/Videos/MartinMX/MartinMX.mp4",
   "features": [
     {
       "title": "Interactive 3D Track Map",

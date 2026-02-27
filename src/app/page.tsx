@@ -68,6 +68,29 @@ export default async function Home() {
         </div>
         <WeatherCard />
       </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <article className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
+          <h2 className="text-xl font-semibold">{home.trackMapTitle}</h2>
+          <p className="mt-2 text-sm text-zinc-300">{home.trackMapDescription}</p>
+          <div className="mt-4 aspect-video overflow-hidden rounded border border-zinc-700">
+            <iframe
+              title={home.trackMapTitle}
+              src={home.trackMapEmbedUrl}
+              className="h-full w-full"
+              allow="autoplay; fullscreen; xr-spatial-tracking"
+              loading="lazy"
+            />
+          </div>
+        </article>
+        <article className="rounded border border-zinc-800 bg-zinc-900 p-4 text-white">
+          <h2 className="text-xl font-semibold">{home.videoTitle}</h2>
+          <p className="mt-2 text-sm text-zinc-300">{home.videoDescription}</p>
+          <div className="mt-4 overflow-hidden rounded border border-zinc-700">
+            <video controls preload="none" className="w-full" src={home.trackVideoUrl} />
+          </div>
+        </article>
+      </div>
     </section>
   );
 }

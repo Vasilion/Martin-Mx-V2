@@ -40,6 +40,12 @@ collections:
           - { label: Hero Description, name: heroDescription, widget: text }
           - { label: Hero CTA Label, name: heroCtaLabel, widget: string }
           - { label: Hero CTA Href, name: heroCtaHref, widget: string }
+          - { label: Track Map Title, name: trackMapTitle, widget: string }
+          - { label: Track Map Description, name: trackMapDescription, widget: text }
+          - { label: Track Map Embed URL, name: trackMapEmbedUrl, widget: string }
+          - { label: Video Title, name: videoTitle, widget: string }
+          - { label: Video Description, name: videoDescription, widget: text }
+          - { label: Track Video URL, name: trackVideoUrl, widget: string }
           - label: Features
             name: features
             widget: list

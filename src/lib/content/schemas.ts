@@ -20,6 +20,12 @@ export const homeContentSchema = z.object({
   heroDescription: z.string().min(1),
   heroCtaLabel: z.string().min(1),
   heroCtaHref: z.string().min(1),
+  trackMapTitle: z.string().min(1),
+  trackMapDescription: z.string().min(1),
+  trackMapEmbedUrl: z.string().url(),
+  videoTitle: z.string().min(1),
+  videoDescription: z.string().min(1),
+  trackVideoUrl: z.string().url(),
   features: z.array(
     z.object({
       title: z.string().min(1),
