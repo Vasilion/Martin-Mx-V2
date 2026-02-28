@@ -1,14 +1,10 @@
 {
-  "heroTitle": "Welcome to Martin MX Park",
-  "heroDescription": "Martin MX Park features two motocross tracks with modern rider-focused prep, reliable scheduling controls, and operations updates your team can manage directly in CMS.",
-  "heroCtaLabel": "VIEW Track Info",
   "heroCtaHref": "/track-info",
-  "trackMapTitle": "Interactive 3D Track Map",
-  "trackMapDescription": "Explore our track layout in 3D - rotate, zoom, and discover every detail.",
-  "trackMapEmbedUrl": "https://sketchfab.com/models/5906f6e7236b4afdbd7509fdbf0734f2/embed?autostart=0",
-  "videoTitle": "Track Action Video",
   "videoDescription": "Watch riders in action on our world-class motocross track.",
-  "trackVideoUrl": "https://a3edrone.com/Videos/MartinMX/MartinMX.mp4",
+  "heroDescription": "Martin MX Park features 2 motocross tracks. We have our main track and completely reconfigured junior track for the younger riders. Our motocross track is located just off US 131, in Martin, Michigan.",
+  "trackMapTitle": "Interactive 3D Track Map",
+  "trackMapEmbedUrl": "https://sketchfab.com/models/5906f6e7236b4afdbd7509fdbf0734f2/embed?autostart=0",
+  "trackMapDescription": "Explore our track layout in 3D - rotate, zoom, and discover every detail.",
   "features": [
     {
       "title": "Interactive 3D Track Map",
@@ -22,5 +18,9 @@
       "title": "Practice and Membership Controls",
       "description": "Open and close registrations, post cancellations, and edit pricing from the CMS."
     }
-  ]
+  ],
+  "videoTitle": "Track Action Video",
+  "heroCtaLabel": "VIEW Track Info",
+  "heroTitle": "Welcome to Martin MX Park",
+  "trackVideoUrl": "https://a3edrone.com/Videos/MartinMX/MartinMX.mp4"
 }

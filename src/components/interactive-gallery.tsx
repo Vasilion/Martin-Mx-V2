@@ -14,11 +14,14 @@ type GalleryItem = {
 
 type InteractiveGalleryProps = {
   items: GalleryItem[];
+  columns?: 2 | 3 | 4;
 };
 
-export function InteractiveGallery({ items }: InteractiveGalleryProps) {
+export function InteractiveGallery({ items, columns = 2 }: InteractiveGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const columnClass =
+    columns === 4 ? "md:grid-cols-4" : columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -44,7 +47,7 @@ export function InteractiveGallery({ items }: InteractiveGalleryProps) {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className={`grid gap-4 ${columnClass}`}>
         {items.map((item, index) => (
           <motion.article
             key={item.id}

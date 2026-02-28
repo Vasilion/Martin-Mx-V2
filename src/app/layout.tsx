@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SideBrandRails } from "@/components/side-brand-rails";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 
@@ -48,7 +49,8 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteNav />
-        <main id="main-content" className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
+        <SideBrandRails />
+        <main id="main-content" className="relative z-10 mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
           {children}
         </main>
         <SiteFooter />

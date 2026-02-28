@@ -129,6 +129,7 @@ export default async function Home() {
           </Link>
         </div>
         <InteractiveGallery
+          columns={3}
           items={[
             {
               id: "home-feature-1",
