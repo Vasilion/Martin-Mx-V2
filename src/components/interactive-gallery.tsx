@@ -15,9 +15,10 @@ type GalleryItem = {
 type InteractiveGalleryProps = {
   items: GalleryItem[];
   columns?: 2 | 3 | 4;
+  showMeta?: boolean;
 };
 
-export function InteractiveGallery({ items, columns = 2 }: InteractiveGalleryProps) {
+export function InteractiveGallery({ items, columns = 2, showMeta = true }: InteractiveGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const columnClass =
@@ -64,13 +65,14 @@ export function InteractiveGallery({ items, columns = 2 }: InteractiveGalleryPro
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition duration-300 group-hover:scale-105"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
             </div>
-            <div className="p-4">
-              <h2 className="font-semibold">{item.title}</h2>
-              {item.isFeatured ? <p className="mt-1 text-xs text-green-300">Featured</p> : null}
-              <p className="mt-1 text-xs text-zinc-400">Click to expand</p>
-            </div>
+            {showMeta ? (
+              <div className="p-4">
+                <h2 className="font-semibold">{item.title}</h2>
+                {item.isFeatured ? <p className="mt-1 text-xs text-green-300">Featured</p> : null}
+                <p className="mt-1 text-xs text-zinc-400">Click to expand</p>
+              </div>
+            ) : null}
           </motion.article>
         ))}
       </div>
@@ -79,6 +81,11 @@ export function InteractiveGallery({ items, columns = 2 }: InteractiveGalleryPro
         {activeIndex !== null ? (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) {
+                setActiveIndex(null);
+              }
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -87,10 +94,10 @@ export function InteractiveGallery({ items, columns = 2 }: InteractiveGalleryPro
             <button
               type="button"
               aria-label="Close lightbox"
-              className="absolute right-4 top-4 rounded-xl border border-zinc-500 bg-zinc-950/90 px-3 py-2 text-sm text-white"
+              className="absolute right-4 top-4 z-10 h-10 w-10 rounded-full border border-zinc-400 bg-zinc-950/90 text-xl font-semibold leading-none text-white"
               onClick={() => setActiveIndex(null)}
             >
-              Close
+              ×
             </button>
             <button
               type="button"

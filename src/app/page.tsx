@@ -4,11 +4,11 @@ import Image from "next/image";
 import { WeatherCard } from "@/components/weather-card";
 import { InteractiveGallery } from "@/components/interactive-gallery";
 import {
-  getAnnouncements,
   getHomeContent,
   getOperationsContent,
   getSiteSettings,
 } from "@/lib/content/loader";
+import { formatDateMMDDYYYY, formatTimeRangeEST } from "@/lib/datetime-format";
 
 type PracticeSession = {
   label: string;
@@ -22,13 +22,11 @@ function getSessionStartValue(session: PracticeSession) {
 }
 
 export default async function Home() {
-  const [home, settings, operations, rawAnnouncements] = await Promise.all([
+  const [home, settings, operations] = await Promise.all([
     getHomeContent(),
     getSiteSettings(),
     getOperationsContent(),
-    getAnnouncements(),
   ]);
-  const announcements = rawAnnouncements.filter((item) => item.active);
   const sortedSessions = operations.practiceSessions
     .slice()
     .sort((a, b) => getSessionStartValue(a) - getSessionStartValue(b));
@@ -84,7 +82,7 @@ export default async function Home() {
               <p className="text-xs uppercase tracking-[0.2em] text-zinc-300">Next Session</p>
               <p className="mt-2 text-sm text-zinc-100">
                 {nextSession
-                  ? `${nextSession.label}: ${nextSession.date} ${nextSession.startTime}-${nextSession.endTime}`
+                  ? `${nextSession.label}: ${formatDateMMDDYYYY(nextSession.date)} ${formatTimeRangeEST(nextSession.startTime, nextSession.endTime)}`
                   : "No upcoming sessions set"}
               </p>
             </article>
@@ -109,18 +107,6 @@ export default async function Home() {
         ))}
       </section>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {home.features.map((feature) => (
-          <article
-            key={feature.title}
-            className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur"
-          >
-            <h2 className="text-lg font-semibold tracking-tight">{feature.title}</h2>
-            <p className="mt-2 text-sm text-zinc-200/80">{feature.description}</p>
-          </article>
-        ))}
-      </div>
-
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold text-white">Featured Track Media</h2>
@@ -130,6 +116,7 @@ export default async function Home() {
         </div>
         <InteractiveGallery
           columns={3}
+          showMeta={false}
           items={[
             {
               id: "home-feature-1",
@@ -156,7 +143,7 @@ export default async function Home() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-          <h2 className="text-xl font-semibold">Operations Snapshot</h2>
+          <h2 className="text-xl font-semibold">Practice & Membership Status</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
               <p className="text-xs uppercase tracking-wide text-zinc-400">Practice</p>
@@ -197,7 +184,7 @@ export default async function Home() {
             <div className="mt-4 rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
               <p className="text-xs uppercase tracking-wide text-zinc-400">Next Session</p>
               <p className="mt-2 text-sm text-zinc-100">
-                {nextSession.label}: {nextSession.date} {nextSession.startTime}-{nextSession.endTime}
+                {nextSession.label}: {formatDateMMDDYYYY(nextSession.date)} {formatTimeRangeEST(nextSession.startTime, nextSession.endTime)}
               </p>
             </div>
           ) : null}
@@ -211,7 +198,7 @@ export default async function Home() {
             <div className="mt-3 space-y-1 text-xs text-zinc-400">
               {sortedSessions.map((session) => (
                 <p key={session.label}>
-                  {session.label}: {session.date} {session.startTime}-{session.endTime}
+                  {session.label}: {formatDateMMDDYYYY(session.date)} {formatTimeRangeEST(session.startTime, session.endTime)}
                 </p>
               ))}
             </div>
@@ -232,26 +219,6 @@ export default async function Home() {
         <WeatherCard />
       </div>
 
-      {announcements.length > 0 ? (
-        <section className="space-y-3">
-          {announcements.map((announcement) => (
-            <article
-              key={announcement.id}
-              className={`rounded-2xl border p-4 text-sm shadow-[0_12px_30px_rgba(0,0,0,0.25)] ${
-                announcement.severity === "warning"
-                  ? "border-amber-700 bg-amber-900/20 text-amber-100"
-                  : announcement.severity === "success"
-                    ? "border-green-700 bg-green-900/20 text-green-100"
-                    : "border-zinc-700 bg-zinc-900 text-zinc-200"
-              }`}
-            >
-              <p className="font-semibold">{announcement.title}</p>
-              <p className="mt-1">{announcement.message}</p>
-            </article>
-          ))}
-        </section>
-      ) : null}
-
       <div className="grid gap-4 md:grid-cols-2">
         <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
           <h2 className="text-xl font-semibold">{home.trackMapTitle}</h2>
@@ -262,6 +229,7 @@ export default async function Home() {
               src={home.trackMapEmbedUrl}
               className="h-full w-full"
               allow="autoplay; fullscreen; xr-spatial-tracking"
+              allowFullScreen
               loading="lazy"
             />
           </div>
@@ -269,8 +237,27 @@ export default async function Home() {
         <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
           <h2 className="text-xl font-semibold">{home.videoTitle}</h2>
           <p className="mt-2 text-sm text-zinc-200/85">{home.videoDescription}</p>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-700">
-            <video controls preload="none" className="w-full" src={home.trackVideoUrl} />
+          <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/15 bg-zinc-950/70 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-black/60 to-transparent" />
+            <div className="pointer-events-none absolute left-3 top-3 z-20 rounded-full border border-white/20 bg-black/55 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-200">
+              Featured Footage
+            </div>
+            <div className="relative aspect-video w-full">
+              <video
+                controls
+                preload="metadata"
+                playsInline
+                poster="/media/gallery/hero.webp"
+                className="h-full w-full object-cover"
+                src={home.trackVideoUrl}
+              />
+            </div>
+          </div>
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-400">
+            <p>Track highlight reel from Martin MX Park.</p>
+            <a href={home.trackVideoUrl} className="text-green-300 underline">
+              Open Video Source
+            </a>
           </div>
         </article>
       </div>

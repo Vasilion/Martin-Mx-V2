@@ -1,18 +1,3 @@
 {
-  "items": [
-    {
-      "id": "announce-ops-1",
-      "title": "Practice Operations Update",
-      "message": "Use the Register page to view current sessions and real-time status labels before arriving.",
-      "severity": "info",
-      "active": true
-    },
-    {
-      "id": "announce-ops-2",
-      "title": "Membership Reminder",
-      "message": "Yearly membership details and pricing are updated through CMS and reflected immediately after deploy.",
-      "severity": "success",
-      "active": true
-    }
-  ]
+  "items": []
 }

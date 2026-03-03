@@ -1,14 +1,14 @@
 {
-  "siteName": "Martin MX Park",
-  "tagline": "Two motocross tracks in Martin, Michigan with rider-first operations and regular practice sessions.",
-  "primaryColor": "#338e00",
-  "secondaryColor": "#111111",
-  "contactEmail": "martinmxpark@gmail.com",
-  "contactPhone": "+1-616-426-9232",
-  "address": "1479 12th St, Martin, MI 49070",
-  "storeLink": "https://www.martinmxpark.com",
-  "practiceOpen": true,
   "membershipOpen": true,
-  "practiceCancelled": false,
-  "practiceCancelReason": ""
+  "primaryColor": "#338e00",
+  "practiceOpen": false,
+  "contactPhone": "+1-616-426-9232",
+  "tagline": "Two motocross tracks in Martin, Michigan with rider-first operations and regular practice sessions.",
+  "secondaryColor": "#111111",
+  "siteName": "Martin MX Park",
+  "address": "1479 12th St, Martin, MI 49070",
+  "practiceCancelled": true,
+  "practiceCancelReason": "",
+  "storeLink": "https://www.martinmxpark.com",
+  "contactEmail": "martinmxpark@gmail.com"
 }

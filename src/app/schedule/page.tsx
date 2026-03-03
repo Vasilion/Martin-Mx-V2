@@ -50,7 +50,7 @@ export default async function SchedulePage() {
       <section className="grid gap-4 md:grid-cols-3">
         {[
           { label: "Planning Window", value: "Monthly" },
-          { label: "Event Visibility", value: "Live CMS" },
+          { label: "Event Visibility", value: "Updated Weekly" },
           { label: "Signup Flow", value: "Direct Linked" },
         ].map((item) => (
           <article

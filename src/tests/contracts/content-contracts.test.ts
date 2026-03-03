@@ -3,6 +3,7 @@ import {
   getAnnouncements,
   getContactContent,
   getGalleryItems,
+  getHiringContent,
   getHomeContent,
   getNavigationContent,
   getOperationsContent,
@@ -51,6 +52,11 @@ describe("content contracts", () => {
     expect(value.googleMapsHref.startsWith("https://")).toBe(true);
   });
 
+  it("parses hiring content", async () => {
+    const value = await getHiringContent();
+    expect(value.title.length).toBeGreaterThan(0);
+  });
+
   it("parses sponsors content", async () => {
     const value = await getSponsors();
     expect(value.length).toBeGreaterThan(0);
@@ -78,6 +84,6 @@ describe("content contracts", () => {
 
   it("parses announcements content", async () => {
     const value = await getAnnouncements();
-    expect(value.length).toBeGreaterThan(0);
+    expect(Array.isArray(value)).toBe(true);
   });
 });

@@ -34,22 +34,6 @@ export default async function GalleryPage() {
           </div>
         </div>
       </header>
-      <section className="grid gap-4 md:grid-cols-4">
-        {[
-          { label: "Visual Coverage", value: "Main + Junior" },
-          { label: "Image Quality", value: "High Resolution" },
-          { label: "Viewer Mode", value: "Interactive Lightbox" },
-          { label: "Content Source", value: "CMS Managed" },
-        ].map((item) => (
-          <article
-            key={item.label}
-            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
-          >
-            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
-            <p className="mt-2 text-sm font-semibold text-zinc-100">{item.value}</p>
-          </article>
-        ))}
-      </section>
       <section className="grid gap-4 md:grid-cols-3">
         {spotlight.map((item) => (
           <article

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { ScheduleEvent } from "@/lib/content/schemas";
+import { formatDateMMDDYYYY, formatTimeRangeEST } from "@/lib/datetime-format";
 
 function toMonthKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
@@ -10,10 +11,6 @@ function toMonthKey(date: Date) {
 
 function formatMonthLabel(date: Date) {
   return date.toLocaleString("en-US", { month: "long", year: "numeric" });
-}
-
-function formatDay(date: Date) {
-  return date.toLocaleString("en-US", { month: "short", day: "numeric" });
 }
 
 function getDaysInMonth(date: Date) {
@@ -151,7 +148,7 @@ export function ScheduleCalendar({ events }: Props) {
                 </div>
                 <h2 className="text-lg font-semibold">{event.title}</h2>
                 <p className="mt-1 text-sm text-zinc-300">
-                  {formatDay(new Date(event.date))} {event.startTime}-{event.endTime}
+                  {formatDateMMDDYYYY(event.date)} {formatTimeRangeEST(event.startTime, event.endTime)}
                 </p>
                 <p className={`mt-1 text-sm ${event.isCancelled ? "text-red-300" : "text-green-300"}`}>
                   {event.isCancelled ? "Cancelled" : "Open"}

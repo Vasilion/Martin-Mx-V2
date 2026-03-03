@@ -13,13 +13,12 @@ type NavItem = {
 
 type SiteNavClientProps = {
   navLinks: NavItem[];
-  cmsButtonLabel: string;
   contactPhone: string;
   contactEmail: string;
   address: string;
 };
 
-export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactEmail, address }: SiteNavClientProps) {
+export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }: SiteNavClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const pathname = usePathname();
@@ -66,12 +65,6 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/admin"
-              className="mx-cta-primary px-3 py-1.5 text-sm"
-            >
-              {cmsButtonLabel}
-            </Link>
           </div>
           <button
             type="button"
@@ -104,13 +97,6 @@ export function SiteNavClient({ navLinks, cmsButtonLabel, contactPhone, contactE
                   {item.label}
                 </Link>
               ))}
-              <Link
-                href="/admin"
-                className="mx-cta-primary mt-2 block px-3 py-2 text-sm"
-                onClick={() => setIsOpen(false)}
-              >
-                {cmsButtonLabel}
-              </Link>
             </motion.div>
           ) : null}
         </AnimatePresence>

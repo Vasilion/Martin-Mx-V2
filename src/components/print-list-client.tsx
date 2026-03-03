@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { formatDateMMDDYYYY } from "@/lib/datetime-format";
 
 type SignupItem = {
   referenceId: string;
@@ -24,7 +25,7 @@ export function PrintListClient() {
         riderEmail: String(item.payload.riderEmail ?? item.payload.email ?? ""),
         formType: item.formType,
         bikeClass: String(item.payload.bikeClass ?? ""),
-        selectedDate: String(item.payload.selectedDate ?? ""),
+        selectedDate: formatDateMMDDYYYY(String(item.payload.selectedDate ?? "")),
       })),
     [items],
   );

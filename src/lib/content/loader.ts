@@ -4,6 +4,7 @@ import {
   announcementsSchema,
   contactContentSchema,
   gallerySchema,
+  hiringContentSchema,
   homeContentSchema,
   navigationContentSchema,
   operationsContentSchema,
@@ -47,6 +48,10 @@ export async function getTrackInfoContent() {
 
 export async function getContactContent() {
   return contactContentSchema.parse(await readJsonFile("site/contact.json"));
+}
+
+export async function getHiringContent() {
+  return hiringContentSchema.parse(await readJsonFile("site/hiring.json"));
 }
 
 export async function getSponsors() {

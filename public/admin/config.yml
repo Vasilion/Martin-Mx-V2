@@ -123,6 +123,17 @@ collections:
           - { label: Facebook Link, name: facebookHref, widget: string }
           - { label: Instagram Link, name: instagramHref, widget: string }
           - { label: Twitter Link, name: twitterHref, widget: string }
+  - name: hiring
+    label: Hiring
+    files:
+      - label: Hiring Page Content
+        name: hiring_content
+        file: content/site/hiring.json
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text }
+          - { label: Hero Image, name: heroImage, widget: image }
+          - { label: Hero Image Alt Text, name: heroImageAlt, widget: string }
   - name: success
     label: Success Pages
     files:

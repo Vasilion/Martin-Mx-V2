@@ -6,7 +6,6 @@ export async function SiteNav() {
   return (
     <SiteNavClient
       navLinks={navigation.navLinks}
-      cmsButtonLabel={navigation.cmsButtonLabel}
       contactPhone={settings.contactPhone}
       contactEmail={settings.contactEmail}
       address={settings.address}

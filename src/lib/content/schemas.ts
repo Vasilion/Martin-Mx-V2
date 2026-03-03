@@ -76,6 +76,13 @@ export const contactContentSchema = z.object({
   twitterHref: z.string().url(),
 });
 
+export const hiringContentSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  heroImage: z.string().min(1),
+  heroImageAlt: z.string().min(1),
+});
+
 export const sponsorSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
@@ -165,6 +172,7 @@ export type ScheduleEvent = z.infer<typeof scheduleEventSchema>;
 export type PricingConfig = z.infer<typeof pricingSchema>;
 export type TrackInfoContent = z.infer<typeof trackInfoSchema>;
 export type ContactContent = z.infer<typeof contactContentSchema>;
+export type HiringContent = z.infer<typeof hiringContentSchema>;
 export type Sponsor = z.infer<typeof sponsorSchema>;
 export type GalleryItem = z.infer<typeof galleryItemSchema>;
 export type TracksContent = z.infer<typeof tracksContentSchema>;

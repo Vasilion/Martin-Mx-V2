@@ -76,7 +76,7 @@ export default async function TrackInfoPage() {
         {[
           { label: "Track Types", value: "Main + Junior" },
           { label: "Safety Ready", value: "Waivers + Rules" },
-          { label: "Ops Updates", value: "CMS Controlled" },
+          { label: "Ops Updates", value: "Track Posted" },
           { label: "Rider Focus", value: "All Skill Levels" },
         ].map((item) => (
           <article
