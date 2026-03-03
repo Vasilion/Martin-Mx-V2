@@ -24,34 +24,34 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
   const activeTab = params.tab === "membership" ? "membership" : "practice";
 
   return (
-    <section className="space-y-6 text-white">
-      <header className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-        <h1 className="text-3xl font-bold md:text-4xl">Register</h1>
+    <section className="space-y-8 text-white md:space-y-10">
+      <header className="border-y border-white/10 bg-black/15 p-6 md:p-8">
+        <h1 className="mx-display text-3xl font-bold md:text-5xl">Register</h1>
         <p className="mt-2 max-w-2xl text-sm text-zinc-300 md:text-base">
           Complete practice or membership signups below. All submission details are emailed to riders with a
           reference ID for support and verification.
         </p>
       </header>
-      <section className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+      <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-700 pb-4">
-          <h2 className="text-xl font-semibold">Register To Ride</h2>
+          <h2 className="mx-display text-xl font-semibold md:text-2xl">Register To Ride</h2>
           <div className="flex flex-wrap gap-2">
             <Link
               href="/register?tab=practice#practice-signup"
-              className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide ${
+              className={`rounded-xl px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${
                 activeTab === "practice"
-                  ? "bg-green-700 text-white"
-                  : "border border-zinc-600 bg-zinc-800 text-zinc-200"
+                  ? "bg-green-700 text-white ring-1 ring-green-400/50"
+                  : "border border-zinc-600 bg-zinc-800 text-zinc-200 hover:-translate-y-0.5 hover:bg-zinc-700"
               }`}
             >
               Register For Practice
             </Link>
             <Link
               href="/register?tab=membership#membership-signup"
-              className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide ${
+              className={`rounded-xl px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${
                 activeTab === "membership"
-                  ? "bg-green-700 text-white"
-                  : "border border-zinc-600 bg-zinc-800 text-zinc-200"
+                  ? "bg-green-700 text-white ring-1 ring-green-400/50"
+                  : "border border-zinc-600 bg-zinc-800 text-zinc-200 hover:-translate-y-0.5 hover:bg-zinc-700"
               }`}
             >
               Unlimited Membership

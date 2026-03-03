@@ -33,14 +33,14 @@ export default async function TrackInfoPage() {
   ];
 
   return (
-    <section className="space-y-6 text-white">
-      <header className="mx-glow-card relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/80 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+    <section className="space-y-8 text-white md:space-y-10">
+      <header className="relative overflow-hidden border-y border-white/10 bg-black/15 p-6">
         <div className="mx-grid-overlay pointer-events-none absolute inset-0 opacity-20" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.2),transparent_48%)]" />
         <div className="relative grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-zinc-400">Rider Prep</p>
-            <h1 className="mt-2 text-3xl font-bold md:text-4xl">Track Info</h1>
+            <h1 className="mx-display mt-2 text-3xl font-bold md:text-5xl">Track Info</h1>
             <p className="mt-2 text-sm text-zinc-300 md:text-base">
               Everything riders need before arrival: hours, pricing, requirements, waivers, and park rules.
             </p>
@@ -59,7 +59,7 @@ export default async function TrackInfoPage() {
               </Link>
             </div>
           </div>
-          <article className="overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-950/70">
+          <article className="overflow-hidden rounded-2xl border border-white/10 bg-transparent">
             <div className="relative aspect-[16/9] w-full">
               <Image
                 src="/media/gallery/strapi-main-3.jpg"
@@ -72,7 +72,7 @@ export default async function TrackInfoPage() {
           </article>
         </div>
       </header>
-      <section className="grid gap-4 md:grid-cols-4">
+      <section className="grid gap-3 border-y border-white/10 py-5 md:grid-cols-4 md:gap-4">
         {[
           { label: "Track Types", value: "Main + Junior" },
           { label: "Safety Ready", value: "Waivers + Rules" },
@@ -81,7 +81,7 @@ export default async function TrackInfoPage() {
         ].map((item) => (
           <article
             key={item.label}
-            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+            className="rounded-xl border border-white/10 bg-black/20 p-4"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
             <p className="mt-2 text-sm font-semibold text-zinc-100">{item.value}</p>
@@ -89,18 +89,18 @@ export default async function TrackInfoPage() {
         ))}
       </section>
       <div className="grid gap-4 md:grid-cols-2">
-        <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-          <h2 className="text-xl font-semibold">Hours</h2>
+        <article className="border-y border-white/10 bg-black/15 p-5">
+          <h2 className="mx-display text-xl font-semibold">Hours</h2>
           <p className="mt-2 text-sm text-zinc-300">{trackInfo.hoursText}</p>
         </article>
-        <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-          <h2 className="text-xl font-semibold">Pricing</h2>
+        <article className="border-y border-white/10 bg-black/15 p-5">
+          <h2 className="mx-display text-xl font-semibold">Pricing</h2>
           <p className="mt-2 text-sm text-zinc-300">{trackInfo.pricingText}</p>
         </article>
       </div>
 
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <h2 className="text-xl font-semibold">{tracks.mainTrackTitle}</h2>
+      <article className="overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-5">
+        <h2 className="mx-display text-xl font-semibold md:text-2xl">{tracks.mainTrackTitle}</h2>
         {tracks.mainTrackDescription.map((paragraph) => (
           <p key={paragraph} className="mt-2 text-sm text-zinc-300">
             {paragraph}
@@ -108,8 +108,8 @@ export default async function TrackInfoPage() {
         ))}
         <div className="relative mt-4 aspect-[16/9] w-full overflow-hidden rounded-xl bg-zinc-800">
           <Image
-            src="/media/gallery/track-photo.jpg"
-            alt="Main track photo at Martin MX Park"
+            src={tracks.mainTrackImage}
+            alt={tracks.mainTrackImageAlt}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 65vw"
             className="object-cover"
@@ -117,8 +117,8 @@ export default async function TrackInfoPage() {
         </div>
       </article>
 
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <h2 className="text-xl font-semibold">{tracks.juniorTrackTitle}</h2>
+      <article className="overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-5">
+        <h2 className="mx-display text-xl font-semibold md:text-2xl">{tracks.juniorTrackTitle}</h2>
         {tracks.juniorTrackDescription.map((paragraph) => (
           <p key={paragraph} className="mt-2 text-sm text-zinc-300">
             {paragraph}
@@ -126,8 +126,8 @@ export default async function TrackInfoPage() {
         ))}
         <div className="relative mt-4 aspect-[16/9] w-full overflow-hidden rounded-xl bg-zinc-800">
           <Image
-            src="/media/gallery/blog-2.jpg"
-            alt="Junior track photo at Martin MX Park"
+            src={tracks.juniorTrackImage}
+            alt={tracks.juniorTrackImageAlt}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 65vw"
             className="object-cover"
@@ -135,8 +135,8 @@ export default async function TrackInfoPage() {
         </div>
       </article>
 
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <h2 className="text-xl font-semibold">Track Requirements</h2>
+      <article className="border-y border-white/10 bg-black/15 p-5">
+        <h2 className="mx-display text-xl font-semibold">Track Requirements</h2>
         <ul className="mt-2 list-disc space-y-2 pl-6 text-zinc-300">
           {trackInfo.requirements.map((item) => (
             <li key={item}>{item}</li>
@@ -144,8 +144,8 @@ export default async function TrackInfoPage() {
         </ul>
       </article>
 
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <h2 className="text-xl font-semibold">Waivers</h2>
+      <article className="border-y border-white/10 bg-black/15 p-5">
+        <h2 className="mx-display text-xl font-semibold">Waivers</h2>
         <div className="mt-2 flex flex-wrap gap-3">
           {trackInfo.waiverLinks.map((link) => (
             <Link
@@ -159,8 +159,8 @@ export default async function TrackInfoPage() {
         </div>
       </article>
 
-      <article className="rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <h2 className="text-xl font-semibold">Park Rules</h2>
+      <article className="border-y border-white/10 bg-black/15 p-5">
+        <h2 className="mx-display text-xl font-semibold">Park Rules</h2>
         <ul className="mt-2 list-disc space-y-2 pl-6 text-zinc-300">
           {trackInfo.rules.map((rule) => (
             <li key={rule}>{rule}</li>
@@ -168,8 +168,8 @@ export default async function TrackInfoPage() {
         </ul>
       </article>
 
-      <section className="space-y-3">
-        <h2 className="text-xl font-semibold">Track Photo Viewer</h2>
+      <section className="space-y-4">
+        <h2 className="mx-display text-xl font-semibold md:text-2xl">Track Photo Viewer</h2>
         <p className="text-sm text-zinc-300">Open any image to view full size and use keyboard arrows to navigate.</p>
         <InteractiveGallery items={trackGalleryItems} />
       </section>

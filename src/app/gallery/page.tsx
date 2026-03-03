@@ -8,13 +8,13 @@ export default async function GalleryPage() {
   const spotlight = items.slice(0, 3);
 
   return (
-    <section className="space-y-6 text-white">
-      <header className="mx-glow-card relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/80 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+    <section className="space-y-8 text-white md:space-y-10">
+      <header className="relative overflow-hidden border-y border-white/10 bg-black/15 p-6">
         <div className="mx-grid-overlay pointer-events-none absolute inset-0 opacity-20" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(51,142,0,0.2),transparent_45%)]" />
         <div className="relative">
           <p className="text-xs uppercase tracking-[0.28em] text-zinc-400">Visual Stories</p>
-          <h1 className="mt-2 text-3xl font-bold md:text-4xl">Gallery</h1>
+          <h1 className="mx-display mt-2 text-3xl font-bold md:text-5xl">Gallery</h1>
           <p className="mt-2 max-w-3xl text-sm text-zinc-300 md:text-base">
             Recent visuals from Martin MX sessions and rider activity.
           </p>
@@ -38,13 +38,13 @@ export default async function GalleryPage() {
         {spotlight.map((item) => (
           <article
             key={item.id}
-            className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+            className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-transparent shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
           >
             <div className="relative aspect-[4/3] w-full bg-zinc-800">
               <Image src={item.image} alt={item.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
-            </div>
-            <div className="p-4">
-              <p className="text-sm font-semibold text-zinc-100">{item.title}</p>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4">
+                <p className="text-sm font-semibold text-zinc-100">{item.title}</p>
+              </div>
             </div>
           </article>
         ))}

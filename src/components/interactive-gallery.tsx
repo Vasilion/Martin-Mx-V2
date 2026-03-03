@@ -52,7 +52,7 @@ export function InteractiveGallery({ items, columns = 2, showMeta = true }: Inte
         {items.map((item, index) => (
           <motion.article
             key={item.id}
-            className="group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-green-500/60"
+            className="group cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-transparent shadow-[0_14px_40px_rgba(0,0,0,0.3)] transition duration-300 hover:-translate-y-0.5 hover:border-green-500/60"
             onClick={() => setActiveIndex(index)}
             whileHover={prefersReducedMotion ? undefined : { y: -3 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
@@ -65,14 +65,13 @@ export function InteractiveGallery({ items, columns = 2, showMeta = true }: Inte
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition duration-300 group-hover:scale-105"
               />
+              {showMeta ? (
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent p-4">
+                  <h2 className="text-base font-semibold text-white">{item.title}</h2>
+                  {item.isFeatured ? <p className="mt-1 text-xs text-green-300">Featured</p> : null}
+                </div>
+              ) : null}
             </div>
-            {showMeta ? (
-              <div className="p-4">
-                <h2 className="font-semibold">{item.title}</h2>
-                {item.isFeatured ? <p className="mt-1 text-xs text-green-300">Featured</p> : null}
-                <p className="mt-1 text-xs text-zinc-400">Click to expand</p>
-              </div>
-            ) : null}
           </motion.article>
         ))}
       </div>

@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { SideBrandRails } from "@/components/side-brand-rails";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -40,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${sora.variable} antialiased`}
       >
         <a
           href="#main-content"
@@ -50,7 +51,7 @@ export default function RootLayout({
         </a>
         <SiteNav />
         <SideBrandRails />
-        <main id="main-content" className="relative z-10 mx-auto min-h-screen w-full max-w-6xl px-4 py-8">
+        <main id="main-content" className="relative z-10 mx-auto min-h-screen w-full max-w-7xl px-4 py-8 md:px-6">
           {children}
         </main>
         <SiteFooter />

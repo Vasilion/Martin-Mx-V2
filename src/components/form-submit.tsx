@@ -76,7 +76,7 @@ export function FormSubmit({
   return (
     <form
       onSubmit={onSubmit}
-      className="space-y-4 rounded-2xl border border-white/10 bg-zinc-900/80 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur"
+      className="space-y-4 rounded-2xl border border-white/10 bg-black/20 p-5 backdrop-blur"
     >
       <input
         name="website"
@@ -103,7 +103,7 @@ export function FormSubmit({
               name={field.name}
               required={field.required ?? true}
               disabled={disabled}
-              className="w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
+              className="h-11 w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
               defaultValue={
                 typeof field.defaultValue === "string" || typeof field.defaultValue === "number"
                   ? String(field.defaultValue)
@@ -132,14 +132,14 @@ export function FormSubmit({
                   : undefined
               }
               defaultChecked={field.type === "checkbox" && field.defaultValue === true}
-              className="w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
+              className="h-11 w-full rounded-xl border border-zinc-600/80 bg-zinc-950/60 px-3 py-2.5 text-white outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-500/30"
             />
           ) : null}
         </label>
       ))}
       <button
         disabled={pending || disabled}
-        className="mx-cta-primary px-4 py-2.5 disabled:cursor-not-allowed disabled:opacity-60"
+        className="mx-cta-primary w-full px-4 py-2.5 text-sm md:w-auto disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
       >
         {pending ? "Submitting..." : "Submit"}

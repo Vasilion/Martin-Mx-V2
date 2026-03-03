@@ -33,7 +33,7 @@ export default async function Home() {
   const nextSession = sortedSessions[0] ?? null;
 
   return (
-    <section className="space-y-8 md:space-y-10">
+    <section className="space-y-10 md:space-y-14">
       <Script
         id="martinmx-ld-json"
         type="application/ld+json"
@@ -57,7 +57,7 @@ export default async function Home() {
         <div className="relative grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end">
           <div>
             <p className="text-xs uppercase tracking-[0.32em] text-green-300/85">Welcome To The Track</p>
-            <h1 className="mt-3 text-4xl font-black leading-tight md:text-6xl">{home.heroTitle}</h1>
+            <h1 className="mx-display mt-3 text-4xl font-black leading-tight md:text-6xl">{home.heroTitle}</h1>
             <p className="mt-4 max-w-2xl text-zinc-200 md:text-lg">{home.heroDescription}</p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link href={home.heroCtaHref} className="mx-cta-primary px-5 py-2.5">
@@ -90,7 +90,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <section className="grid gap-4 md:grid-cols-4">
+      <section className="grid gap-3 border-y border-white/10 py-5 md:grid-cols-4 md:gap-4">
         {[
           { label: "Practice Windows", value: "3x Weekly" },
           { label: "Track Experience", value: "Main + Junior" },
@@ -99,7 +99,7 @@ export default async function Home() {
         ].map((item) => (
           <article
             key={item.label}
-            className="rounded-2xl border border-white/10 bg-zinc-900/80 p-4 text-white shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
+            className="rounded-xl border border-white/10 bg-black/20 p-4 text-white"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
             <p className="mt-2 text-2xl font-bold leading-none">{item.value}</p>
@@ -107,9 +107,9 @@ export default async function Home() {
         ))}
       </section>
 
-      <section className="space-y-3">
+      <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-white">Featured Track Media</h2>
+          <h2 className="mx-display text-2xl font-semibold text-white md:text-3xl">Featured Track Media</h2>
           <Link href="/gallery" className="mx-cta-primary px-4 py-2 text-sm">
             Open Full Gallery
           </Link>
@@ -141,9 +141,9 @@ export default async function Home() {
         />
       </section>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-          <h2 className="text-xl font-semibold">Practice & Membership Status</h2>
+      <section className="grid gap-4 md:grid-cols-12">
+        <div className="border-y border-white/10 bg-black/15 p-6 text-white md:col-span-7">
+          <h2 className="mx-display text-xl font-semibold md:text-2xl">Practice & Membership Status</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <div className="rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
               <p className="text-xs uppercase tracking-wide text-zinc-400">Practice</p>
@@ -157,7 +157,7 @@ export default async function Home() {
               <p className="mt-2 text-sm text-zinc-200">{operations.practiceStatusLabel}</p>
               <Link
                 href="/register#practice-signup"
-                className="mx-cta-primary mt-3 inline-block px-3 py-2 text-sm"
+                className="mx-cta-primary mt-3 inline-flex px-3 py-2 text-sm"
               >
                 {operations.practiceCtaLabel}
               </Link>
@@ -174,7 +174,7 @@ export default async function Home() {
               <p className="mt-2 text-sm text-zinc-200">{operations.membershipStatusLabel}</p>
               <Link
                 href="/register#membership-signup"
-                className="mx-cta-secondary mt-3 inline-block px-3 py-2 text-sm"
+                className="mx-cta-secondary mt-3 inline-flex px-3 py-2 text-sm"
               >
                 {operations.membershipCtaLabel}
               </Link>
@@ -208,34 +208,34 @@ export default async function Home() {
             Visit Merch Store
           </a>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/schedule" className="rounded-xl bg-zinc-800 px-3 py-2 text-sm transition hover:bg-zinc-700">
+            <Link href="/schedule" className="mx-cta-secondary px-3 py-2 text-sm">
               View Schedule
             </Link>
-            <Link href="/contact" className="rounded-xl bg-zinc-800 px-3 py-2 text-sm transition hover:bg-zinc-700">
+            <Link href="/contact" className="mx-cta-secondary px-3 py-2 text-sm">
               Contact Park
             </Link>
           </div>
         </div>
-        <WeatherCard />
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-          <h2 className="text-xl font-semibold">{home.trackMapTitle}</h2>
+        <div className="md:col-span-5">
+          <WeatherCard />
+        </div>
+        <article className="overflow-hidden rounded-3xl border border-white/10 bg-black/20 p-5 text-white md:col-span-7">
+          <h2 className="mx-display text-xl font-semibold md:text-2xl">{home.trackMapTitle}</h2>
           <p className="mt-2 text-sm text-zinc-200/85">{home.trackMapDescription}</p>
-          <div className="mt-4 aspect-video overflow-hidden rounded-2xl border border-zinc-700">
+          <div className="relative mt-4 aspect-video overflow-hidden rounded-2xl border border-white/15 bg-zinc-950/70 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-black/60 to-transparent" />
             <iframe
               title={home.trackMapTitle}
               src={home.trackMapEmbedUrl}
-              className="h-full w-full"
+              className="relative z-0 h-full w-full"
               allow="autoplay; fullscreen; xr-spatial-tracking"
               allowFullScreen
               loading="lazy"
             />
           </div>
         </article>
-        <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-          <h2 className="text-xl font-semibold">{home.videoTitle}</h2>
+        <article className="overflow-hidden rounded-3xl border border-white/10 bg-black/20 p-5 text-white md:col-span-5">
+          <h2 className="mx-display text-xl font-semibold md:text-2xl">{home.videoTitle}</h2>
           <p className="mt-2 text-sm text-zinc-200/85">{home.videoDescription}</p>
           <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/15 bg-zinc-950/70 shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-black/60 to-transparent" />
@@ -260,7 +260,7 @@ export default async function Home() {
             </a>
           </div>
         </article>
-      </div>
+      </section>
     </section>
   );
 }

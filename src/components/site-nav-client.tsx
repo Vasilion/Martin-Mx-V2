@@ -26,7 +26,7 @@ export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }:
   const utilityLinks = navLinks.filter((item) => item.href === "/print");
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/90 text-white backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/90 text-white backdrop-blur-xl">
       <div className="border-b border-white/10 bg-black/45">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 text-xs text-zinc-200 md:text-sm">
           <p className="whitespace-nowrap">{contactPhone}</p>
@@ -34,9 +34,9 @@ export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }:
           <p className="hidden whitespace-nowrap lg:block">{address}</p>
         </div>
       </div>
-      <nav className="mx-auto max-w-6xl p-4">
+      <nav className="mx-auto max-w-7xl p-4 md:px-6">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="rounded-xl border border-zinc-700/70 bg-zinc-900/80 px-3 py-2">
+          <Link href="/" className="rounded-xl border border-zinc-700/70 bg-zinc-900/80 px-3 py-2 transition hover:border-green-500/40">
             <span className="sr-only">Martin MX Park</span>
             <div className="relative h-7 w-40">
               <Image src="/media/sponsors/martin-logo-white.svg" alt="Martin MX Park" fill sizes="176px" className="object-contain object-left" />
@@ -47,8 +47,10 @@ export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }:
               <Link
                 key={item.href}
                 href={item.href}
-                className={`whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold leading-none transition ${
-                  pathname === item.href ? "bg-green-700/20 text-green-300" : "text-zinc-200 hover:bg-zinc-800 hover:text-white"
+                className={`whitespace-nowrap rounded-xl px-3 py-2 text-sm font-semibold leading-none transition ${
+                  pathname === item.href
+                    ? "bg-green-700/20 text-green-300 ring-1 ring-green-500/35"
+                    : "text-zinc-200 hover:-translate-y-0.5 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -58,8 +60,10 @@ export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }:
               <Link
                 key={item.href}
                 href={item.href}
-                className={`whitespace-nowrap rounded-lg px-2 py-2 text-xs font-semibold leading-none transition ${
-                  pathname === item.href ? "bg-zinc-700/60 text-white" : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                className={`whitespace-nowrap rounded-xl px-2.5 py-2 text-xs font-semibold leading-none transition ${
+                  pathname === item.href
+                    ? "bg-zinc-700/60 text-white"
+                    : "text-zinc-300 hover:-translate-y-0.5 hover:bg-zinc-800 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -71,7 +75,7 @@ export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }:
             onClick={() => setIsOpen((value) => !value)}
             aria-expanded={isOpen}
             aria-controls="mobile-site-nav"
-            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-200 lg:hidden"
+            className="min-h-11 rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-zinc-200 lg:hidden"
           >
             Menu
           </button>
@@ -91,7 +95,9 @@ export function SiteNavClient({ navLinks, contactPhone, contactEmail, address }:
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block rounded-lg px-2 py-2 text-sm ${pathname === item.href ? "bg-green-700/20 text-green-300" : "hover:bg-zinc-800"}`}
+                  className={`block min-h-11 rounded-lg px-3 py-2.5 text-base ${
+                    pathname === item.href ? "bg-green-700/20 text-green-300" : "hover:bg-zinc-800"
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}

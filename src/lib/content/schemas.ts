@@ -111,8 +111,12 @@ export const gallerySchema = z.object({
 export const tracksContentSchema = z.object({
   mainTrackTitle: z.string().min(1),
   mainTrackDescription: z.array(z.string().min(1)).min(1),
+  mainTrackImage: z.string().min(1),
+  mainTrackImageAlt: z.string().min(1),
   juniorTrackTitle: z.string().min(1),
   juniorTrackDescription: z.array(z.string().min(1)).min(1),
+  juniorTrackImage: z.string().min(1),
+  juniorTrackImageAlt: z.string().min(1),
 });
 
 export const successContentSchema = z.object({

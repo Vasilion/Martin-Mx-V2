@@ -160,9 +160,9 @@ export function WeatherCard() {
     : [];
 
   return (
-    <article className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
+    <article className="h-full rounded-3xl border border-white/10 bg-black/20 p-6 text-white backdrop-blur">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold">Track Weather & Radar</h2>
+        <h2 className="mx-display text-lg font-semibold md:text-xl">Track Weather & Radar</h2>
         <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Martin, MI</p>
       </div>
       <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-white/10 bg-zinc-950/60 p-1">

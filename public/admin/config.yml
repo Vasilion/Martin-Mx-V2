@@ -105,11 +105,15 @@ collections:
             name: mainTrackDescription
             widget: list
             field: { label: Paragraph, name: paragraph, widget: text }
+          - { label: Main Track Image, name: mainTrackImage, widget: image }
+          - { label: Main Track Image Alt Text, name: mainTrackImageAlt, widget: string }
           - { label: Junior Track Title, name: juniorTrackTitle, widget: string }
           - label: Junior Track Description
             name: juniorTrackDescription
             widget: list
             field: { label: Paragraph, name: paragraph, widget: text }
+          - { label: Junior Track Image, name: juniorTrackImage, widget: image }
+          - { label: Junior Track Image Alt Text, name: juniorTrackImageAlt, widget: string }
   - name: contact
     label: Contact Block
     files:

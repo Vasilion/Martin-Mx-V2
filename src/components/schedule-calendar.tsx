@@ -156,7 +156,7 @@ export function ScheduleCalendar({ events }: Props) {
                 {!event.isCancelled ? (
                   <a
                     href="/register"
-                    className="mx-cta-primary mt-3 inline-block px-3 py-1.5 text-xs"
+                    className="mx-cta-primary mt-3 inline-flex px-3 py-1.5 text-xs"
                   >
                     Sign Up
                   </a>
