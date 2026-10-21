@@ -2,20 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, Flag, Settings, Users } from "lucide-react";
+import { CalendarDays, Flag, LayoutGrid, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const adminNav = [
   { href: "/admin", label: "Today", icon: Flag },
   { href: "/admin/schedule", label: "Schedule", icon: CalendarDays },
   { href: "/admin/riders", label: "Riders", icon: Users },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/more", label: "More", icon: LayoutGrid },
 ] as const;
 
 function useActive() {
   const pathname = usePathname();
   // Longest match wins so /admin doesn't light up on every sub-page.
-  return (href: string) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
+  return (href: string) => {
+    if (href === "/admin") return pathname === "/admin";
+    // Every editing screen lives under "More".
+    if (href === "/admin/more") return ["/admin/more", "/admin/content", "/admin/settings", "/admin/inbox"].some((p) => pathname.startsWith(p));
+    return pathname.startsWith(href);
+  };
 }
 
 export function SidebarNav() {

@@ -9,9 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "@/components/site/logo";
 import { primaryNav, secondaryNav } from "@/components/site/nav-links";
-import { park } from "@/lib/park/facts";
+import type { SiteInfo, Content } from "@/lib/park/content";
+import { AnnouncementBar } from "@/components/site/announcement-bar";
 
-export function SiteHeader() {
+export function SiteHeader({ site, announcement }: { site: SiteInfo; announcement: Content<"announcement"> }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -33,6 +34,7 @@ export function SiteHeader() {
           : "border-b border-transparent bg-gradient-to-b from-ink/80 to-transparent",
       )}
     >
+      <AnnouncementBar announcement={announcement} />
       <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-6 px-4 md:h-20 md:px-8">
         <Link href="/" aria-label="Martin MX Park home" className="shrink-0">
           <Logo className="h-[18px] w-auto md:h-[22px]" />
@@ -53,14 +55,16 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <a
-            href={park.storeUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="eyebrow flex items-center gap-1 px-3 py-2 text-white/75 transition-colors hover:text-white"
-          >
-            Store <ArrowUpRight className="size-3.5" aria-hidden />
-          </a>
+          {site.storeUrl && (
+            <a
+              href={site.storeUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="eyebrow flex items-center gap-1 px-3 py-2 text-white/75 transition-colors hover:text-white"
+            >
+              Store <ArrowUpRight className="size-3.5" aria-hidden />
+            </a>
+          )}
         </nav>
 
         <Button asChild variant="race" size="lg" className="ml-auto h-10 px-5 lg:ml-2">
@@ -96,14 +100,16 @@ export function SiteHeader() {
                     </Link>
                   </SheetClose>
                 ))}
-                <a href={park.storeUrl} target="_blank" rel="noreferrer" className="eyebrow text-white/60 hover:text-white">
-                  Store ↗
-                </a>
+                {site.storeUrl && (
+                  <a href={site.storeUrl} target="_blank" rel="noreferrer" className="eyebrow text-white/60 hover:text-white">
+                    Store ↗
+                  </a>
+                )}
               </div>
               <div className="mt-auto pt-10 text-sm text-white/60">
-                <p>{park.address.full}</p>
-                <a href={park.phone.href} className="mt-1 block text-white">
-                  {park.phone.display}
+                <p>{site.addressFull}</p>
+                <a href={site.phoneHref} className="mt-1 block text-white">
+                  {site.phone}
                 </a>
               </div>
             </div>

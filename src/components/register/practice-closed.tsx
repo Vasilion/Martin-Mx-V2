@@ -3,7 +3,7 @@ import { ArrowDownToLine, ArrowRight, CalendarClock, Check } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import type { Membership, Practice, RideDay, TrackStatus } from "@/lib/park/live";
 import { formatDay, formatPrice, formatTimeRange, monthDay, weekdayOf } from "@/lib/park/format";
-import { gearRequirements, park, waivers } from "@/lib/park/facts";
+import type { SiteInfo } from "@/lib/park/content";
 
 /**
  * Shown when no ride day has online registration open. Riders still leave with
@@ -14,7 +14,13 @@ export function PracticeClosed({
   upcoming,
   practice,
   membership,
+  site,
+  gear,
+  waivers,
 }: {
+  site: SiteInfo;
+  gear: string[];
+  waivers: { id: string; label: string; note: string; href: string }[];
   status: TrackStatus;
   upcoming: RideDay[];
   practice: Practice;
@@ -97,7 +103,7 @@ export function PracticeClosed({
             <div className="bg-ink-2 p-6">
               <p className="eyebrow text-[0.7rem] text-white/50">Required gear</p>
               <ul className="mt-4 space-y-2">
-                {gearRequirements.slice(0, 5).map((g) => (
+                {gear.slice(0, 5).map((g) => (
                   <li key={g} className="flex items-center gap-2.5 text-sm text-white/75">
                     <Check className="size-4 shrink-0 text-volt" strokeWidth={3} aria-hidden /> {g}
                   </li>
@@ -153,8 +159,8 @@ export function PracticeClosed({
         )}
         <p className="mt-5 text-sm text-white/50">
           Questions? Call{" "}
-          <a href={park.phone.href} className="text-white/80 hover:text-volt">
-            {park.phone.display}
+          <a href={site.phoneHref} className="text-white/80 hover:text-volt">
+            {site.phone}
           </a>
           .
         </p>

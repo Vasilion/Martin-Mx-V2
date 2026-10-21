@@ -18,8 +18,10 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.999.0",
+    "@aws-sdk/client-s3": "^3.1155.0",
     "@aws-sdk/client-sesv2": "^3.999.0",
     "@aws-sdk/lib-dynamodb": "^3.999.0",
+    "@aws-sdk/s3-request-presigner": "^3.1155.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.0",
     "framer-motion": "^12.34.3",

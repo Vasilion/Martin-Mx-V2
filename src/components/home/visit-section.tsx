@@ -2,10 +2,10 @@ import Link from "next/link";
 import { ArrowUpRight, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
-import { park } from "@/lib/park/facts";
 import type { Sponsor } from "@/lib/park/live";
+import type { Content, SiteInfo } from "@/lib/park/content";
 
-export function VisitSection({ sponsors }: { sponsors: Sponsor[] }) {
+export function VisitSection({ sponsors, site, home }: { sponsors: Sponsor[]; site: SiteInfo; home: Content<"home"> }) {
   return (
     <section className="bg-ink pb-24 md:pb-32">
       {sponsors.length > 0 && (
@@ -35,24 +35,22 @@ export function VisitSection({ sponsors }: { sponsors: Sponsor[] }) {
         <Reveal className="lg:col-span-5">
           <p className="eyebrow text-white/50">Find us</p>
           <h2 className="display mt-4 text-[clamp(3rem,7vw,6.5rem)] text-white">
-            Just off <span className="text-volt">US-131.</span>
+            {home.visitHeading} {home.visitAccent && <span className="text-volt">{home.visitAccent}</span>}
           </h2>
           <address className="mt-8 not-italic text-xl text-white/80">
-            {park.address.street}
+            {site.street}
             <br />
-            {park.address.city}, {park.address.region} {park.address.postalCode}
+            {site.city}, {site.region} {site.postalCode}
           </address>
-          <p className="mt-4 text-white/60">
-            Gas station and Subway half a mile down the road. Early arrival welcome; the track opens on time.
-          </p>
+          {home.visitNote && <p className="mt-4 text-white/60">{home.visitNote}</p>}
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild variant="race" size="xl">
-              <a href={park.mapsUrl} target="_blank" rel="noreferrer">
+              <a href={site.mapsUrl} target="_blank" rel="noreferrer">
                 <Navigation aria-hidden /> Directions
               </a>
             </Button>
             <Button asChild variant="race-outline" size="xl">
-              <a href={park.phone.href}>Call {park.phone.display}</a>
+              <a href={site.phoneHref}>Call {site.phone}</a>
             </Button>
           </div>
         </Reveal>
@@ -60,13 +58,13 @@ export function VisitSection({ sponsors }: { sponsors: Sponsor[] }) {
           <div className="relative aspect-[4/3] overflow-hidden rounded-sm border border-white/10 md:aspect-[16/10]">
             <iframe
               title="Map to Martin MX Park"
-              src={park.mapsEmbedUrl}
+              src={site.mapsEmbedUrl}
               className="absolute inset-0 h-full w-full grayscale invert-[0.92] hue-rotate-180"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
             <a
-              href={park.mapsUrl}
+              href={site.mapsUrl}
               target="_blank"
               rel="noreferrer"
               className="eyebrow absolute bottom-4 right-4 flex items-center gap-1 rounded-sm bg-ink px-3 py-2 text-white hover:text-volt"

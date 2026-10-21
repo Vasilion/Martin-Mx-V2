@@ -3,9 +3,10 @@ import { MapPin, Phone, Mail } from "lucide-react";
 import { FacebookIcon, InstagramIcon } from "@/components/site/social-icons";
 import { Logo } from "@/components/site/logo";
 import { primaryNav, secondaryNav } from "@/components/site/nav-links";
-import { park } from "@/lib/park/facts";
+import { getSite } from "@/lib/park/content";
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const site = await getSite();
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-ink">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-4 pb-10 pt-16 md:grid-cols-12 md:px-8 md:pt-24">
@@ -15,22 +16,22 @@ export function SiteFooter() {
           </p>
           <ul className="mt-8 space-y-3 text-white/70">
             <li>
-              <a href={park.mapsUrl} target="_blank" rel="noreferrer" className="flex gap-3 hover:text-white">
+              <a href={site.mapsUrl} target="_blank" rel="noreferrer" className="flex gap-3 hover:text-white">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-volt" aria-hidden />
                 <span>
-                  {park.address.full}
-                  <span className="block text-sm text-white/50">{park.address.directionsNote}</span>
+                  {site.addressFull}
+                  {site.directionsNote && <span className="block text-sm text-white/50">{site.directionsNote}</span>}
                 </span>
               </a>
             </li>
             <li>
-              <a href={park.phone.href} className="flex items-center gap-3 hover:text-white">
-                <Phone className="size-4 text-volt" aria-hidden /> {park.phone.display}
+              <a href={site.phoneHref} className="flex items-center gap-3 hover:text-white">
+                <Phone className="size-4 text-volt" aria-hidden /> {site.phone}
               </a>
             </li>
             <li>
-              <a href={`mailto:${park.email}`} className="flex items-center gap-3 hover:text-white">
-                <Mail className="size-4 text-volt" aria-hidden /> {park.email}
+              <a href={`mailto:${site.email}`} className="flex items-center gap-3 hover:text-white">
+                <Mail className="size-4 text-volt" aria-hidden /> {site.email}
               </a>
             </li>
           </ul>
@@ -56,22 +57,28 @@ export function SiteFooter() {
                   <Link href={item.href} className="text-white/80 hover:text-volt">{item.label}</Link>
                 </li>
               ))}
-              <li>
-                <a href={park.storeUrl} target="_blank" rel="noreferrer" className="text-white/80 hover:text-volt">
-                  Merch Store ↗
-                </a>
-              </li>
+              {site.storeUrl && (
+                <li>
+                  <a href={site.storeUrl} target="_blank" rel="noreferrer" className="text-white/80 hover:text-volt">
+                    Merch Store ↗
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </nav>
 
         <div className="flex gap-3 md:col-span-2 md:justify-end">
-          <a href={park.social.facebook} target="_blank" rel="noreferrer" aria-label="Martin MX on Facebook" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 transition hover:border-volt hover:text-volt">
-            <FacebookIcon className="size-5" />
-          </a>
-          <a href={park.social.instagram} target="_blank" rel="noreferrer" aria-label="Martin MX on Instagram" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 transition hover:border-volt hover:text-volt">
-            <InstagramIcon className="size-5" />
-          </a>
+          {site.facebook && (
+            <a href={site.facebook} target="_blank" rel="noreferrer" aria-label="Martin MX on Facebook" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 transition hover:border-volt hover:text-volt">
+              <FacebookIcon className="size-5" />
+            </a>
+          )}
+          {site.instagram && (
+            <a href={site.instagram} target="_blank" rel="noreferrer" aria-label="Martin MX on Instagram" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 transition hover:border-volt hover:text-volt">
+              <InstagramIcon className="size-5" />
+            </a>
+          )}
         </div>
       </div>
 

@@ -1,12 +1,16 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/motion/reveal";
-import { tracks, type TrackId } from "@/lib/park/facts";
+import type { Content } from "@/lib/park/content";
+import { isRemote } from "@/lib/media";
+
+type TrackId = "main" | "junior";
+const numbers: Record<TrackId, string> = { main: "01", junior: "02" };
 import { formatPrice } from "@/lib/park/format";
 import type { Practice } from "@/lib/park/live";
 
-function TrackPanel({ id, price, flip }: { id: TrackId; price: number; flip?: boolean }) {
-  const t = tracks[id];
+function TrackPanel({ id, track: t, price, flip }: { id: TrackId; track: Content<"tracks">["main"]; price: number; flip?: boolean }) {
+  const number = numbers[id];
   return (
     <article className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
       <Reveal className={cn("relative lg:col-span-7", flip && "lg:order-2 lg:col-start-6")}>
@@ -16,8 +20,8 @@ function TrackPanel({ id, price, flip }: { id: TrackId; price: number; flip?: bo
             alt={t.imageAlt}
             fill
             sizes="(min-width: 1024px) 58vw, 100vw"
-            style={{ objectPosition: t.imagePosition }}
-            className="object-cover transition-transform duration-[1.2s] ease-out hover:scale-[1.04]"
+            unoptimized={isRemote(t.image)}
+            className="object-cover object-[center_70%] transition-transform duration-[1.2s] ease-out hover:scale-[1.04]"
           />
         </div>
         <span
@@ -27,12 +31,12 @@ function TrackPanel({ id, price, flip }: { id: TrackId; price: number; flip?: bo
             flip ? "-right-2 md:-right-6" : "-left-2 md:-left-6",
           )}
         >
-          {t.number}
+          {number}
         </span>
       </Reveal>
 
       <Reveal delay={0.1} className={cn("lg:col-span-5", flip && "lg:order-1 lg:col-span-5 lg:col-start-1")}>
-        <p className="eyebrow text-volt">Track {t.number}</p>
+        <p className="eyebrow text-volt">Track {number}</p>
         <h3 className="display mt-3 text-6xl text-white md:text-7xl">{t.name}</h3>
         <p className="mt-4 text-xl font-medium text-white/85">{t.tagline}</p>
         <dl className="mt-8 grid grid-cols-3 border-y border-white/10">
@@ -44,8 +48,8 @@ function TrackPanel({ id, price, flip }: { id: TrackId; price: number; flip?: bo
           ))}
         </dl>
         <div className="mt-6 space-y-4 text-white/70">
-          {t.body.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
+          {t.body.map((p, i) => (
+            <p key={i}>{p}</p>
           ))}
         </div>
         <p className="mt-6 flex items-baseline gap-2">
@@ -57,19 +61,19 @@ function TrackPanel({ id, price, flip }: { id: TrackId; price: number; flip?: bo
   );
 }
 
-export function TracksSection({ practice }: { practice: Practice }) {
+export function TracksSection({ practice, tracks, home }: { practice: Practice; tracks: Content<"tracks">; home: Content<"home"> }) {
   return (
     <section id="tracks" className="relative scroll-mt-20 bg-ink py-24 md:py-36">
       <div className="mx-auto max-w-[1440px] px-4 md:px-8">
         <Reveal className="max-w-3xl">
           <p className="eyebrow text-white/50">The tracks</p>
           <h2 className="display mt-4 text-[clamp(3rem,8vw,7.5rem)] text-white">
-            Two tracks. <span className="text-outline text-white">Every rider.</span>
+            {home.tracksHeading} {home.tracksAccent && <span className="text-outline text-white">{home.tracksAccent}</span>}
           </h2>
         </Reveal>
         <div className="mt-20 space-y-28 md:mt-28 md:space-y-40">
-          <TrackPanel id="main" price={practice.prices.main} />
-          <TrackPanel id="junior" price={practice.prices.junior} flip />
+          <TrackPanel id="main" track={tracks.main} price={practice.prices.main} />
+          <TrackPanel id="junior" track={tracks.junior} price={practice.prices.junior} flip />
         </div>
       </div>
     </section>

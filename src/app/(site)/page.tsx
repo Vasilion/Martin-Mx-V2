@@ -10,7 +10,7 @@ import { Marquee } from "@/components/site/marquee";
 import { getMembership, getPractice, getSchedule, getSponsors, resolveTrackStatus } from "@/lib/park/live";
 import { getWeather } from "@/lib/park/weather";
 import { formatTimeRange } from "@/lib/park/format";
-import { park } from "@/lib/park/facts";
+import { getContent, getSite } from "@/lib/park/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -25,33 +25,34 @@ export const metadata: Metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [schedule, practice, membership, sponsors, weather] = await Promise.all([
+  const [schedule, practice, membership, sponsors, weather, site, home, tracks, gallery] = await Promise.all([
     getSchedule(),
     getPractice(),
     getMembership(),
     getSponsors(),
     getWeather(),
+    getSite(),
+    getContent("home"),
+    getContent("tracks"),
+    getContent("gallery"),
   ]);
   const status = resolveTrackStatus(schedule);
 
   const ticker = [
     ...practice.hours.map((h) => `${h.day.slice(0, 3)} ${formatTimeRange(h.open, h.close)}`),
-    "Two tracks",
-    "Junior track",
-    `${park.address.city}, ${park.address.region}`,
-    "Off US-131",
+    ...home.ticker,
   ];
 
   return (
     <>
-      <Hero status={status} weather={weather} />
+      <Hero status={status} weather={weather} home={home} facebook={site.facebook} />
       <Marquee items={ticker} className="-rotate-1 scale-[1.02] bg-volt text-ink" />
-      <TracksSection practice={practice} />
-      <WalkTheTrack />
+      <TracksSection practice={practice} tracks={tracks} home={home} />
+      <WalkTheTrack eyebrow={home.flyoverEyebrow} heading={home.flyoverHeading} body={home.flyoverBody} />
       <RideDaySection practice={practice} />
       <MembershipBand membership={membership} />
-      <GalleryStrip />
-      <VisitSection sponsors={sponsors} />
+      <GalleryStrip heading={home.galleryHeading} shots={gallery.items.filter((g) => g.featured).slice(0, 10)} />
+      <VisitSection sponsors={sponsors} site={site} home={home} />
     </>
   );
 }

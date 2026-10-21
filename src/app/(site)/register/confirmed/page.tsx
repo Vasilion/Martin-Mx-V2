@@ -7,7 +7,7 @@ import { getStripe } from "@/lib/stripe";
 import { getStore } from "@/lib/registrations/store";
 import { getPractice, getSchedule } from "@/lib/park/live";
 import { formatDay, formatPrice, formatTimeRange } from "@/lib/park/format";
-import { park } from "@/lib/park/facts";
+import { getSite } from "@/lib/park/content";
 
 export const metadata: Metadata = { title: "You're registered", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -65,7 +65,7 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
 
   const reg = session.metadata?.registrationId ? await getStore().get(session.metadata.registrationId) : null;
   if (!reg) redirect("/register");
-  const [schedule, practice] = await Promise.all([getSchedule(), getPractice()]);
+  const [schedule, practice, site] = await Promise.all([getSchedule(), getPractice(), getSite()]);
   const day = schedule.find((d) => d.date === reg.date);
   const cls = practice.classes.find((c) => c.id === reg.classId);
 
@@ -108,8 +108,8 @@ export default async function ConfirmedPage({ searchParams }: { searchParams: Pr
       </div>
       <p className="mt-8 text-sm text-white/50">
         Questions? Call{" "}
-        <a href={park.phone.href} className="text-white/80 hover:text-volt">
-          {park.phone.display}
+        <a href={site.phoneHref} className="text-white/80 hover:text-volt">
+          {site.phone}
         </a>
         .
       </p>

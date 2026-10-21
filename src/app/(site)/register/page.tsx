@@ -8,6 +8,7 @@ import { PracticeClosed } from "@/components/register/practice-closed";
 import { MembershipPanel } from "@/components/register/membership-panel";
 import { getMembership, getSchedule, parkNow, resolveTrackStatus } from "@/lib/park/live";
 import { getOpenDays } from "@/lib/registrations/availability";
+import { getContent, getSite } from "@/lib/park/content";
 
 export const metadata: Metadata = pageMetadata({
   title: "Register",
@@ -28,7 +29,14 @@ export default async function RegisterPage({
 }) {
   const params = await searchParams;
   const tab: Tab = params.tab === "membership" ? "membership" : "practice";
-  const [schedule, { days: open, practice }, membership] = await Promise.all([getSchedule(), getOpenDays(), getMembership()]);
+  const [schedule, { days: open, practice }, membership, site, info, { items: waivers }] = await Promise.all([
+    getSchedule(),
+    getOpenDays(),
+    getMembership(),
+    getSite(),
+    getContent("trackInfo"),
+    getContent("waivers"),
+  ]);
   const { date: today, time } = parkNow();
   const status = resolveTrackStatus(schedule);
 
@@ -80,11 +88,11 @@ export default async function RegisterPage({
 
           <div className="pt-10 md:pt-14">
             {tab === "membership" ? (
-              <MembershipPanel membership={membership} />
+              <MembershipPanel membership={membership} phone={site.phone} phoneHref={site.phoneHref} />
             ) : openDays.length > 0 ? (
               <PracticeForm days={openDays} classes={classes} initialDate={params.day} />
             ) : (
-              <PracticeClosed status={status} upcoming={upcoming} practice={practice} membership={membership} />
+              <PracticeClosed status={status} upcoming={upcoming} practice={practice} membership={membership} site={site} gear={info.gear} waivers={waivers} />
             )}
           </div>
         </div>

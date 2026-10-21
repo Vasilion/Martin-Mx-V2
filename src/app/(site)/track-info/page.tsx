@@ -5,14 +5,7 @@ import { TriangleAlert, ArrowDownToLine, Check, CupSoda, ShieldCheck } from "luc
 import { PageHeader } from "@/components/site/page-header";
 import { Reveal, RevealLi } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
-import {
-  concessions,
-  gearRequirements,
-  minorPolicy,
-  specialEventPolicies,
-  trackRules,
-  waivers,
-} from "@/lib/park/facts";
+import { getContent } from "@/lib/park/content";
 import { getPractice } from "@/lib/park/live";
 import { formatPrice, formatTimeRange } from "@/lib/park/format";
 
@@ -48,7 +41,7 @@ function SectionTitle({ eyebrow, title, accent }: { eyebrow: string; title: stri
 }
 
 export default async function TrackInfoPage() {
-  const practice = await getPractice();
+  const [practice, info, { items: waivers }] = await Promise.all([getPractice(), getContent("trackInfo"), getContent("waivers")]);
 
   return (
     <>
@@ -58,7 +51,7 @@ export default async function TrackInfoPage() {
         accent="you go."
         image="/photos/roost-green.jpg"
         imagePosition="center 35%"
-        intro="Everything you need for ride day: hours, pricing, the gear you must have, the rules for young riders, and the waivers to print before you leave the house."
+        intro={info.intro}
       >
         <Button asChild variant="race" size="xl">
           <Link href="#waivers">
@@ -120,7 +113,7 @@ export default async function TrackInfoPage() {
           </div>
           <p className="mt-6 flex items-start gap-3 text-white/65">
             <CupSoda className="mt-0.5 size-5 shrink-0 text-volt" aria-hidden />
-            {concessions.body}
+            {info.concessions}
           </p>
         </section>
 
@@ -131,15 +124,12 @@ export default async function TrackInfoPage() {
               <div className="lg:col-span-5">
                 <SectionTitle eyebrow="Required gear" title="No gear." accent="No ride." />
                 <Reveal delay={0.08}>
-                  <p className="mt-6 max-w-md text-white/70">
-                    Show up without these and you&apos;ll be asked to leave the track until you have them. Making sure
-                    you&apos;re geared up is on you.
-                  </p>
+                  <p className="mt-6 max-w-md text-white/70">{info.gearNote}</p>
                 </Reveal>
               </div>
               <ul className="grid gap-px self-start overflow-hidden rounded-sm bg-white/10 sm:grid-cols-2 lg:col-span-7">
-                {gearRequirements.map((item, i) => (
-                  <RevealLi key={item} delay={i * 0.04} className="flex h-full items-center gap-4 bg-ink-2 p-6">
+                {info.gear.map((item, i) => (
+                  <RevealLi key={i} delay={i * 0.04} className="flex h-full items-center gap-4 bg-ink-2 p-6">
                       <span className="grid size-10 shrink-0 place-items-center rounded-sm bg-volt text-ink">
                         <Check className="size-5" strokeWidth={3} aria-hidden />
                       </span>
@@ -158,12 +148,12 @@ export default async function TrackInfoPage() {
               <Reveal className="lg:col-span-5">
                 <p className="eyebrow text-brand">Riders under 18</p>
                 <h2 className="display mt-3 text-[clamp(2.75rem,6vw,5.5rem)]">Minor riders.</h2>
-                <p className="mt-6 max-w-md text-lg text-ink/75">{minorPolicy.intro}</p>
+                <p className="mt-6 max-w-md text-lg text-ink/75">{info.minorIntro}</p>
               </Reveal>
               <div className="lg:col-span-7">
                 <ol className="divide-y divide-ink/10 border-y border-ink/10">
-                  {minorPolicy.rules.map((rule, i) => (
-                    <li key={rule} className="flex gap-6 py-6">
+                  {info.minorRules.map((rule, i) => (
+                    <li key={i} className="flex gap-6 py-6">
                       <span className="display w-10 shrink-0 text-4xl text-brand">{i + 1}</span>
                       <p className="text-lg text-ink/85">{rule}</p>
                     </li>
@@ -172,8 +162,8 @@ export default async function TrackInfoPage() {
                 <div className="mt-8 flex gap-4 rounded-sm border-2 border-ink bg-caution/90 p-6">
                   <TriangleAlert className="mt-1 size-6 shrink-0" aria-hidden />
                   <div>
-                    <p className="font-display text-2xl font-bold uppercase italic">{minorPolicy.noParent.title}</p>
-                    <p className="mt-2 text-ink/85">{minorPolicy.noParent.body}</p>
+                    <p className="font-display text-2xl font-bold uppercase italic">{info.noParentTitle}</p>
+                    <p className="mt-2 text-ink/85">{info.noParentBody}</p>
                     <a href="#waivers" className="eyebrow mt-4 inline-block underline underline-offset-4">
                       Get the guardian release
                     </a>
@@ -223,8 +213,8 @@ export default async function TrackInfoPage() {
           <div className="mx-auto max-w-[1440px] px-4 py-20 md:px-8 md:py-28">
             <SectionTitle eyebrow="Track rules & policies" title="House rules." />
             <ul className="mt-12 grid gap-px overflow-hidden rounded-sm bg-white/10 md:grid-cols-2 xl:grid-cols-3">
-              {trackRules.map((rule, i) => (
-                <li key={rule.title} className="bg-ink-2 p-7">
+              {info.rules.map((rule, i) => (
+                <li key={i} className="bg-ink-2 p-7">
                   <p className="eyebrow text-white/35">{String(i + 1).padStart(2, "0")}</p>
                   <h3 className="mt-2 font-display text-2xl font-bold uppercase italic text-white">{rule.title}</h3>
                   <p className="mt-2 text-white/65">{rule.body}</p>
@@ -239,8 +229,8 @@ export default async function TrackInfoPage() {
           <div className="mx-auto max-w-[1440px] px-4 py-20 md:px-8 md:py-28">
             <SectionTitle eyebrow="Race days & specials" title="Special events." />
             <ul className="mt-12 grid gap-4 md:grid-cols-3">
-              {specialEventPolicies.map((p) => (
-                <li key={p.title} className="flex gap-4 rounded-sm border border-white/12 p-7">
+              {info.specialEvents.map((p, i) => (
+                <li key={i} className="flex gap-4 rounded-sm border border-white/12 p-7">
                   <ShieldCheck className="mt-1 size-5 shrink-0 text-volt" aria-hidden />
                   <div>
                     <h3 className="font-display text-2xl font-bold uppercase italic text-white">{p.title}</h3>

@@ -7,7 +7,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { getPractice, getSchedule, parkNow, resolveTrackStatus } from "@/lib/park/live";
 import { getWeather } from "@/lib/park/weather";
 import { formatDay, formatTime, formatTimeRange } from "@/lib/park/format";
-import { park } from "@/lib/park/facts";
+import { getSite } from "@/lib/park/content";
 
 export const metadata: Metadata = pageMetadata({
   title: "Schedule",
@@ -21,7 +21,7 @@ export const metadata: Metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function SchedulePage() {
-  const [schedule, practice, weather] = await Promise.all([getSchedule(), getPractice(), getWeather()]);
+  const [schedule, practice, weather, site] = await Promise.all([getSchedule(), getPractice(), getWeather(), getSite()]);
   const { date: today } = parkNow();
   const status = resolveTrackStatus(schedule);
   const upcoming = schedule.filter((d) => d.date >= today);
@@ -70,7 +70,7 @@ export default async function SchedulePage() {
                 <p className="display text-4xl text-white">Nothing on the books yet.</p>
                 <p className="mt-3 text-white/65">
                   New ride days post here and on{" "}
-                  <a href={park.social.facebook} target="_blank" rel="noreferrer" className="text-volt underline-offset-4 hover:underline">
+                  <a href={site.facebook || "/"} target="_blank" rel="noreferrer" className="text-volt underline-offset-4 hover:underline">
                     Facebook
                   </a>
                   . Regular hours are below.

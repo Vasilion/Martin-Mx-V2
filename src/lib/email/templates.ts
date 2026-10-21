@@ -1,4 +1,5 @@
-import { park, waivers } from "@/lib/park/facts";
+import { park } from "@/lib/park/facts";
+import type { SiteInfo } from "@/lib/park/content";
 import { formatDay, formatPrice, formatTimeRange } from "@/lib/park/format";
 import { emailLogoUrl } from "@/lib/media";
 
@@ -12,7 +13,7 @@ const esc = (v: unknown) =>
 
 const C = { ink: "#0b0b0b", ink2: "#161616", line: "#2a2a2a", text: "#f5f5f2", muted: "#a3a39c", volt: "#5fd400" };
 
-function layout({ preheader, eyebrow, title, body }: { preheader: string; eyebrow: string; title: string; body: string }) {
+function layout({ site, preheader, eyebrow, title, body }: { site: SiteInfo; preheader: string; eyebrow: string; title: string; body: string }) {
   return `<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
 <body style="margin:0;padding:0;background:${C.ink};">
 <span style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(preheader)}</span>
@@ -29,8 +30,8 @@ function layout({ preheader, eyebrow, title, body }: { preheader: string; eyebro
   </td></tr>
   <tr><td style="padding:20px 32px 32px;font-family:Arial,Helvetica,sans-serif;color:${C.text};font-size:15px;line-height:1.55;">${body}</td></tr>
   <tr><td style="padding:20px 32px;border-top:1px solid ${C.line};font-family:Arial,Helvetica,sans-serif;color:${C.muted};font-size:12px;line-height:1.6;">
-    ${esc(park.name)} · ${esc(park.address.full)}<br>
-    <a href="${park.phone.href}" style="color:${C.muted};">${esc(park.phone.display)}</a> · <a href="mailto:${park.email}" style="color:${C.muted};">${esc(park.email)}</a>
+    ${esc(park.name)} · ${esc(site.addressFull)}<br>
+    <a href="${site.phoneHref}" style="color:${C.muted};">${esc(site.phone)}</a> · <a href="mailto:${site.email}" style="color:${C.muted};">${esc(site.email)}</a>
   </td></tr>
 </table></td></tr></table></body></html>`;
 }
@@ -48,7 +49,7 @@ function button(href: string, label: string) {
   return `<a href="${href}" style="display:inline-block;background:${C.volt};color:${C.ink};padding:12px 20px;font-weight:bold;font-style:italic;text-transform:uppercase;text-decoration:none;font-size:14px;letter-spacing:1px;">${esc(label)}</a>`;
 }
 
-export function practiceConfirmationEmail(r: {
+export function practiceConfirmationEmail(site: SiteInfo, r: {
   id: string;
   firstName: string;
   lastName: string;
@@ -74,9 +75,10 @@ export function practiceConfirmationEmail(r: {
   ];
   const minorNote =
     r.ageGroup === "minor"
-      ? `<p style="margin:16px 0 0;padding:12px 14px;background:#2a2410;border-left:3px solid #ffb539;color:${C.text};font-size:14px;">Riders under 18 need a parent or legal guardian on site all day. If a parent can't come, bring a <strong>notarized</strong> <a href="${park.url}${waivers[0].href}" style="color:#ffb539;">Guardian Release</a>.</p>`
+      ? `<p style="margin:16px 0 0;padding:12px 14px;background:#2a2410;border-left:3px solid #ffb539;color:${C.text};font-size:14px;">Riders under 18 need a parent or legal guardian on site all day. If a parent can't come, bring a <strong>notarized</strong> <a href="${park.url}/track-info#waivers" style="color:#ffb539;">Guardian Release</a>.</p>`
       : "";
   const html = layout({
+    site,
     preheader: `You're registered for ${when}.`,
     eyebrow: "Registration confirmed",
     title: "You're on the gate list.",
@@ -107,8 +109,9 @@ export function practiceConfirmationEmail(r: {
   return { subject: `You're registered: ${formatDay(r.date)} at Martin MX`, html, text };
 }
 
-export function membershipConfirmationEmail(m: { name: string; amount: number; year: number; address?: string }) {
+export function membershipConfirmationEmail(site: SiteInfo, m: { name: string; amount: number; year: number; address?: string }) {
   const html = layout({
+    site,
     preheader: "Welcome to Martin MX unlimited.",
     eyebrow: "Membership confirmed",
     title: "Unlimited. All season.",
@@ -122,7 +125,7 @@ export function membershipConfirmationEmail(m: { name: string; amount: number; y
 }
 
 /** To the owners: everything they need to mail the card, no Stripe digging. */
-export function newMemberOwnerEmail(m: { name: string; email: string; phone?: string; address?: string; amount: number; year: number }) {
+export function newMemberOwnerEmail(site: SiteInfo, m: { name: string; email: string; phone?: string; address?: string; amount: number; year: number }) {
   const details: [string, string][] = [
     ["Name", m.name],
     ["Email", m.email],
@@ -131,6 +134,7 @@ export function newMemberOwnerEmail(m: { name: string; email: string; phone?: st
     ["Paid", formatPrice(m.amount)],
   ];
   const html = layout({
+    site,
     preheader: `${m.name} bought a ${m.year} membership.`,
     eyebrow: "New member",
     title: `${m.name} joined.`,

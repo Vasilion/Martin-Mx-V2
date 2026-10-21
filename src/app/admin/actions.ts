@@ -17,6 +17,8 @@ import {
   type RideDay,
 } from "@/lib/park/live";
 import { getStore } from "@/lib/registrations/store";
+import { contentSchemas, putContent, type ContentName } from "@/lib/park/content";
+import { presignUpload, type UploadKind } from "@/lib/uploads";
 
 /**
  * Every action re-checks the session: server actions are public POST endpoints,
@@ -191,4 +193,48 @@ export async function fillRegularWeeks(weeks: number): Promise<ActionState> {
   }
   refreshSite();
   return added ? { ok: true, message: `Added ${added} ride day${added === 1 ? "" : "s"}.` } : { ok: true, message: "Those weeks are already on the schedule." };
+}
+
+// --- content + uploads ----------------------------------------------------------
+
+export async function saveContent(name: ContentName, value: unknown): Promise<ActionState> {
+  await requireOwner();
+  if (!(name in contentSchemas)) return { error: "Unknown section." };
+  const parsed = contentSchemas[name].safeParse(value);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return { error: `${issue?.path.join(" › ") || "Form"}: ${issue?.message ?? "check this field"}` };
+  }
+  await putContent(name, parsed.data);
+  refreshSite();
+  return { ok: true, message: "Saved. The site is updated." };
+}
+
+export async function createUpload(input: { folder: string; contentType: string; size: number; kind: UploadKind }) {
+  await requireOwner();
+  try {
+    return { ok: true as const, ...(await presignUpload(input.folder, input.contentType, input.size, input.kind)) };
+  } catch (err) {
+    return { ok: false as const, error: err instanceof Error ? err.message : "Upload failed." };
+  }
+}
+
+const sponsorList = z.array(
+  z.object({
+    id: z.string().min(1).max(60),
+    name: z.string().trim().min(1, "Every sponsor needs a name").max(80),
+    href: z.string().trim().url("Sponsor links must start with https://"),
+    logo: z.string().trim().min(1, "Every sponsor needs a logo"),
+    title: z.boolean(),
+    active: z.boolean(),
+  }),
+);
+
+export async function saveSponsors(list: unknown): Promise<ActionState> {
+  await requireOwner();
+  const parsed = sponsorList.safeParse(list);
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the sponsors." };
+  await putDoc("sponsors", { sponsors: parsed.data });
+  refreshSite();
+  return { ok: true, message: "Sponsors saved." };
 }

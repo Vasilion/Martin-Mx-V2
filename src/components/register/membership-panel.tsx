@@ -6,7 +6,6 @@ import { ArrowRight, Check, CreditCard, Loader2, Lock, Mail, Flag } from "lucide
 import { Button } from "@/components/ui/button";
 import type { Membership } from "@/lib/park/live";
 import { formatPrice } from "@/lib/park/format";
-import { park } from "@/lib/park/facts";
 
 const steps = [
   { icon: CreditCard, title: "Pay online", body: "One secure payment covers the whole year." },
@@ -14,7 +13,7 @@ const steps = [
   { icon: Flag, title: "Ride any open day", body: "Show your card at check-in and ride, every open practice, all season." },
 ];
 
-export function MembershipPanel({ membership }: { membership: Membership }) {
+export function MembershipPanel({ membership, phone, phoneHref }: { membership: Membership; phone: string; phoneHref: string }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -103,8 +102,8 @@ export function MembershipPanel({ membership }: { membership: Membership }) {
               <p className="font-semibold text-white">Memberships aren&apos;t on sale right now.</p>
               <p className="mt-1 text-sm text-white/60">
                 Call{" "}
-                <a href={park.phone.href} className="text-volt">
-                  {park.phone.display}
+                <a href={phoneHref} className="text-volt">
+                  {phone}
                 </a>{" "}
                 to ask about next season.
               </p>

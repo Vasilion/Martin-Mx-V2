@@ -3,6 +3,7 @@ import { Archivo, Kanit } from "next/font/google";
 import "./globals.css";
 import { park } from "@/lib/park/facts";
 import { pageMetadata } from "@/lib/seo";
+import { getSite, type SiteInfo } from "@/lib/park/content";
 
 const kanit = Kanit({
   variable: "--font-kanit",
@@ -29,38 +30,41 @@ export const metadata: Metadata = {
 };
 
 // Structured data so search engines can show the park's address, phone and location.
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SportsActivityLocation",
-  name: park.name,
-  url: park.url,
-  telephone: park.phone.display,
-  email: park.email,
-  image: `${park.url}/og/home.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: park.address.street,
-    addressLocality: park.address.city,
-    addressRegion: park.address.region,
-    postalCode: park.address.postalCode,
-    addressCountry: "US",
-  },
-  geo: { "@type": "GeoCoordinates", latitude: park.geo.lat, longitude: park.geo.lng },
-  sameAs: [park.social.facebook, park.social.instagram],
-};
+function jsonLd(site: SiteInfo) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SportsActivityLocation",
+    name: park.name,
+    url: park.url,
+    telephone: site.phone,
+    email: site.email,
+    image: `${park.url}/og/home.jpg`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: site.street,
+      addressLocality: site.city,
+      addressRegion: site.region,
+      postalCode: site.postalCode,
+      addressCountry: "US",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: park.geo.lat, longitude: park.geo.lng },
+    sameAs: [site.facebook, site.instagram].filter(Boolean),
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#0b0b0b",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const site = await getSite();
   return (
     <html lang="en" className={`${kanit.variable} ${archivo.variable}`}>
       <body>
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger -- static, trusted JSON-LD
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(site)) }}
         />
         {children}
       </body>

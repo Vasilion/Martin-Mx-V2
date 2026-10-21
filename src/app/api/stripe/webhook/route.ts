@@ -5,7 +5,7 @@ import { getStore } from "@/lib/registrations/store";
 import { getPractice, getSchedule } from "@/lib/park/live";
 import { sendEmail } from "@/lib/email/ses";
 import { membershipConfirmationEmail, newMemberOwnerEmail, practiceConfirmationEmail } from "@/lib/email/templates";
-import { park } from "@/lib/park/facts";
+import { getSite } from "@/lib/park/content";
 
 export const runtime = "nodejs";
 
@@ -48,14 +48,15 @@ async function completePractice(session: Stripe.Checkout.Session) {
   const [schedule, practice] = await Promise.all([getSchedule(), getPractice()]);
   const day = schedule.find((d) => d.date === reg.date);
   const cls = practice.classes.find((c) => c.id === reg.classId);
-  const mail = practiceConfirmationEmail({
+  const site = await getSite();
+  const mail = practiceConfirmationEmail(site, {
     ...reg,
     classLabel: cls?.label ?? reg.classId,
     start: day?.start ?? "00:00",
     end: day?.end ?? "00:00",
   });
   try {
-    await sendEmail({ to: reg.email, replyTo: park.email, ...mail });
+    await sendEmail({ to: reg.email, replyTo: site.email, ...mail });
   } catch (err) {
     // The registration is recorded either way; don't make Stripe retry over an email.
     console.error("practice confirmation email failed", id, err);
@@ -85,9 +86,10 @@ async function completeMembership(session: Stripe.Checkout.Session) {
   if (!created) return;
 
   // OWNER_NOTIFY_EMAIL lets dev/test runs avoid emailing the real owners.
-  const ownerEmail = process.env.OWNER_NOTIFY_EMAIL || park.email;
-  const sends = [sendEmail({ to: ownerEmail, replyTo: member.email || undefined, ...newMemberOwnerEmail(member) })];
-  if (member.email) sends.push(sendEmail({ to: member.email, replyTo: park.email, ...membershipConfirmationEmail(member) }));
+  const site = await getSite();
+  const ownerEmail = process.env.OWNER_NOTIFY_EMAIL || site.email;
+  const sends = [sendEmail({ to: ownerEmail, replyTo: member.email || undefined, ...newMemberOwnerEmail(site, member) })];
+  if (member.email) sends.push(sendEmail({ to: member.email, replyTo: site.email, ...membershipConfirmationEmail(site, member) }));
   const results = await Promise.allSettled(sends);
   results.forEach((r) => r.status === "rejected" && console.error("membership email failed", session.id, r.reason));
 }

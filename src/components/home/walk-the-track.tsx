@@ -11,7 +11,7 @@ import { park } from "@/lib/park/facts";
  * Full-bleed drone flyover with the 3D track model behind a click-to-load dialog,
  * so the heavy Sketchfab embed never costs anything until someone asks for it.
  */
-export function WalkTheTrack() {
+export function WalkTheTrack({ eyebrow, heading, body }: { eyebrow: string; heading: string; body: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -51,11 +51,9 @@ export function WalkTheTrack() {
 
         <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-end px-4 pb-14 md:px-8 md:pb-20">
           <Reveal className="max-w-2xl">
-            <p className="eyebrow text-volt">Know it before you unload</p>
-            <h2 className="display mt-4 text-[clamp(3rem,8vw,7.5rem)] text-white">Walk the track.</h2>
-            <p className="mt-5 max-w-lg text-lg text-white/75">
-              Spin the 3D model, study the lines, then come ride it.
-            </p>
+            {eyebrow && <p className="eyebrow text-volt">{eyebrow}</p>}
+            <h2 className="display mt-4 text-[clamp(3rem,8vw,7.5rem)] text-white">{heading}</h2>
+            {body && <p className="mt-5 max-w-lg text-lg text-white/75">{body}</p>}
           </Reveal>
           <Reveal delay={0.1} className="mt-8 flex flex-wrap items-center gap-3">
             <Dialog>

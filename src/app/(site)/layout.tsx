@@ -1,9 +1,11 @@
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getContent, getSite } from "@/lib/park/content";
 
 /** Public site chrome. The owner dashboard (/admin) has its own layout. */
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const [site, announcement] = await Promise.all([getSite(), getContent("announcement")]);
   return (
     <TooltipProvider>
       <a
@@ -12,7 +14,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       >
         Skip to content
       </a>
-      <SiteHeader />
+      <SiteHeader site={site} announcement={announcement} />
       <main id="main-content">{children}</main>
       <SiteFooter />
     </TooltipProvider>

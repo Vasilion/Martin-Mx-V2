@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import type { RideDay, TrackStatus } from "@/lib/park/live";
 import { describeWeather, type Weather } from "@/lib/park/weather";
 import { formatDay, formatTime, formatTimeRange, weekdayOf, monthDay } from "@/lib/park/format";
-import { park } from "@/lib/park/facts";
 
 type Tone = "go" | "stop" | "wait";
 
@@ -85,7 +84,7 @@ export function TrackStatusChip({ status, href }: { status: TrackStatus; href: s
   );
 }
 
-export function TrackStatusCard({ status, weather }: { status: TrackStatus; weather: Weather | null }) {
+export function TrackStatusCard({ status, weather, facebook = "" }: { status: TrackStatus; weather: Weather | null; facebook?: string }) {
   const tone = toneOf(status);
 
   return (
@@ -169,10 +168,15 @@ export function TrackStatusCard({ status, weather }: { status: TrackStatus; weat
               <span className="block text-volt">Back in spring.</span>
             </p>
             <p className="text-sm text-white/70">
-              New dates post on the schedule and{" "}
-              <a href={park.social.facebook} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-white">
-                Facebook
-              </a>{" "}
+              New dates post on the schedule
+              {facebook ? (
+                <>
+                  {" "}and{" "}
+                  <a href={facebook} target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:text-white">
+                    Facebook
+                  </a>
+                </>
+              ) : null}{" "}
               first.
             </p>
           </>

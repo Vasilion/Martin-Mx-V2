@@ -313,7 +313,7 @@ export function PracticeForm({ days, classes, initialDate }: { days: OpenDay[]; 
             <span className="text-white/80">
               I understand every rider and spectator signs a liability waiver at check-in, and riders under 18 need a
               parent or legal guardian on site (or a notarized{" "}
-              <a href="/media/waivers/guardian-release.pdf" target="_blank" rel="noreferrer" className="text-volt underline underline-offset-4">
+              <a href="/track-info#waivers" target="_blank" rel="noreferrer" className="text-volt underline underline-offset-4">
                 guardian release
               </a>
               ).

@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/site/page-header";
 import { Reveal, RevealLi } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { getSponsors, type Sponsor } from "@/lib/park/live";
-import { park } from "@/lib/park/facts";
+import { getSite } from "@/lib/park/content";
 
 export const metadata: Metadata = pageMetadata({
   title: "Sponsors",
@@ -63,10 +63,10 @@ function SponsorTile({ sponsor, featured }: { sponsor: Sponsor; featured?: boole
 }
 
 export default async function SponsorsPage() {
-  const sponsors = await getSponsors();
+  const [sponsors, site] = await Promise.all([getSponsors(), getSite()]);
   const title = sponsors.filter((s) => s.title);
   const rest = sponsors.filter((s) => !s.title);
-  const mailto = `mailto:${park.email}?subject=${encodeURIComponent("Sponsoring Martin MX Park")}`;
+  const mailto = `mailto:${site.email}?subject=${encodeURIComponent("Sponsoring Martin MX Park")}`;
 
   return (
     <>
@@ -139,8 +139,8 @@ export default async function SponsorsPage() {
               </a>
             </Button>
             <Button asChild variant="race-outline" size="2xl" className="w-full">
-              <a href={park.phone.href}>
-                <Phone aria-hidden /> Call {park.phone.display}
+              <a href={site.phoneHref}>
+                <Phone aria-hidden /> Call {site.phone}
               </a>
             </Button>
           </Reveal>
