@@ -2,6 +2,8 @@ import "server-only";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { z } from "zod";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { park } from "@/lib/park/facts";
 
 /**
@@ -64,29 +66,100 @@ export type Practice = z.infer<typeof practiceSchema>;
 export type Membership = z.infer<typeof membershipSchema>;
 export type Sponsor = z.infer<typeof sponsorSchema>;
 
+/**
+ * Storage: DynamoDB when MARTIN_TABLE is set (owner dashboard edits land there),
+ * otherwise the JSON seed in content/live/ (read-only; local dev without AWS).
+ * `scripts/seed-live-data.mjs` copies the JSON seed into a fresh table.
+ *
+ *   CONFIG   / practice | membership | sponsors   documents
+ *   SCHEDULE / <YYYY-MM-DD>                       one ride day per item
+ */
 const liveRoot = path.join(process.cwd(), "content", "live");
+const table = () => process.env.MARTIN_TABLE;
 
-async function readLive<T>(file: string, schema: z.ZodType<T>): Promise<T> {
+let db: DynamoDBDocumentClient | null = null;
+function client() {
+  db ??= DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? "us-east-1" }), {
+    marshallOptions: { removeUndefinedValues: true },
+  });
+  return db;
+}
+
+async function readSeed<T>(file: string, schema: z.ZodType<T>): Promise<T> {
   const raw = await fs.readFile(path.join(liveRoot, file), "utf8");
   return schema.parse(JSON.parse(raw));
 }
 
+const sponsorsDoc = z.object({ sponsors: z.array(sponsorSchema) });
+const docs = {
+  practice: { schema: practiceSchema, seed: "practice.json" },
+  membership: { schema: membershipSchema, seed: "membership.json" },
+  sponsors: { schema: sponsorsDoc, seed: "sponsors.json" },
+} as const;
+type DocName = keyof typeof docs;
+type DocValue<K extends DocName> = z.infer<(typeof docs)[K]["schema"]>;
+
+async function getDoc<K extends DocName>(name: K): Promise<DocValue<K>> {
+  const { schema, seed } = docs[name];
+  const t = table();
+  if (t) {
+    const res = await client().send(new GetCommand({ TableName: t, Key: { pk: "CONFIG", sk: name } }));
+    if (res.Item) return schema.parse(res.Item.value) as DocValue<K>;
+  }
+  return readSeed(seed, schema as unknown as z.ZodType<DocValue<K>>);
+}
+
+export async function putDoc<K extends DocName>(name: K, value: DocValue<K>) {
+  const t = table();
+  if (!t) throw new Error("Editing needs MARTIN_TABLE (DynamoDB).");
+  const parsed = docs[name].schema.parse(value);
+  await client().send(
+    new PutCommand({ TableName: t, Item: { pk: "CONFIG", sk: name, value: parsed, updatedAt: new Date().toISOString() } }),
+  );
+}
+
 export async function getSchedule(): Promise<RideDay[]> {
-  const { events } = await readLive("schedule.json", z.object({ events: z.array(rideDaySchema) }));
-  return [...events].sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
+  const t = table();
+  let days: RideDay[];
+  if (t) {
+    const res = await client().send(
+      new QueryCommand({ TableName: t, KeyConditionExpression: "pk = :p", ExpressionAttributeValues: { ":p": "SCHEDULE" } }),
+    );
+    days = (res.Items ?? []).map((i) => rideDaySchema.parse(i.day));
+  } else {
+    days = (await readSeed("schedule.json", z.object({ events: z.array(rideDaySchema) }))).events;
+  }
+  return days.sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
+}
+
+export async function putRideDay(day: RideDay) {
+  const t = table();
+  if (!t) throw new Error("Editing needs MARTIN_TABLE (DynamoDB).");
+  const parsed = rideDaySchema.parse(day);
+  await client().send(new PutCommand({ TableName: t, Item: { pk: "SCHEDULE", sk: parsed.date, day: parsed } }));
+}
+
+export async function deleteRideDay(date: string) {
+  const t = table();
+  if (!t) throw new Error("Editing needs MARTIN_TABLE (DynamoDB).");
+  await client().send(new DeleteCommand({ TableName: t, Key: { pk: "SCHEDULE", sk: date } }));
 }
 
 export function getPractice() {
-  return readLive("practice.json", practiceSchema);
+  return getDoc("practice");
 }
 
 export function getMembership() {
-  return readLive("membership.json", membershipSchema);
+  return getDoc("membership");
+}
+
+/** All sponsors, including inactive (dashboard). */
+export async function getAllSponsors(): Promise<Sponsor[]> {
+  return (await getDoc("sponsors")).sponsors;
 }
 
 export async function getSponsors(): Promise<Sponsor[]> {
-  const { sponsors } = await readLive("sponsors.json", z.object({ sponsors: z.array(sponsorSchema) }));
-  return sponsors.filter((s) => s.active);
+  return (await getAllSponsors()).filter((s) => s.active);
 }
 
 /** Wall-clock date + time at the park, regardless of server time zone. */

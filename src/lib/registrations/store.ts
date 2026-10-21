@@ -64,6 +64,8 @@ export interface RegistrationStore {
   /** pending -> expired and gives the spot back. No-op if already paid/expired. */
   release(id: string): Promise<void>;
   get(id: string): Promise<Registration | null>;
+  /** Gate check-in (paid registrations only). */
+  setCheckedIn(id: string, checkedIn: boolean): Promise<void>;
   listByDay(date: string): Promise<Registration[]>;
   spotsTaken(date: string): Promise<Record<string, number>>;
   /** Writes once per Stripe session; false on webhook retries. */
@@ -241,6 +243,19 @@ class DynamoStore implements RegistrationStore {
     return res.Item ? (strip(res.Item) as Registration) : null;
   }
 
+  async setCheckedIn(id: string, checkedIn: boolean) {
+    await this.db.send(
+      new UpdateCommand({
+        TableName: this.table,
+        Key: { pk: `REG#${id}`, sk: "REG" },
+        UpdateExpression: "SET checkedIn = :c",
+        ConditionExpression: "#s = :paid",
+        ExpressionAttributeNames: { "#s": "status" },
+        ExpressionAttributeValues: { ":c": checkedIn, ":paid": "paid" },
+      }),
+    );
+  }
+
   async listByDay(date: string) {
     const items: Registration[] = [];
     let start: Record<string, unknown> | undefined;
@@ -342,6 +357,10 @@ export class MemoryStore implements RegistrationStore {
   async get(id: string) {
     const r = this.regs.get(id);
     return r ? { ...r } : null;
+  }
+  async setCheckedIn(id: string, checkedIn: boolean) {
+    const r = this.regs.get(id);
+    if (r?.status === "paid") r.checkedIn = checkedIn;
   }
   async listByDay(date: string) {
     return [...this.regs.values()]

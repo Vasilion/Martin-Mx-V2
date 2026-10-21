@@ -1,0 +1,194 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+import { attemptLogin } from "@/lib/auth/owners";
+import { endSession, requireOwner, startSession } from "@/lib/auth/session";
+import {
+  deleteRideDay as removeRideDay,
+  getMembership,
+  getPractice,
+  getSchedule,
+  parkNow,
+  putDoc,
+  putRideDay,
+  rideDaySchema,
+  type RideDay,
+} from "@/lib/park/live";
+import { getStore } from "@/lib/registrations/store";
+
+/**
+ * Every action re-checks the session: server actions are public POST endpoints,
+ * so the page-level guard alone isn't enough.
+ */
+
+export type ActionState = { ok?: boolean; error?: string; message?: string };
+
+/** Public pages read live data per request; refresh any cached render after an edit. */
+function refreshSite() {
+  revalidatePath("/", "layout");
+}
+
+// --- auth -------------------------------------------------------------------
+
+export async function login(_prev: ActionState, form: FormData): Promise<ActionState> {
+  const email = String(form.get("email") ?? "").trim();
+  const password = String(form.get("password") ?? "");
+  if (!email || !password) return { error: "Enter your email and password." };
+  const result = await attemptLogin(email, password);
+  if (!result.ok) {
+    return {
+      error:
+        result.reason === "locked"
+          ? "Too many tries. This account is locked for 15 minutes."
+          : "That email and password don't match.",
+    };
+  }
+  await startSession(result.owner.email);
+  redirect("/admin");
+}
+
+export async function logout() {
+  await endSession();
+  redirect("/admin/login");
+}
+
+// --- ride days ----------------------------------------------------------------
+
+async function updateDay(date: string, patch: Partial<RideDay>) {
+  const day = (await getSchedule()).find((d) => d.date === date);
+  if (!day) throw new Error("That ride day no longer exists.");
+  await putRideDay({ ...day, ...patch });
+  refreshSite();
+}
+
+export async function setCancelled(date: string, cancelled: boolean, reason = ""): Promise<ActionState> {
+  await requireOwner();
+  await updateDay(date, { cancelled, cancelReason: cancelled ? reason.trim().slice(0, 140) : "" });
+  return { ok: true, message: cancelled ? "Practice cancelled. The site shows it now." : "Practice is back on." };
+}
+
+export async function setRegistrationOpen(date: string, open: boolean): Promise<ActionState> {
+  await requireOwner();
+  await updateDay(date, { registrationOpen: open });
+  return { ok: true, message: open ? "Online registration is open." : "Online registration is closed." };
+}
+
+const rideDayForm = z
+  .object({
+    originalDate: z.string().optional(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Pick a date"),
+    start: z.string().regex(/^\d{2}:\d{2}$/, "Pick a start time"),
+    end: z.string().regex(/^\d{2}:\d{2}$/, "Pick an end time"),
+    title: z.string().trim().min(1, "Give it a name").max(60),
+    registrationOpen: z.boolean(),
+  })
+  .refine((v) => v.end > v.start, { message: "End time must be after the start time", path: ["end"] });
+
+export async function saveRideDay(input: z.input<typeof rideDayForm>): Promise<ActionState> {
+  await requireOwner();
+  const parsed = rideDayForm.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form." };
+  const v = parsed.data;
+  const schedule = await getSchedule();
+  const existing = schedule.find((d) => d.date === (v.originalDate ?? v.date));
+  if (!v.originalDate && schedule.some((d) => d.date === v.date)) {
+    return { error: "There's already a ride day on that date. Edit it instead." };
+  }
+  if (v.originalDate && v.originalDate !== v.date) {
+    const taken = await getStore().spotsTaken(v.originalDate);
+    if (Object.values(taken).some((n) => n > 0)) {
+      return { error: "Riders are already registered for this day, so its date can't change. Cancel it and add a new day instead." };
+    }
+    if (schedule.some((d) => d.date === v.date)) return { error: "There's already a ride day on that date." };
+    await removeRideDay(v.originalDate);
+  }
+  await putRideDay(
+    rideDaySchema.parse({
+      id: `ride-${v.date}`,
+      date: v.date,
+      start: v.start,
+      end: v.end,
+      title: v.title,
+      registrationOpen: v.registrationOpen,
+      cancelled: existing?.cancelled ?? false,
+      cancelReason: existing?.cancelReason ?? "",
+    }),
+  );
+  refreshSite();
+  return { ok: true, message: v.originalDate ? "Ride day updated." : "Ride day added." };
+}
+
+export async function deleteRideDay(date: string): Promise<ActionState> {
+  await requireOwner();
+  const taken = await getStore().spotsTaken(date);
+  if (Object.values(taken).some((n) => n > 0)) {
+    return { error: "Riders are registered for this day. Cancel it instead so they see it on the site." };
+  }
+  await removeRideDay(date);
+  refreshSite();
+  return { ok: true, message: "Ride day deleted." };
+}
+
+// --- gate -------------------------------------------------------------------
+
+export async function setCheckedIn(id: string, checkedIn: boolean): Promise<ActionState> {
+  await requireOwner();
+  await getStore().setCheckedIn(id, checkedIn);
+  revalidatePath("/admin", "layout");
+  return { ok: true };
+}
+
+// --- settings -----------------------------------------------------------------
+
+const time = z.string().regex(/^\d{2}:\d{2}$/);
+const settingsForm = z.object({
+  prices: z.object({
+    main: z.coerce.number().min(0).max(1000),
+    junior: z.coerce.number().min(0).max(1000),
+    spectator: z.coerce.number().min(0).max(1000),
+  }),
+  defaultCapacity: z.coerce.number().int().min(1, "Spots must be at least 1").max(500),
+  hours: z.array(z.object({ day: z.string().trim().min(1), open: time, close: time })).max(7),
+  hoursNote: z.string().trim().max(300),
+  membership: z.object({
+    open: z.boolean(),
+    price: z.coerce.number().min(0).max(10000),
+    perks: z.array(z.string().trim().min(1).max(80)).max(8),
+  }),
+});
+
+export async function saveSettings(input: z.input<typeof settingsForm>): Promise<ActionState> {
+  await requireOwner();
+  const parsed = settingsForm.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form." };
+  const v = parsed.data;
+  const [practice, membership] = await Promise.all([getPractice(), getMembership()]);
+  await putDoc("practice", { ...practice, prices: v.prices, defaultCapacity: v.defaultCapacity, hours: v.hours, hoursNote: v.hoursNote });
+  await putDoc("membership", { ...membership, ...v.membership });
+  refreshSite();
+  return { ok: true, message: "Saved. The site is updated." };
+}
+
+const weekdayIndex: Record<string, number> = { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
+
+/** Adds ride days for the regular weekly hours over the next N weeks, skipping dates already on the schedule. */
+export async function fillRegularWeeks(weeks: number): Promise<ActionState> {
+  await requireOwner();
+  const n = Math.min(Math.max(Math.trunc(weeks), 1), 12);
+  const [practice, schedule] = await Promise.all([getPractice(), getSchedule()]);
+  const existing = new Set(schedule.map((d) => d.date));
+  const today = new Date(`${parkNow().date}T12:00:00Z`);
+  let added = 0;
+  for (let i = 0; i < n * 7; i++) {
+    const d = new Date(today.getTime() + i * 86_400_000);
+    const iso = d.toISOString().slice(0, 10);
+    const hours = practice.hours.find((h) => weekdayIndex[h.day.toLowerCase()] === d.getUTCDay());
+    if (!hours || existing.has(iso)) continue;
+    await putRideDay({ id: `ride-${iso}`, date: iso, start: hours.open, end: hours.close, title: "Open Practice", cancelled: false, cancelReason: "", registrationOpen: false });
+    added++;
+  }
+  refreshSite();
+  return added ? { ok: true, message: `Added ${added} ride day${added === 1 ? "" : "s"}.` } : { ok: true, message: "Those weeks are already on the schedule." };
+}

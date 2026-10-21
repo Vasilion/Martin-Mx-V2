@@ -1,5 +1,6 @@
 import { park, waivers } from "@/lib/park/facts";
 import { formatDay, formatPrice, formatTimeRange } from "@/lib/park/format";
+import { emailLogoUrl } from "@/lib/media";
 
 /**
  * Transactional email templates. Table layout + inline styles because email clients
@@ -20,7 +21,7 @@ function layout({ preheader, eyebrow, title, body }: { preheader: string; eyebro
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:${C.ink2};border:1px solid ${C.line};">
   <tr><td style="height:4px;background:${C.volt};font-size:0;line-height:0">&nbsp;</td></tr>
   <tr><td style="padding:28px 32px 8px;">
-    <img src="${park.url}/brand/martinmx-logo-white@2x.png" width="220" height="28" alt="Martin MX" style="display:block;border:0;">
+    <img src="${emailLogoUrl}" width="220" height="28" alt="Martin MX" style="display:block;border:0;">
   </td></tr>
   <tr><td style="padding:24px 32px 0;font-family:Arial,Helvetica,sans-serif;">
     <p style="margin:0;color:${C.volt};font-size:12px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;">${esc(eyebrow)}</p>

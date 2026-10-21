@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Kanit } from "next/font/google";
 import "./globals.css";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteHeader } from "@/components/site/site-header";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { park } from "@/lib/park/facts";
 import { pageMetadata } from "@/lib/seo";
 
@@ -65,17 +62,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           // eslint-disable-next-line react/no-danger -- static, trusted JSON-LD
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <a
-          href="#main-content"
-          className="sr-only z-[100] rounded-sm bg-volt px-4 py-2 font-semibold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
-        >
-          Skip to content
-        </a>
-        <TooltipProvider>
-          <SiteHeader />
-          <main id="main-content">{children}</main>
-          <SiteFooter />
-        </TooltipProvider>
+        {children}
       </body>
     </html>
   );
