@@ -54,13 +54,39 @@ function BigDate({ day }: { day: RideDay }) {
   );
 }
 
+function toneOf(status: TrackStatus): Tone {
+  if (status.kind === "riding-now" || status.kind === "today") return "go";
+  if (status.kind === "cancelled") return "stop";
+  return "wait";
+}
+
+/** One-line status for tight spots (the mobile hero), linking down to the full card. */
+export function TrackStatusChip({ status, href }: { status: TrackStatus; href: string }) {
+  const tone = toneOf(status);
+  const label =
+    status.kind === "riding-now"
+      ? `Open now · till ${formatTime(status.day.end)}`
+      : status.kind === "today"
+        ? `Riding today · ${formatTimeRange(status.day.start, status.day.end)}`
+        : status.kind === "cancelled"
+          ? "Practice cancelled today"
+          : status.kind === "upcoming"
+            ? `Next ride · ${formatDay(status.day.date)}`
+            : "Off season";
+  return (
+    <a
+      href={href}
+      className="inline-flex items-center gap-2.5 rounded-sm border border-white/15 bg-ink/70 px-3.5 py-2 backdrop-blur-md transition hover:border-white/40"
+    >
+      <span className={cn("size-2 rounded-full", toneStyles[tone].dot, tone === "go" && "animate-pulse-dot")} aria-hidden />
+      <span className={cn("eyebrow text-[0.7rem]", toneStyles[tone].text)}>{label}</span>
+      <ArrowRight className="size-3.5 rotate-90 text-white/60" aria-hidden />
+    </a>
+  );
+}
+
 export function TrackStatusCard({ status, weather }: { status: TrackStatus; weather: Weather | null }) {
-  const tone: Tone =
-    status.kind === "riding-now" || status.kind === "today"
-      ? "go"
-      : status.kind === "cancelled"
-        ? "stop"
-        : "wait";
+  const tone = toneOf(status);
 
   return (
     <section
