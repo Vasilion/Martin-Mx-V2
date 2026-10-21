@@ -1,60 +1,60 @@
-import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Archivo, Kanit } from "next/font/google";
 import "./globals.css";
-import { SideBrandRails } from "@/components/side-brand-rails";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteNav } from "@/components/site-nav";
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { park } from "@/lib/park/facts";
 
-const inter = Inter({
-  variable: "--font-inter",
+const kanit = Kanit({
+  variable: "--font-kanit",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-});
+const description =
+  "Two motocross tracks just off US-131 in Martin, Michigan. Open practice, a dedicated junior track, yearly memberships and online registration.";
 
 export const metadata: Metadata = {
-  title: "Martin MX Park",
-  description: "Modern Martin MX Park website with live operations controls and CMS-managed content.",
+  metadataBase: new URL(park.url),
+  title: { default: "Martin MX Park | Motocross in Martin, Michigan", template: "%s | Martin MX Park" },
+  description,
   openGraph: {
     title: "Martin MX Park",
-    description: "Motocross schedules, registration, memberships, and track info.",
-    url: "https://www.martinmxpark.com",
-    siteName: "Martin MX Park",
+    description,
+    url: park.url,
+    siteName: park.name,
     type: "website",
+    images: [{ url: "/photos/roost-292.jpg", width: 1800, height: 1200, alt: "Rider roosting at Martin MX Park" }],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Martin MX Park",
-    description: "Motocross schedules, registration, memberships, and track info.",
-  },
+  twitter: { card: "summary_large_image", title: "Martin MX Park", description },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#0b0b0b",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${sora.variable} antialiased`}
-      >
+    <html lang="en" className={`${kanit.variable} ${archivo.variable}`}>
+      <body>
         <a
           href="#main-content"
-          className="sr-only absolute left-4 top-4 z-50 rounded bg-green-700 px-3 py-2 text-sm font-medium text-white focus:not-sr-only"
+          className="sr-only z-[100] rounded-sm bg-volt px-4 py-2 font-semibold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>
-        <SiteNav />
-        <SideBrandRails />
-        <main id="main-content" className="relative z-10 mx-auto min-h-screen w-full max-w-7xl px-4 py-8 md:px-6">
-          {children}
-        </main>
-        <SiteFooter />
+        <TooltipProvider>
+          <SiteHeader />
+          <main id="main-content">{children}</main>
+          <SiteFooter />
+        </TooltipProvider>
       </body>
     </html>
   );

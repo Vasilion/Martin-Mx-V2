@@ -1,81 +1,99 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ScheduleCalendar } from "@/components/schedule-calendar";
-import { getScheduleEvents } from "@/lib/content/loader";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/site/page-header";
+import { RideDayRow } from "@/components/schedule/ride-day-row";
+import { MonthCalendar } from "@/components/schedule/month-calendar";
+import { Reveal } from "@/components/motion/reveal";
+import { getPractice, getSchedule, parkNow, resolveTrackStatus } from "@/lib/park/live";
+import { getWeather } from "@/lib/park/weather";
+import { formatDay, formatTime, formatTimeRange } from "@/lib/park/format";
+import { park } from "@/lib/park/facts";
+
+export const metadata: Metadata = {
+  title: "Schedule",
+  description: "Upcoming open practice days, hours and cancellations at Martin MX Park in Martin, Michigan.",
+};
+
+export const revalidate = 60;
 
 export default async function SchedulePage() {
-  const events = await getScheduleEvents();
-  const upcomingCount = events.filter((event) => !event.isCancelled).length;
-  const cancelledCount = events.filter((event) => event.isCancelled).length;
+  const [schedule, practice, weather] = await Promise.all([getSchedule(), getPractice(), getWeather()]);
+  const { date: today } = parkNow();
+  const status = resolveTrackStatus(schedule);
+  const upcoming = schedule.filter((d) => d.date >= today);
+  const forecastFor = (date: string) => weather?.days.find((d) => d.date === date);
+
+  const headline =
+    status.kind === "riding-now"
+      ? `Open now until ${formatTime(status.day.end)}.`
+      : status.kind === "today"
+        ? `Riding today, ${formatTimeRange(status.day.start, status.day.end)}.`
+        : status.kind === "cancelled"
+          ? `Today's practice is cancelled${status.day.cancelReason ? `: ${status.day.cancelReason}` : "."}`
+          : status.kind === "upcoming"
+            ? `Next ride day: ${formatDay(status.day.date, "long")}, ${formatTimeRange(status.day.start, status.day.end)}.`
+            : "The season's wrapped. New dates post here first.";
+
   return (
-    <section className="space-y-6 text-white">
-      <header className="mx-glow-card relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/80 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-        <div className="mx-grid-overlay pointer-events-none absolute inset-0 opacity-20" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,142,0,0.2),transparent_48%)]" />
-        <div className="relative grid gap-5 md:grid-cols-[1.2fr_0.8fr] md:items-end">
-          <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-zinc-400">Ride Calendar</p>
-            <h1 className="mt-2 text-3xl font-bold md:text-4xl">Schedule</h1>
-            <p className="mt-2 text-sm text-zinc-300 md:text-base">
-              Browse upcoming practice windows by month. Open events link directly to registration.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link
-                href="/register#practice-signup"
-                className="mx-cta-primary px-4 py-2 text-sm"
-              >
-                Register for Practice
-              </Link>
-              <Link
-                href="/register#membership-signup"
-                className="mx-cta-secondary px-4 py-2 text-sm"
-              >
-                Membership Signup
-              </Link>
+    <>
+      <PageHeader
+        eyebrow="Ride calendar"
+        title="Schedule"
+        image="/photos/roost-yellow.jpg"
+        imagePosition="center 40%"
+        intro={
+          <p>
+            <span className="font-semibold text-white">{headline}</span> Days can change with weather and track
+            conditions. Cancellations show up here the moment we post them.
+          </p>
+        }
+      />
+
+      <section className="bg-ink pb-24 md:pb-32">
+        <div className="mx-auto grid max-w-[1440px] gap-14 px-4 md:px-8 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <h2 className="eyebrow text-white/50">Upcoming ride days</h2>
+            </Reveal>
+            {upcoming.length > 0 ? (
+              <ul className="mt-4 border-t border-white/10">
+                {upcoming.map((day) => (
+                  <RideDayRow key={day.id} day={day} isToday={day.date === today} forecast={forecastFor(day.date)} />
+                ))}
+              </ul>
+            ) : (
+              <div className="mt-6 rounded-sm border border-white/10 bg-ink-2 p-8">
+                <p className="display text-4xl text-white">Nothing on the books yet.</p>
+                <p className="mt-3 text-white/65">
+                  New ride days post here and on{" "}
+                  <a href={park.social.facebook} target="_blank" rel="noreferrer" className="text-volt underline-offset-4 hover:underline">
+                    Facebook
+                  </a>
+                  . Regular hours are below.
+                </p>
+              </div>
+            )}
+
+            <div className="mt-14">
+              <h2 className="eyebrow text-white/50">Regular hours</h2>
+              <ul className="mt-4 grid gap-px overflow-hidden rounded-sm bg-white/10 sm:grid-cols-3">
+                {practice.hours.map((h) => (
+                  <li key={h.day} className="bg-ink-2 p-5">
+                    <p className="font-display text-2xl font-bold uppercase italic text-white">{h.day}</p>
+                    <p className="mt-1 text-white/65">{formatTimeRange(h.open, h.close)}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-sm text-white/50">{practice.hoursNote}</p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <article className="rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
-              <p className="text-xs uppercase tracking-wide text-zinc-400">Open Events</p>
-              <p className="mt-2 text-2xl font-bold text-green-300">{upcomingCount}</p>
-            </article>
-            <article className="rounded-2xl border border-zinc-700/80 bg-zinc-950/70 p-4">
-              <p className="text-xs uppercase tracking-wide text-zinc-400">Cancelled</p>
-              <p className="mt-2 text-2xl font-bold text-red-300">{cancelledCount}</p>
-            </article>
-          </div>
-        </div>
-      </header>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        {[
-          { label: "Planning Window", value: "Monthly" },
-          { label: "Event Visibility", value: "Updated Weekly" },
-          { label: "Signup Flow", value: "Direct Linked" },
-        ].map((item) => (
-          <article
-            key={item.label}
-            className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-4 shadow-[0_14px_40px_rgba(0,0,0,0.3)]"
-          >
-            <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">{item.label}</p>
-            <p className="mt-2 text-2xl font-bold">{item.value}</p>
-          </article>
-        ))}
+          <aside className="lg:col-span-5">
+            <div className="lg:sticky lg:top-28">
+              <MonthCalendar days={schedule} today={today} startMonth={upcoming[0]?.date ?? today} />
+            </div>
+          </aside>
+        </div>
       </section>
-
-      <article className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
-        <div className="relative aspect-[16/7] w-full bg-zinc-800 md:aspect-[16/6]">
-          <Image
-            src="/media/gallery/strapi-gallery-5.jpg"
-            alt="Schedule and session planning visual"
-            fill
-            sizes="(max-width: 768px) 100vw, 70vw"
-            className="object-cover"
-          />
-        </div>
-      </article>
-
-      <ScheduleCalendar events={events} />
-    </section>
+    </>
   );
 }

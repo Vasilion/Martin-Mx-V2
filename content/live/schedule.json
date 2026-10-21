@@ -1,0 +1,54 @@
+{
+  "events": [
+    {
+      "id": "ride-2026-10-21",
+      "date": "2026-10-21",
+      "start": "14:00",
+      "end": "19:00",
+      "title": "Open Practice",
+      "cancelled": false,
+      "cancelReason": "",
+      "registrationOpen": false
+    },
+    {
+      "id": "ride-2026-10-24",
+      "date": "2026-10-24",
+      "start": "10:00",
+      "end": "15:00",
+      "title": "Open Practice",
+      "cancelled": false,
+      "cancelReason": "",
+      "registrationOpen": false
+    },
+    {
+      "id": "ride-2026-10-25",
+      "date": "2026-10-25",
+      "start": "11:00",
+      "end": "16:00",
+      "title": "Open Practice",
+      "cancelled": false,
+      "cancelReason": "",
+      "registrationOpen": false
+    },
+    {
+      "id": "ride-2026-10-28",
+      "date": "2026-10-28",
+      "start": "14:00",
+      "end": "19:00",
+      "title": "Open Practice",
+      "cancelled": false,
+      "cancelReason": "",
+      "registrationOpen": false
+    },
+    {
+      "id": "ride-2026-10-31",
+      "date": "2026-10-31",
+      "start": "10:00",
+      "end": "15:00",
+      "title": "Open Practice",
+      "cancelled": false,
+      "cancelReason": "",
+      "registrationOpen": false
+    }
+  ]
+}

@@ -1,147 +1,179 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./legacy.css";
+
+/*
+ * Martin MX design system.
+ * Dark-only by design: the brand is a white logo on near-black with motocross green.
+ * - brand  #338e00  the Martin green — fills, large surfaces, focus rings
+ * - volt   #5fd400  brighter green for text + CTAs on black (brand green is too dark for small text)
+ * - ink    #0b0b0b  page background; ink-2 #141414 is the old site's section black
+ * - bone   #efede6  warm off-white for editorial light sections
+ */
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
+  --brand: #338e00;
+  --volt: #5fd400;
+  --ink: #0b0b0b;
+  --ink-2: #141414;
+  --ink-3: #1d1d1d;
+  --bone: #efede6;
+  --dirt: #b98a5e;
+  --danger: #ff4d3d;
+  --caution: #ffb539;
+
+  --background: var(--ink);
+  --foreground: #f5f5f2;
+  --card: var(--ink-2);
+  --card-foreground: #f5f5f2;
+  --popover: var(--ink-2);
+  --popover-foreground: #f5f5f2;
+  --primary: var(--volt);
+  --primary-foreground: #0b0b0b;
+  --secondary: #222222;
+  --secondary-foreground: #f5f5f2;
+  --muted: #1d1d1d;
+  --muted-foreground: #a3a39c;
+  --accent: #222222;
+  --accent-foreground: #f5f5f2;
+  --destructive: var(--danger);
+  --border: rgb(255 255 255 / 0.1);
+  --input: rgb(255 255 255 / 0.14);
+  --ring: var(--volt);
+  --radius: 0.375rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-inter);
-}
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-body {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% 0%, rgba(51, 142, 0, 0.22), transparent 38%),
-    linear-gradient(180deg, #0a0a0a 0%, #111111 55%, #0a0a0a 100%);
-  color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
-  letter-spacing: -0.01em;
-}
+  --color-brand: var(--brand);
+  --color-volt: var(--volt);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-bone: var(--bone);
+  --color-dirt: var(--dirt);
+  --color-danger: var(--danger);
+  --color-caution: var(--caution);
 
-*::selection {
-  background: rgba(51, 142, 0, 0.35);
-  color: #ffffff;
-}
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-kanit), var(--font-archivo), sans-serif;
+  --font-heading: var(--font-kanit), var(--font-archivo), sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-::-webkit-scrollbar {
-  width: 10px;
-}
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
 
-::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(51, 142, 0, 0.95), rgba(51, 142, 0, 0.5));
-}
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-dot: pulse-dot 2s ease-out infinite;
 
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.mx-grid-overlay {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-.mx-glow-card {
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 0 24px rgba(51, 142, 0, 0.2);
-}
-
-@keyframes mxFloat {
-  0% {
-    transform: translateY(0px);
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
-  50% {
-    transform: translateY(-6px);
-  }
-  100% {
-    transform: translateY(0px);
+  @keyframes pulse-dot {
+    0% { box-shadow: 0 0 0 0 color-mix(in oklab, currentColor 60%, transparent); }
+    70% { box-shadow: 0 0 0 10px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
   }
 }
 
-@keyframes mxMarquee {
-  0% {
-    transform: translateX(0);
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-  100% {
-    transform: translateX(-50%);
+  html {
+    @apply font-sans;
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  ::selection {
+    background: var(--volt);
+    color: var(--ink);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }
 
-.mx-float {
-  animation: mxFloat 4.5s ease-in-out infinite;
+@layer components {
+  /* Race-poster display type: condensed, heavy, italic, tight. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+  }
+  /* Small uppercase label used for eyebrows, stats, metadata. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  /* Outlined display text for layered headline effects. */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px currentColor;
+  }
+  /* Film grain over photography so flat shots feel printed. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Angled section edge — the "start gate" slash used between sections. */
+  .clip-slant-b {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4vw), 0 100%);
+  }
+  .clip-slant-t {
+    clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%);
+  }
 }
 
-.mx-marquee-track {
-  width: max-content;
-  animation: mxMarquee 34s linear infinite;
-}
-
-.mx-cta-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  line-height: 1;
-  border-radius: 0.75rem;
-  background: linear-gradient(90deg, #15803d 0%, #16a34a 100%);
-  color: #ffffff;
-  font-weight: 600;
-  min-height: 2.75rem;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-
-.mx-cta-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(21, 128, 61, 0.35);
-  filter: brightness(1.06);
-}
-
-.mx-cta-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  line-height: 1;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(161, 161, 170, 0.7);
-  color: #e4e4e7;
-  font-weight: 600;
-  min-height: 2.75rem;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.mx-cta-secondary:hover {
-  border-color: rgba(228, 228, 231, 0.95);
-  background: rgba(39, 39, 42, 0.4);
-  transform: translateY(-1px);
-}
-
-.mx-card-interactive {
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.mx-card-interactive:hover {
-  transform: translateY(-2px);
-  border-color: rgba(34, 197, 94, 0.45);
-}
-
-.mx-display {
-  font-family: var(--font-sora), var(--font-inter), Arial, Helvetica, sans-serif;
-  letter-spacing: -0.03em;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

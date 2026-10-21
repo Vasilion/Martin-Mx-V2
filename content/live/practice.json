@@ -1,0 +1,16 @@
+{
+  "prices": { "main": 40, "junior": 25, "spectator": 5 },
+  "classes": [
+    { "id": "AB", "label": "A/B", "track": "main" },
+    { "id": "C", "label": "C", "track": "main" },
+    { "id": "MINI", "label": "Mini", "track": "main" },
+    { "id": "JR", "label": "Jr Track", "track": "junior" }
+  ],
+  "defaultCapacity": 60,
+  "hours": [
+    { "day": "Wednesday", "open": "15:00", "close": "20:00" },
+    { "day": "Saturday", "open": "10:00", "close": "15:00" },
+    { "day": "Sunday", "open": "11:00", "close": "16:00" }
+  ],
+  "hoursNote": "Bikes only. Hours can change with weather and track conditions, so check the schedule before you load up."
+}
