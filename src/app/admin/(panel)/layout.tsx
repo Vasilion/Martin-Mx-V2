@@ -11,9 +11,9 @@ export const dynamic = "force-dynamic";
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const owner = await requireOwner();
   return (
-    <div className="lg:grid lg:min-h-svh lg:grid-cols-[248px_1fr] print:block">
+    <div className="lg:grid lg:min-h-screen lg:grid-cols-[248px_1fr] print:block">
       {/* Desktop sidebar */}
-      <aside className="hidden flex-col bg-ink p-5 text-white lg:flex print:hidden">
+      <aside className="hidden flex-col bg-ink p-5 text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:overflow-y-auto print:hidden">
         <Link href="/admin" className="px-3 py-2">
           <Logo className="h-[18px] w-auto" />
           <span className="mt-2 block text-xs font-medium uppercase tracking-[0.2em] text-white/45">Dashboard</span>

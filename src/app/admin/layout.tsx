@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#0b0b0b" };
 
 export default function AdminRoot({ children }: { children: React.ReactNode }) {
-  return <div className="theme-admin min-h-svh">{children}</div>;
+  return <div className="theme-admin min-h-screen">{children}</div>;
 }
