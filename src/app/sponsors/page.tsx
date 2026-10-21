@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/site/page-header";
@@ -7,10 +8,13 @@ import { Button } from "@/components/ui/button";
 import { getSponsors, type Sponsor } from "@/lib/park/live";
 import { park } from "@/lib/park/facts";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Sponsors",
-  description: "The local businesses and brands that keep Martin MX Park running. Learn how to sponsor the track.",
-};
+  description:
+    "The local businesses that keep Martin MX Park running, and how to put your brand trackside.",
+  path: "/sponsors",
+  og: "sponsors",
+});
 
 export const revalidate = 300;
 

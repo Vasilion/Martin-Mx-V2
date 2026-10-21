@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/site/page-header";
 import { RideDayRow } from "@/components/schedule/ride-day-row";
 import { MonthCalendar } from "@/components/schedule/month-calendar";
@@ -8,10 +9,13 @@ import { getWeather } from "@/lib/park/weather";
 import { formatDay, formatTime, formatTimeRange } from "@/lib/park/format";
 import { park } from "@/lib/park/facts";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Schedule",
-  description: "Upcoming open practice days, hours and cancellations at Martin MX Park in Martin, Michigan.",
-};
+  description:
+    "Upcoming open practice days, hours, live track status and cancellations at Martin MX Park in Martin, Michigan.",
+  path: "/schedule",
+  og: "schedule",
+});
 
 export const revalidate = 60;
 

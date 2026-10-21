@@ -10,6 +10,7 @@ export function PageHeader({
   intro,
   image,
   imagePosition = "center",
+  compact = false,
   children,
 }: {
   eyebrow: string;
@@ -18,10 +19,18 @@ export function PageHeader({
   intro?: ReactNode;
   image: string;
   imagePosition?: string;
+  /** Shorter band for task pages (register, forms) so the content starts above the fold. */
+  compact?: boolean;
   children?: ReactNode;
 }) {
   return (
-    <header className="grain clip-slant-b relative isolate overflow-hidden bg-ink pb-[calc(4vw+3.5rem)] pt-32 md:pb-[calc(4vw+5rem)] md:pt-44">
+    <header
+      className={
+        compact
+          ? "grain relative isolate overflow-hidden border-b border-white/10 bg-ink pb-8 pt-24 md:pb-10 md:pt-32"
+          : "grain clip-slant-b relative isolate overflow-hidden bg-ink pb-[calc(4vw+3.5rem)] pt-32 md:pb-[calc(4vw+5rem)] md:pt-44"
+      }
+    >
       <Image
         src={image}
         alt=""
@@ -29,7 +38,7 @@ export function PageHeader({
         priority
         sizes="100vw"
         style={{ objectPosition: imagePosition }}
-        className="-z-10 object-cover opacity-45"
+        className={`-z-10 object-cover ${compact ? "opacity-30" : "opacity-45"}`}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/70 to-ink/30" />
       <div className="mx-auto max-w-[1440px] px-4 md:px-8">
@@ -38,9 +47,9 @@ export function PageHeader({
             <span className="h-px w-10 bg-volt" aria-hidden />
             {eyebrow}
           </p>
-          <h1 className="display mt-5 text-[clamp(3.5rem,10vw,9.5rem)] text-white">
+          <h1 className={`display mt-5 text-white ${compact ? "text-[clamp(2.75rem,5.5vw,5rem)]" : "text-[clamp(3.5rem,10vw,9.5rem)]"}`}>
             {title}
-            {accent && <span className="block text-volt">{accent}</span>}
+            {accent && <span className={compact ? "text-volt sm:ml-[0.25em]" : "block text-volt"}>{compact && <br className="sm:hidden" />}{accent}</span>}
           </h1>
         </Reveal>
         {intro && (

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { TriangleAlert, ArrowDownToLine, Check, CupSoda, ShieldCheck } from "lucide-react";
 import { PageHeader } from "@/components/site/page-header";
@@ -15,11 +16,13 @@ import {
 import { getPractice } from "@/lib/park/live";
 import { formatPrice, formatTimeRange } from "@/lib/park/format";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Track Info",
   description:
-    "Hours, pricing, gear requirements, minor rider policy, waivers and track rules for Martin MX Park.",
-};
+    "Hours, pricing, required gear, minor rider policy, waivers and track rules for Martin MX Park.",
+  path: "/track-info",
+  og: "track-info",
+});
 
 export const revalidate = 300;
 

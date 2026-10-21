@@ -11,7 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/gallery",
     "/sponsors",
     "/hiring",
-    "/daily-signup",
     "/contact",
   ];
 

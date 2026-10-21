@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
 import { TracksSection } from "@/components/home/tracks-section";
 import { WalkTheTrack } from "@/components/home/walk-the-track";
@@ -10,6 +11,14 @@ import { getMembership, getPractice, getSchedule, getSponsors, resolveTrackStatu
 import { getWeather } from "@/lib/park/weather";
 import { formatTimeRange } from "@/lib/park/format";
 import { park } from "@/lib/park/facts";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  description:
+    "Two motocross tracks just off US-131 in Martin, Michigan. Live track status, open practice, a dedicated junior track and yearly memberships.",
+  path: "/",
+  og: "home",
+});
 
 // Track status depends on today's date at the park, so re-render at most once a minute.
 export const revalidate = 60;
