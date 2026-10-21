@@ -8,5 +8,7 @@ export const editSections = [
   { href: "/admin/content/waivers", title: "Waivers", desc: "The PDFs riders download" },
   { href: "/admin/content/gallery", title: "Gallery", desc: "Add photos from your phone" },
   { href: "/admin/content/sponsors", title: "Sponsors", desc: "Logos and links" },
+  { href: "/admin/content/hiring", title: "Hiring", desc: "Taking applications, positions, availability" },
+  { href: "/admin/content/contact", title: "Contact page", desc: "The intro on the contact page" },
   { href: "/admin/content/site", title: "Contact & links", desc: "Phone, email, address, Facebook, Instagram, store" },
 ] as const;

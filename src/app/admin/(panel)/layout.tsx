@@ -5,11 +5,14 @@ import { BottomTabs, SidebarNav } from "@/components/admin/admin-nav";
 import { requireOwner } from "@/lib/auth/session";
 import { logout } from "@/app/admin/actions";
 import { Toaster } from "@/components/admin/toaster";
+import { unreadCounts } from "@/lib/inbox/store";
 
 export const dynamic = "force-dynamic";
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const owner = await requireOwner();
+  const counts = await unreadCounts();
+  const unread = counts.application + counts.message;
   return (
     <div className="lg:grid lg:min-h-screen lg:grid-cols-[248px_1fr] print:block">
       {/* Desktop sidebar */}
@@ -19,7 +22,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           <span className="mt-2 block text-xs font-medium uppercase tracking-[0.2em] text-white/45">Dashboard</span>
         </Link>
         <div className="mt-8">
-          <SidebarNav />
+          <SidebarNav unread={unread} />
         </div>
         <div className="mt-auto space-y-1 border-t border-white/10 pt-4">
           <a href="/" target="_blank" className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-white/65 hover:bg-white/6 hover:text-white">
@@ -52,7 +55,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       </header>
 
       <main className="min-w-0 px-4 pb-28 pt-5 md:px-8 md:pt-8 lg:pb-12 print:p-0">{children}</main>
-      <BottomTabs />
+      <BottomTabs unread={unread} />
       <Toaster />
     </div>
   );

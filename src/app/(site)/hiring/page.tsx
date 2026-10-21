@@ -1,38 +1,73 @@
-import Image from "next/image";
-import { FormSubmit } from "@/components/form-submit";
-import { getHiringContent } from "@/lib/content/loader";
+import type { Metadata } from "next";
+import { Clock, Flag, Users } from "lucide-react";
+import { PageHeader } from "@/components/site/page-header";
+import { HiringForm } from "@/components/forms/hiring-form";
+import { getContent, getSite } from "@/lib/park/content";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Work With Us",
+  description: "Apply to work at Martin MX Park: flaggers, rider registration and more.",
+  path: "/hiring",
+  og: "hiring",
+});
+
+export const dynamic = "force-dynamic";
 
 export default async function HiringPage() {
-  const hiring = await getHiringContent();
-
+  const [hiring, site] = await Promise.all([getContent("hiring"), getSite()]);
   return (
-    <section className="space-y-8 text-white md:space-y-10">
-      <header className="border-y border-white/10 bg-black/15 p-6">
-        <h1 className="mx-display text-3xl font-bold md:text-5xl">{hiring.title}</h1>
-        <p className="mt-2 text-sm text-zinc-300 md:text-base">{hiring.description}</p>
-      </header>
-      <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-transparent shadow-[0_14px_40px_rgba(0,0,0,0.3)]">
-        <div className="relative aspect-[16/8] w-full bg-zinc-800 md:aspect-[5/2]">
-          <Image
-            src={hiring.heroImage}
-            alt={hiring.heroImageAlt}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
-            className="object-cover"
-          />
+    <>
+      <PageHeader compact eyebrow="Work with us" title="Work" accent="the track." image="/media/gallery/strapi-main-1.jpg" imagePosition="center 60%" />
+      <section className="bg-ink pb-24 pt-12 md:pb-32 md:pt-16">
+        <div className="mx-auto grid max-w-[1440px] gap-14 px-4 md:px-8 lg:grid-cols-12">
+          <aside className="lg:col-span-4">
+            <div className="space-y-6 lg:sticky lg:top-28">
+              <p className="text-lg text-white/80">{hiring.intro}</p>
+              <ul className="space-y-4 border-y border-white/10 py-6">
+                <li className="flex gap-3">
+                  <Flag className="mt-0.5 size-5 shrink-0 text-volt" aria-hidden />
+                  <span>
+                    <span className="eyebrow block text-[0.65rem] text-white/50">Positions</span>
+                    <span className="text-white">{hiring.positions.join(" · ")}</span>
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <Clock className="mt-0.5 size-5 shrink-0 text-volt" aria-hidden />
+                  <span>
+                    <span className="eyebrow block text-[0.65rem] text-white/50">When</span>
+                    <span className="text-white">Ride days during the season</span>
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <Users className="mt-0.5 size-5 shrink-0 text-volt" aria-hidden />
+                  <span>
+                    <span className="eyebrow block text-[0.65rem] text-white/50">Who</span>
+                    <span className="text-white">16 and older</span>
+                  </span>
+                </li>
+              </ul>
+              <p className="text-sm text-white/50">
+                Questions? Call{" "}
+                <a href={site.phoneHref} className="text-white/80 hover:text-volt">
+                  {site.phone}
+                </a>
+                .
+              </p>
+            </div>
+          </aside>
+          <div className="lg:col-span-7 lg:col-start-6">
+            {hiring.open ? (
+              <HiringForm positions={hiring.positions} availability={hiring.availability} />
+            ) : (
+              <div className="rounded-sm border border-white/12 bg-ink-2 p-8">
+                <p className="display text-4xl text-white">Not hiring right now.</p>
+                <p className="mt-3 text-white/65">Check back before the next season. Thanks for your interest in working at Martin MX.</p>
+              </div>
+            )}
+          </div>
         </div>
-      </article>
-      <FormSubmit
-        formType="hiring"
-        fields={[
-          { name: "fullName", label: "Full Name" },
-          { name: "email", label: "Email", type: "email" },
-          { name: "phone", label: "Phone" },
-          { name: "preferredPosition", label: "Preferred Position" },
-          { name: "availability", label: "Availability" },
-          { name: "experienceSummary", label: "Experience Summary", type: "textarea" },
-        ]}
-      />
-    </section>
+      </section>
+    </>
   );
 }

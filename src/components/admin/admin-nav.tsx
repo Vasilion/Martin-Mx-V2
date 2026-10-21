@@ -23,7 +23,7 @@ function useActive() {
   };
 }
 
-export function SidebarNav() {
+export function SidebarNav({ unread = 0 }: { unread?: number }) {
   const isActive = useActive();
   return (
     <nav aria-label="Dashboard" className="flex flex-col gap-1">
@@ -39,6 +39,7 @@ export function SidebarNav() {
         >
           <Icon className={cn("size-5", isActive(href) && "text-volt")} aria-hidden />
           {label}
+          {href === "/admin/more" && unread > 0 && <span className="ml-auto rounded-full bg-volt px-2 text-xs font-bold leading-5 text-ink">{unread}</span>}
         </Link>
       ))}
     </nav>
@@ -46,7 +47,7 @@ export function SidebarNav() {
 }
 
 /** Thumb-reachable tab bar for phones. */
-export function BottomTabs() {
+export function BottomTabs({ unread = 0 }: { unread?: number }) {
   const isActive = useActive();
   return (
     <nav
@@ -64,7 +65,12 @@ export function BottomTabs() {
                 isActive(href) ? "text-brand" : "text-black/50",
               )}
             >
-              <Icon className="size-6" strokeWidth={isActive(href) ? 2.4 : 1.8} aria-hidden />
+              <span className="relative">
+                <Icon className="size-6" strokeWidth={isActive(href) ? 2.4 : 1.8} aria-hidden />
+                {href === "/admin/more" && unread > 0 && (
+                  <span className="absolute -right-2.5 -top-1.5 min-w-5 rounded-full bg-destructive px-1 text-center text-[10px] font-bold leading-5 text-white">{unread}</span>
+                )}
+              </span>
               {label}
             </Link>
           </li>

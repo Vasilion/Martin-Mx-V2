@@ -234,3 +234,37 @@ export function AnnouncementEditor({ initial }: { initial: Content<"announcement
   );
 }
 
+// ---------------------------------------------------------------------------
+
+export function HiringEditor({ initial }: { initial: Content<"hiring"> }) {
+  const e = useEditor(initial, (v) => saveContent("hiring", v));
+  const v = e.value;
+  return (
+    <div className="space-y-5">
+      <Section title="Applications" hint="Applications land in your inbox and your email.">
+        <ToggleField
+          label="Taking applications"
+          hint={v.open ? "The form is on the Work With Us page" : "The page says you are not hiring"}
+          checked={v.open}
+          onChange={(open) => e.patch({ open })}
+        />
+        <AreaField label="Intro" value={v.intro} onChange={(intro) => e.patch({ intro })} maxLength={500} />
+        <StringList label="Positions" items={v.positions} onChange={(positions) => e.patch({ positions })} max={10} maxLength={40} addLabel="Add position" />
+        <StringList label="Availability choices" items={v.availability} onChange={(availability) => e.patch({ availability })} max={10} maxLength={40} addLabel="Add choice" />
+      </Section>
+      <SaveBar pending={e.pending} dirty={e.dirty} onSave={e.onSave} />
+    </div>
+  );
+}
+
+export function ContactEditor({ initial }: { initial: Content<"contact"> }) {
+  const e = useEditor(initial, (v) => saveContent("contact", v));
+  return (
+    <div className="space-y-5">
+      <Section title="Contact page" hint="Messages land in your inbox and your email. Phone and email come from Contact & links.">
+        <AreaField label="Intro" value={e.value.intro} onChange={(intro) => e.patch({ intro })} maxLength={300} />
+      </Section>
+      <SaveBar pending={e.pending} dirty={e.dirty} onSave={e.onSave} />
+    </div>
+  );
+}

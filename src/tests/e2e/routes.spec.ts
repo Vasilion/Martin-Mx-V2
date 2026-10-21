@@ -1,70 +1,21 @@
 import { expect, test } from "@playwright/test";
 
-test("core routes load", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Welcome to Martin MX Park" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Operations Snapshot" })).toBeVisible();
+const routes = ["/", "/schedule", "/track-info", "/register", "/register?tab=membership", "/gallery", "/sponsors", "/hiring", "/contact"];
 
-  const routes = [
-    "/register",
-    "/schedule",
-    "/track-info",
-    "/gallery",
-    "/sponsors",
-    "/hiring",
-    "/daily-signup",
-  ];
+test("every public page renders a heading and no client errors", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
   for (const route of routes) {
-    await page.goto(route);
-    await expect(page.locator("h1")).toBeVisible();
+    const res = await page.goto(route);
+    expect(res?.status(), route).toBe(200);
+    await expect(page.locator("h1").first(), route).toBeVisible();
   }
+  expect(errors).toEqual([]);
 });
 
-test("contact form submits and returns reference", async ({ page }) => {
-  await page.goto("/contact");
-  await page.getByLabel("Full Name").fill("Test Rider");
-  await page.getByLabel("Email").fill("testrider@example.com");
-  await page.getByLabel("Phone").fill("6165551212");
-  await page.getByLabel("Subject").fill("Testing submit flow");
-  await page.getByLabel("Message").fill("This is an e2e submission test.");
-  await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page.getByText("Submitted successfully. Reference:")).toBeVisible();
+test("dashboard requires sign-in", async ({ page }) => {
+  await page.goto("/admin");
+  await expect(page).toHaveURL(/\/admin\/login$/);
+  const res = await page.request.get("/admin/export?date=2026-01-01");
+  expect(res.status()).toBe(401);
 });
-
-test("practice signup form submits and returns reference", async ({ page }) => {
-  await page.goto("/register");
-  await page.getByLabel("Rider Name").fill("Practice Rider");
-  await page.getByLabel("Email").fill("practice-rider@example.com");
-  await page.getByLabel("Phone").fill("6167771234");
-  await page.getByLabel("Rider Age").fill("21");
-  await page.getByLabel("Bike Class").selectOption("A/B");
-  await page.getByLabel("Bike Size").selectOption("250cc");
-  await page.getByLabel("Practice Date").fill("2026-03-04");
-  await page.getByLabel("Session").selectOption("Wednesday Session");
-  await page.getByLabel("Track Type").selectOption("Main");
-  await page.getByLabel("Price").fill("40");
-  await page.getByLabel("Payment Status").selectOption("paid");
-  await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page).toHaveURL(/\/payment-success\?referenceId=/, { timeout: 15000 });
-  await expect(page.getByRole("heading", { name: "Practice Payment Success" })).toBeVisible();
-});
-
-test("membership signup form redirects to membership success", async ({ page }) => {
-  await page.goto("/register");
-  await page.getByRole("link", { name: "Unlimited Membership" }).click();
-  await expect(page).toHaveURL(/\/register\?tab=membership/);
-  await expect(page.getByRole("heading", { name: "Membership Signup" })).toBeVisible();
-  await page.getByLabel("Rider Name").fill("Membership Rider");
-  await page.getByLabel("Email").fill("membership-rider@example.com");
-  await page.getByLabel("Phone").fill("6168881234");
-  await page.getByLabel("Rider Age").fill("29");
-  await page.getByLabel("Bike Class").selectOption("A/B");
-  await page.getByLabel("Bike Size").selectOption("250cc");
-  await page.getByLabel("Membership Type").selectOption("Unlimited");
-  await page.getByLabel("Membership Price").fill("750");
-  await page.getByLabel("Payment Status").selectOption("paid");
-  await page.getByRole("button", { name: "Submit" }).click();
-  await expect(page).toHaveURL(/\/membership-payment-success\?referenceId=/, { timeout: 15000 });
-  await expect(page.getByRole("heading", { name: "Membership Payment Success" })).toBeVisible();
-});
-

@@ -1,104 +1,65 @@
-import Image from "next/image";
-import { FormSubmit } from "@/components/form-submit";
-import { getContactContent, getSiteSettings } from "@/lib/content/loader";
+import type { Metadata } from "next";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { PageHeader } from "@/components/site/page-header";
+import { ContactForm } from "@/components/forms/contact-form";
+import { FacebookIcon, InstagramIcon } from "@/components/site/social-icons";
+import { getContent, getSite } from "@/lib/park/content";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Contact",
+  description: "Get in touch with Martin MX Park: questions about practice, memberships, events or sponsoring.",
+  path: "/contact",
+  og: "contact",
+});
+
+export const dynamic = "force-dynamic";
 
 export default async function ContactPage() {
-  const [contact, settings] = await Promise.all([getContactContent(), getSiteSettings()]);
-
+  const [site, contact] = await Promise.all([getSite(), getContent("contact")]);
+  const ways = [
+    { icon: Phone, label: "Call or text", value: site.phone, href: site.phoneHref },
+    { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}` },
+    { icon: MapPin, label: "Visit", value: site.addressFull, href: site.mapsUrl },
+  ];
   return (
-    <section className="space-y-6 text-white">
-      <header className="rounded-3xl border border-white/10 bg-zinc-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur">
-        <h1 className="text-3xl font-bold md:text-4xl">Contact</h1>
-        <p className="mt-2 text-sm text-zinc-300 md:text-base">
-          Reach the team for track questions, scheduling, rider support, or event information.
-        </p>
-      </header>
-      <article className="mx-card-interactive rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <h2 className="text-xl font-semibold">{contact.headline}</h2>
-        <p className="mt-2 text-sm text-zinc-300">{contact.description}</p>
-        <div className="mt-4 grid gap-2 md:grid-cols-3">
-          {[
-            { label: "Response Speed", value: "Same Day" },
-            { label: "Best For", value: "Track Ops + Events" },
-            { label: "Channels", value: "Call, Email, Social" },
-          ].map((item) => (
-            <div key={item.label} className="rounded-xl border border-zinc-700 bg-zinc-950/60 p-3">
-              <p className="text-xs uppercase tracking-wide text-zinc-500">{item.label}</p>
-              <p className="mt-1 text-sm font-semibold text-zinc-100">{item.value}</p>
+    <>
+      <PageHeader compact eyebrow="Contact" title="Get in" accent="touch." image="/media/gallery/strapi-main-3.jpg" imagePosition="center 60%" />
+      <section className="bg-ink pb-24 pt-12 md:pb-32 md:pt-16">
+        <div className="mx-auto grid max-w-[1440px] gap-14 px-4 md:px-8 lg:grid-cols-12">
+          <aside className="space-y-6 lg:col-span-4">
+            <p className="text-lg text-white/80">{contact.intro}</p>
+            <ul className="divide-y divide-white/10 border-y border-white/10">
+              {ways.map((w) => (
+                <li key={w.label}>
+                  <a href={w.href} target={w.icon === MapPin ? "_blank" : undefined} rel="noreferrer" className="group flex gap-4 py-5">
+                    <w.icon className="mt-0.5 size-5 shrink-0 text-volt" aria-hidden />
+                    <span>
+                      <span className="eyebrow block text-[0.65rem] text-white/50">{w.label}</span>
+                      <span className="text-white group-hover:text-volt">{w.value}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className="flex gap-3">
+              {site.facebook && (
+                <a href={site.facebook} target="_blank" rel="noreferrer" aria-label="Facebook" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 hover:border-volt hover:text-volt">
+                  <FacebookIcon className="size-5" />
+                </a>
+              )}
+              {site.instagram && (
+                <a href={site.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 hover:border-volt hover:text-volt">
+                  <InstagramIcon className="size-5" />
+                </a>
+              )}
             </div>
-          ))}
-        </div>
-        <div className="mt-4 grid gap-2 text-sm text-zinc-300">
-          <p>Email: {settings.contactEmail}</p>
-          <p>Phone: {settings.contactPhone}</p>
-          <p>Address: {settings.address}</p>
-        </div>
-        <div className="mt-4 flex flex-wrap gap-3 text-sm">
-          <a className="mx-cta-secondary px-3 py-2" href={contact.googleMapsHref}>
-            View on Map
-          </a>
-          <a className="mx-cta-secondary px-3 py-2" href={contact.facebookHref}>
-            Facebook
-          </a>
-          <a className="mx-cta-secondary px-3 py-2" href={contact.instagramHref}>
-            Instagram
-          </a>
-          <a className="mx-cta-secondary px-3 py-2" href={contact.twitterHref}>
-            Twitter
-          </a>
-        </div>
-      </article>
-      <div className="grid gap-4 md:grid-cols-2">
-        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-          <div className="relative aspect-[4/3] w-full bg-zinc-800">
-            <Image
-              src="/media/gallery/hero.webp"
-              alt="Martin MX Park contact location visual"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
+          </aside>
+          <div className="lg:col-span-7 lg:col-start-6">
+            <ContactForm />
           </div>
-        </article>
-        <article className="mx-card-interactive overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-          <div className="relative aspect-[4/3] w-full bg-zinc-800">
-            <Image
-              src="/media/gallery/track-photo.jpg"
-              alt="Track-side view from Martin MX Park"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
-        </article>
-      </div>
-      <article className="mx-card-interactive relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/75 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.3)] backdrop-blur">
-        <div className="pointer-events-none absolute inset-0 opacity-30">
-          <Image
-            src="/media/gallery/strapi-main-1.jpg"
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
-            className="object-cover"
-          />
         </div>
-        <div className="relative flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-lg font-semibold">Need directions to the track?</h3>
-          <a href={contact.googleMapsHref} className="mx-cta-primary px-4 py-2 text-sm">
-            Open Navigation
-          </a>
-        </div>
-      </article>
-      <FormSubmit
-        formType="contact"
-        fields={[
-          { name: "fullName", label: "Full Name" },
-          { name: "email", label: "Email", type: "email" },
-          { name: "phone", label: "Phone" },
-          { name: "subject", label: "Subject" },
-          { name: "message", label: "Message", type: "textarea" },
-        ]}
-      />
-    </section>
+      </section>
+    </>
   );
 }

@@ -19,6 +19,7 @@ import {
 import { getStore } from "@/lib/registrations/store";
 import { contentSchemas, putContent, type ContentName } from "@/lib/park/content";
 import { presignUpload, type UploadKind } from "@/lib/uploads";
+import { updateInboxItem } from "@/lib/inbox/store";
 
 /**
  * Every action re-checks the session: server actions are public POST endpoints,
@@ -237,4 +238,13 @@ export async function saveSponsors(list: unknown): Promise<ActionState> {
   await putDoc("sponsors", { sponsors: parsed.data });
   refreshSite();
   return { ok: true, message: "Sponsors saved." };
+}
+
+// --- inbox ----------------------------------------------------------------------
+
+export async function setInboxState(id: string, patch: { read?: boolean; archived?: boolean }): Promise<ActionState> {
+  await requireOwner();
+  await updateInboxItem(id, patch);
+  revalidatePath("/admin", "layout");
+  return { ok: true };
 }

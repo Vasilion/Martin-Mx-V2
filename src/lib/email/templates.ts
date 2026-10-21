@@ -143,3 +143,43 @@ export function newMemberOwnerEmail(site: SiteInfo, m: { name: string; email: st
   const text = `New ${m.year} membership\n\n${details.map(([k, v]) => `${k}: ${v}`).join("\n")}`;
   return { subject: `New member: ${m.name}`, html, text };
 }
+
+/** To the owners: a new job application or contact message, all answers inline. */
+export function inboxOwnerEmail(
+  site: SiteInfo,
+  item: { kind: "application" | "message"; name: string; email: string; phone?: string; fields: { label: string; value: string }[] },
+) {
+  const isApp = item.kind === "application";
+  const details: [string, string][] = [
+    ["Name", item.name],
+    ["Email", item.email],
+    ["Phone", item.phone || "—"],
+    ...item.fields.map((f) => [f.label, f.value || "—"] as [string, string]),
+  ];
+  const html = layout({
+    site,
+    preheader: isApp ? `${item.name} applied to work at Martin MX.` : `${item.name} sent a message.`,
+    eyebrow: isApp ? "New job application" : "New message",
+    title: item.name,
+    body: `<p style="margin:0;">${isApp ? "Someone applied to work at the track." : "Someone sent a message from the website."} Reply to this email to answer them directly. It's also saved in your dashboard inbox.</p>${rows(details)}<p style="margin:16px 0 0;">${button(`${park.url}/admin/inbox`, "Open inbox")}</p>`,
+  });
+  const text = `${isApp ? "New job application" : "New message"}\n\n${details.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nInbox: ${park.url}/admin/inbox`;
+  return { subject: isApp ? `New job application: ${item.name}` : `New message from ${item.name}`, html, text };
+}
+
+/** To the person who submitted: confirms it arrived. */
+export function inboxReceiptEmail(site: SiteInfo, item: { kind: "application" | "message"; name: string }) {
+  const isApp = item.kind === "application";
+  const first = item.name.split(" ")[0] || "there";
+  const html = layout({
+    site,
+    preheader: isApp ? "We got your application." : "We got your message.",
+    eyebrow: isApp ? "Application received" : "Message received",
+    title: isApp ? "Thanks for applying." : "Thanks for reaching out.",
+    body: `<p style="margin:0;">Hi ${esc(first)}, ${isApp ? "we got your application to work at Martin MX Park. We'll reach out if it's a fit." : "we got your message and will get back to you soon."}</p><p style="margin:16px 0 0;color:${C.muted};font-size:13px;">Need us sooner? Call <a href="${site.phoneHref}" style="color:${C.volt};">${esc(site.phone)}</a>.</p>`,
+  });
+  const text = isApp
+    ? `Hi ${first}, we got your application to work at Martin MX Park. We'll reach out if it's a fit.`
+    : `Hi ${first}, we got your message and will get back to you soon.`;
+  return { subject: isApp ? "We got your application" : "We got your message", html, text };
+}

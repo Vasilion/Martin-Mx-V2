@@ -95,6 +95,15 @@ export const contentSchemas = {
     linkLabel: text(30),
     linkHref: z.union([z.literal(""), z.string().trim().max(500)]),
   }),
+  hiring: z.object({
+    open: z.boolean(),
+    intro: text(500),
+    positions: z.array(req(40)).min(1).max(10),
+    availability: z.array(req(40)).min(1).max(10),
+  }),
+  contact: z.object({
+    intro: text(300),
+  }),
   gallery: z.object({
     items: z
       .array(
@@ -169,6 +178,15 @@ const defaults: { [K in ContentName]: () => Content<K> } = {
   }),
   waivers: () => ({ items: defaultWaivers.map((w) => ({ id: w.id, label: w.label, note: w.note, href: w.href })) }),
   announcement: () => ({ active: false, tone: "info", message: "", linkLabel: "", linkHref: "" }),
+  hiring: () => ({
+    open: true,
+    intro: "Love dirt bikes and want to be part of race day? We're looking for dependable people to help run the track.",
+    positions: ["Flagger", "Rider Registration"],
+    availability: ["Wednesdays (3–8pm)", "Saturdays (9am–3pm)", "Sundays (10am–4pm)", "Weekends", "Any"],
+  }),
+  contact: () => ({
+    intro: "Questions about practice, memberships, events or sponsoring? Send a message and we'll get back to you.",
+  }),
   gallery: () => ({
     items: [
       ["/photos/roost-495.jpg", "Young rider #495 roosting through deep sand", 1600, 1200],

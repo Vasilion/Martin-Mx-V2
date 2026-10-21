@@ -12,6 +12,8 @@ import {
   TrackInfoEditor,
   TracksEditor,
   WaiversEditor,
+  HiringEditor,
+  ContactEditor,
 } from "@/components/admin/editors/content-editors";
 import { GalleryEditor, SponsorsEditor } from "@/components/admin/editors/media-editors";
 
@@ -24,6 +26,8 @@ const preview: Record<string, string> = {
   sponsors: "/sponsors",
   announcement: "/",
   site: "/",
+  hiring: "/hiring",
+  contact: "/contact",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ section: string }> }): Promise<Metadata> {
@@ -45,6 +49,10 @@ async function editorFor(section: string) {
       return <WaiversEditor initial={await getContent("waivers")} />;
     case "announcement":
       return <AnnouncementEditor initial={await getContent("announcement")} />;
+    case "hiring":
+      return <HiringEditor initial={await getContent("hiring")} />;
+    case "contact":
+      return <ContactEditor initial={await getContent("contact")} />;
     case "gallery":
       return <GalleryEditor initial={await getContent("gallery")} />;
     case "sponsors":
