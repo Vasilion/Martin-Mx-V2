@@ -37,3 +37,29 @@ export async function sendTextEmail(params: { to: string; subject: string; text:
     }),
   );
 }
+
+/** HTML + text email. Skipped (logged) when SES_FROM_EMAIL is unset outside production. */
+export async function sendEmail(params: { to: string; subject: string; html: string; text: string; replyTo?: string }) {
+  const from = process.env.SES_FROM_EMAIL;
+  if (!from) {
+    if (process.env.NODE_ENV === "production") throw new Error("SES_FROM_EMAIL is required.");
+    console.info(`[email skipped: no SES_FROM_EMAIL] to=${params.to} subject=${params.subject}`);
+    return;
+  }
+  if (process.env.NODE_ENV === "test") return;
+
+  const res = await getClient().send(
+    new SendEmailCommand({
+      FromEmailAddress: `Martin MX Park <${from}>`,
+      Destination: { ToAddresses: [params.to] },
+      ReplyToAddresses: params.replyTo ? [params.replyTo] : undefined,
+      Content: {
+        Simple: {
+          Subject: { Data: params.subject },
+          Body: { Html: { Data: params.html }, Text: { Data: params.text } },
+        },
+      },
+    }),
+  );
+  if (process.env.NODE_ENV !== "production") console.info(`[email sent] ${res.MessageId} to=${params.to} subject=${params.subject}`);
+}

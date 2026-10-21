@@ -2,6 +2,7 @@
 //   src/app/icon.png, src/app/apple-icon.png, src/app/favicon.ico
 //   public/icons/icon-{192,512}.png, public/icons/maskable-512.png
 //   public/og/<page>.jpg (1200x630 share cards)
+//   public/brand/martinmx-logo-white@2x.png (email wordmark)
 //
 // Usage: node scripts/generate-brand-assets.mjs
 // Needs network for Google Fonts (Kanit/Archivo) and Playwright's Chromium.
@@ -111,6 +112,13 @@ await renderIcon(512, { pad: 0.2, radius: 0 }, "public/icons/maskable-512.png");
 const icoFrames = [];
 for (const size of [16, 32, 48]) icoFrames.push({ size, data: await renderIcon(size, { pad: 0.02, radius: 0.12 }) });
 await fs.writeFile(path.join(root, "src/app/favicon.ico"), buildIco(icoFrames));
+
+// PNG wordmark for email (Gmail and Outlook don't render SVG). 2x for retina at 220px wide.
+await page.setViewportSize({ width: 440, height: 57 });
+await page.setContent(
+  `<html><body style="margin:0;background:transparent"><img src="${await dataUrl("public/brand/martinmx-logo-white.svg")}" style="width:440px;height:57px;display:block"></body></html>`,
+);
+await page.screenshot({ path: path.join(root, "public/brand/martinmx-logo-white@2x.png"), omitBackground: true });
 
 await page.setViewportSize({ width: 1200, height: 630 });
 for (const p of pages) {

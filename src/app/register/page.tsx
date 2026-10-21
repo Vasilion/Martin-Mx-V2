@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/site/page-header";
 import { PracticeForm, type ClassOption, type OpenDay } from "@/components/register/practice-form";
 import { PracticeClosed } from "@/components/register/practice-closed";
 import { MembershipPanel } from "@/components/register/membership-panel";
-import { getMembership, getPractice, getSchedule, parkNow, resolveTrackStatus } from "@/lib/park/live";
+import { getMembership, getSchedule, parkNow, resolveTrackStatus } from "@/lib/park/live";
+import { getOpenDays } from "@/lib/registrations/availability";
 
 export const metadata: Metadata = pageMetadata({
   title: "Register",
@@ -27,15 +28,13 @@ export default async function RegisterPage({
 }) {
   const params = await searchParams;
   const tab: Tab = params.tab === "membership" ? "membership" : "practice";
-  const [schedule, practice, membership] = await Promise.all([getSchedule(), getPractice(), getMembership()]);
+  const [schedule, { days: open, practice }, membership] = await Promise.all([getSchedule(), getOpenDays(), getMembership()]);
   const { date: today, time } = parkNow();
   const status = resolveTrackStatus(schedule);
 
   // Ride days still ahead (today counts until it ends), not cancelled.
   const upcoming = schedule.filter((d) => !d.cancelled && (d.date > today || (d.date === today && d.end > time)));
-  const openDays: OpenDay[] = upcoming
-    .filter((d) => d.registrationOpen)
-    .map((d) => ({ date: d.date, start: d.start, end: d.end, title: d.title }));
+  const openDays: OpenDay[] = open.map((d) => ({ date: d.date, start: d.start, end: d.end, title: d.title, spotsLeft: d.spotsLeft }));
   const classes: ClassOption[] = practice.classes.map((c) => ({
     ...c,
     price: c.track === "main" ? practice.prices.main : practice.prices.junior,
