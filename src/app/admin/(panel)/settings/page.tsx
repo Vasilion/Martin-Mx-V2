@@ -3,11 +3,13 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { SettingsForm } from "@/components/admin/settings-form";
 import { getMembership, getPractice } from "@/lib/park/live";
+import { PasswordForm } from "@/components/admin/password-form";
+import { requireOwner } from "@/lib/auth/session";
 
 export const metadata: Metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
-  const [practice, membership] = await Promise.all([getPractice(), getMembership()]);
+  const [practice, membership, owner] = await Promise.all([getPractice(), getMembership(), requireOwner()]);
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <Link href="/admin/more" className="inline-flex items-center gap-1 text-sm font-semibold text-muted-foreground hover:text-foreground">
@@ -18,6 +20,7 @@ export default async function SettingsPage() {
         <p className="mt-1 text-muted-foreground">Prices, spots, hours and membership. Saving updates the site right away.</p>
       </header>
       <SettingsForm practice={practice} membership={membership} />
+      <PasswordForm email={owner.email} />
     </div>
   );
 }

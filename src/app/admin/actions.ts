@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { attemptLogin } from "@/lib/auth/owners";
+import { attemptLogin, changePassword } from "@/lib/auth/owners";
 import { endSession, requireOwner, startSession } from "@/lib/auth/session";
 import {
   deleteRideDay as removeRideDay,
@@ -247,4 +247,13 @@ export async function setInboxState(id: string, patch: { read?: boolean; archive
   await updateInboxItem(id, patch);
   revalidatePath("/admin", "layout");
   return { ok: true };
+}
+
+export async function updatePassword(current: string, next: string, confirm: string): Promise<ActionState> {
+  const owner = await requireOwner();
+  if (next.length < 10) return { error: "Use at least 10 characters." };
+  if (next !== confirm) return { error: "The new passwords don't match." };
+  if (next === current) return { error: "Pick a password different from the current one." };
+  const ok = await changePassword(owner.email, current, next);
+  return ok ? { ok: true, message: "Password changed." } : { error: "Your current password isn't right." };
 }

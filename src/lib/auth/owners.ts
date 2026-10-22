@@ -1,7 +1,7 @@
 import "server-only";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
-import { verifyPassword } from "@/lib/auth/password";
+import { hashPassword, verifyPassword } from "@/lib/auth/password";
 
 /** Owner accounts: OWNER / <lowercased email>. Created with scripts/create-owner.mjs. */
 export type Owner = { email: string; name: string; passwordHash: string; failedLogins?: number; lockedUntil?: string };
@@ -54,4 +54,19 @@ export async function attemptLogin(email: string, password: string): Promise<Log
     }),
   );
   return { ok: false, reason: lock ? "locked" : "invalid" };
+}
+
+/** Owner changes their own password (current one required). */
+export async function changePassword(email: string, current: string, next: string) {
+  const owner = await getOwner(email);
+  if (!owner || !(await verifyPassword(current, owner.passwordHash))) return false;
+  await client().send(
+    new UpdateCommand({
+      TableName: table(),
+      Key: { pk: "OWNER", sk: owner.email },
+      UpdateExpression: "SET passwordHash = :h, passwordChangedAt = :t",
+      ExpressionAttributeValues: { ":h": await hashPassword(next), ":t": new Date().toISOString() },
+    }),
+  );
+  return true;
 }
