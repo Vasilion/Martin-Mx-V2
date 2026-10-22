@@ -14,7 +14,7 @@ export function PasswordForm({ email }: { email: string }) {
   const [pending, start] = useTransition();
 
   return (
-    <section className="rounded-lg border bg-card p-4 md:p-6">
+    <section id="password" className="scroll-mt-20 rounded-lg border bg-card p-4 md:p-6">
       <h2 className="text-lg font-bold">Your password</h2>
       <p className="mt-0.5 text-sm text-muted-foreground">Signed in as {email}.</p>
       <form

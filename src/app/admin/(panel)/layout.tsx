@@ -54,7 +54,15 @@ export default async function PanelLayout({ children }: { children: React.ReactN
         </div>
       </header>
 
-      <main className="min-w-0 px-4 pb-28 pt-5 md:px-8 md:pt-8 lg:pb-12 print:p-0">{children}</main>
+      <main className="min-w-0 px-4 pb-28 pt-5 md:px-8 md:pt-8 lg:pb-12 print:p-0">
+        {owner.tempPassword && (
+          <Link href="/admin/settings#password" className="mx-auto mb-5 flex max-w-3xl items-center justify-between gap-3 rounded-lg border border-caution bg-caution/20 px-4 py-3 text-sm font-semibold print:hidden">
+            You&apos;re using a temporary password. Pick your own.
+            <span className="shrink-0 underline underline-offset-4">Change it</span>
+          </Link>
+        )}
+        {children}
+      </main>
       <BottomTabs unread={unread} />
       <Toaster />
     </div>

@@ -18,7 +18,7 @@ function useActive() {
   return (href: string) => {
     if (href === "/admin") return pathname === "/admin";
     // Every editing screen lives under "More".
-    if (href === "/admin/more") return ["/admin/more", "/admin/content", "/admin/settings", "/admin/inbox"].some((p) => pathname.startsWith(p));
+    if (href === "/admin/more") return ["/admin/more", "/admin/content", "/admin/settings", "/admin/inbox", "/admin/team", "/admin/help"].some((p) => pathname.startsWith(p));
     return pathname.startsWith(href);
   };
 }

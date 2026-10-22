@@ -1,10 +1,22 @@
 import "server-only";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { ConditionalCheckFailedException, DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { randomBytes } from "node:crypto";
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 
-/** Owner accounts: OWNER / <lowercased email>. Created with scripts/create-owner.mjs. */
-export type Owner = { email: string; name: string; passwordHash: string; failedLogins?: number; lockedUntil?: string };
+/** Owner accounts: OWNER / <lowercased email>. Managed on the dashboard Team screen (or scripts/create-owner.mjs). */
+export type Owner = {
+  email: string;
+  name: string;
+  passwordHash: string;
+  failedLogins?: number;
+  lockedUntil?: string;
+  /** Set when someone else created the password; cleared when the owner picks their own. */
+  tempPassword?: boolean;
+  createdAt?: string;
+  createdBy?: string;
+  lastLoginAt?: string;
+};
 
 const MAX_FAILS = 5;
 const LOCK_MINUTES = 15;
@@ -64,9 +76,70 @@ export async function changePassword(email: string, current: string, next: strin
     new UpdateCommand({
       TableName: table(),
       Key: { pk: "OWNER", sk: owner.email },
-      UpdateExpression: "SET passwordHash = :h, passwordChangedAt = :t",
+      UpdateExpression: "SET passwordHash = :h, passwordChangedAt = :t REMOVE tempPassword",
       ExpressionAttributeValues: { ":h": await hashPassword(next), ":t": new Date().toISOString() },
     }),
   );
   return true;
+}
+
+/** Readable generated password: 4 groups of 4, no ambiguous characters. */
+export function generatePassword() {
+  const alphabet = "abcdefghjkmnpqrstuvwxyz23456789";
+  return Array.from({ length: 4 }, () => Array.from(randomBytes(4), (b) => alphabet[b % alphabet.length]).join("")).join("-");
+}
+
+export type TeamMember = { email: string; name: string; tempPassword: boolean; createdAt?: string; createdBy?: string; lastLoginAt?: string };
+
+export async function listOwners(): Promise<TeamMember[]> {
+  const res = await client().send(
+    new QueryCommand({ TableName: table(), KeyConditionExpression: "pk = :p", ExpressionAttributeValues: { ":p": "OWNER" } }),
+  );
+  return (res.Items ?? [])
+    .map((i) => ({ email: i.email, name: i.name, tempPassword: !!i.tempPassword, createdAt: i.createdAt, createdBy: i.createdBy, lastLoginAt: i.lastLoginAt }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** Adds a login with a temporary password (returned once, never stored in plain text). */
+export async function createOwner(email: string, name: string, createdBy: string) {
+  const password = generatePassword();
+  const lower = email.trim().toLowerCase();
+  try {
+    await client().send(
+      new PutCommand({
+        TableName: table(),
+        Item: { pk: "OWNER", sk: lower, email: lower, name: name.trim(), passwordHash: await hashPassword(password), tempPassword: true, createdAt: new Date().toISOString(), createdBy },
+        ConditionExpression: "attribute_not_exists(pk)",
+      }),
+    );
+  } catch (err) {
+    if (err instanceof ConditionalCheckFailedException) return { ok: false as const, error: "That email already has a login." };
+    throw err;
+  }
+  return { ok: true as const, password };
+}
+
+/** New temporary password for someone who forgot theirs. */
+export async function resetOwnerPassword(email: string) {
+  const password = generatePassword();
+  await client().send(
+    new UpdateCommand({
+      TableName: table(),
+      Key: { pk: "OWNER", sk: email.toLowerCase() },
+      UpdateExpression: "SET passwordHash = :h, tempPassword = :t REMOVE failedLogins, lockedUntil",
+      ConditionExpression: "attribute_exists(pk)",
+      ExpressionAttributeValues: { ":h": await hashPassword(password), ":t": true },
+    }),
+  );
+  return password;
+}
+
+export async function deleteOwner(email: string) {
+  await client().send(new DeleteCommand({ TableName: table(), Key: { pk: "OWNER", sk: email.toLowerCase() } }));
+}
+
+export async function recordLogin(email: string) {
+  await client().send(
+    new UpdateCommand({ TableName: table(), Key: { pk: "OWNER", sk: email }, UpdateExpression: "SET lastLoginAt = :t", ExpressionAttributeValues: { ":t": new Date().toISOString() } }),
+  );
 }

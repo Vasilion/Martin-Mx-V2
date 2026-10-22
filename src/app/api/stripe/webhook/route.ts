@@ -25,6 +25,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Bad signature" }, { status: 400 });
   }
 
+  if (event.type === "charge.refunded") {
+    // Full refunds only: take the rider off the gate list and free the spot.
+    const charge = event.data.object as Stripe.Charge;
+    const intent = typeof charge.payment_intent === "string" ? charge.payment_intent : charge.payment_intent?.id;
+    if (intent && charge.refunded) await getStore().refundByPaymentIntent(intent);
+    return NextResponse.json({ received: true });
+  }
+
   const session = event.data.object as Stripe.Checkout.Session;
   const kind = session.metadata?.kind;
 
@@ -42,6 +50,8 @@ export async function POST(req: Request) {
 async function completePractice(session: Stripe.Checkout.Session) {
   const id = session.metadata?.registrationId;
   if (!id) return;
+  const intent = typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id;
+  if (intent) await getStore().linkPaymentIntent(intent, id);
   const reg = await getStore().markPaid(id, new Date().toISOString());
   if (!reg) return; // already processed
 

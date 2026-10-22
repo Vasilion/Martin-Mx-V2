@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { attemptLogin, changePassword } from "@/lib/auth/owners";
+import { attemptLogin, changePassword, createOwner, deleteOwner, listOwners, recordLogin, resetOwnerPassword } from "@/lib/auth/owners";
 import { endSession, requireOwner, startSession } from "@/lib/auth/session";
 import {
   deleteRideDay as removeRideDay,
@@ -49,6 +49,7 @@ export async function login(_prev: ActionState, form: FormData): Promise<ActionS
     };
   }
   await startSession(result.owner.email);
+  await recordLogin(result.owner.email);
   redirect("/admin");
 }
 
@@ -256,4 +257,41 @@ export async function updatePassword(current: string, next: string, confirm: str
   if (next === current) return { error: "Pick a password different from the current one." };
   const ok = await changePassword(owner.email, current, next);
   return ok ? { ok: true, message: "Password changed." } : { error: "Your current password isn't right." };
+}
+
+// --- team -----------------------------------------------------------------------
+
+export type TeamResult = ActionState & { password?: string };
+
+const newMember = z.object({
+  name: z.string().trim().min(1, "Enter their name").max(60),
+  email: z.string().trim().email("Enter a valid email"),
+});
+
+export async function addTeamMember(input: { name: string; email: string }): Promise<TeamResult> {
+  const me = await requireOwner();
+  const parsed = newMember.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message };
+  const res = await createOwner(parsed.data.email, parsed.data.name, me.email);
+  if (!res.ok) return { error: res.error };
+  revalidatePath("/admin/team");
+  return { ok: true, message: `${parsed.data.name} can sign in now.`, password: res.password };
+}
+
+export async function resetTeamPassword(email: string): Promise<TeamResult> {
+  const me = await requireOwner();
+  if (email === me.email) return { error: "Change your own password under Settings." };
+  const password = await resetOwnerPassword(email);
+  revalidatePath("/admin/team");
+  return { ok: true, message: "New temporary password created.", password };
+}
+
+export async function removeTeamMember(email: string): Promise<ActionState> {
+  const me = await requireOwner();
+  if (email === me.email) return { error: "You can't remove yourself. Ask another owner to do it." };
+  const team = await listOwners();
+  if (team.length <= 1) return { error: "There has to be at least one login." };
+  await deleteOwner(email);
+  revalidatePath("/admin/team");
+  return { ok: true, message: "Access removed. They're signed out everywhere." };
 }

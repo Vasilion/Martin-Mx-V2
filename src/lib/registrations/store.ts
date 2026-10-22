@@ -19,13 +19,14 @@ import type { PracticeRegistration } from "@/lib/register/schema";
  *   REG#<id>        / REG          a practice registration   (gsi1: DAY#<date> / <createdAt>#<id>)
  *   DAY#<date>      / CLASS#<id>   spots taken for a class   (pending holds + paid)
  *   MEM#<id>        / MEM          a yearly membership       (gsi1: MEMBERS / <createdAt>#<id>)
+ *   PI#<intentId>   / PI           payment intent -> registration (so refunds find the rider)
  *
  * A spot is reserved *before* checkout with a conditional increment, so the last spot
  * can't be sold twice. Expired or abandoned checkouts release it.
  * With no table configured (local dev without AWS, tests), an in-memory store is used.
  */
 
-export type RegistrationStatus = "pending" | "paid" | "expired";
+export type RegistrationStatus = "pending" | "paid" | "expired" | "refunded";
 
 export type Registration = Omit<PracticeRegistration, "waiverAck"> & {
   id: string;
@@ -63,6 +64,10 @@ export interface RegistrationStore {
   markPaid(id: string, paidAt: string): Promise<Registration | null>;
   /** pending -> expired and gives the spot back. No-op if already paid/expired. */
   release(id: string): Promise<void>;
+  /** Remembers which registration a Stripe payment intent paid for. */
+  linkPaymentIntent(intentId: string, registrationId: string): Promise<void>;
+  /** paid -> refunded and gives the spot back. Returns false if it wasn't paid. */
+  refundByPaymentIntent(intentId: string): Promise<boolean>;
   get(id: string): Promise<Registration | null>;
   /** Gate check-in (paid registrations only). */
   setCheckedIn(id: string, checkedIn: boolean): Promise<void>;
@@ -233,6 +238,50 @@ class DynamoStore implements RegistrationStore {
     }
   }
 
+  async linkPaymentIntent(intentId: string, registrationId: string) {
+    await this.db.send(new PutCommand({ TableName: this.table, Item: { pk: `PI#${intentId}`, sk: "PI", registrationId } }));
+  }
+
+  async refundByPaymentIntent(intentId: string) {
+    const link = await this.db.send(new GetCommand({ TableName: this.table, Key: { pk: `PI#${intentId}`, sk: "PI" } }));
+    const id = link.Item?.registrationId as string | undefined;
+    const reg = id ? await this.get(id) : null;
+    if (!reg || reg.status !== "paid") return false;
+    try {
+      await withConflictRetry(() =>
+        this.db.send(
+          new TransactWriteCommand({
+            TransactItems: [
+              {
+                Update: {
+                  TableName: this.table,
+                  Key: { pk: `REG#${reg.id}`, sk: "REG" },
+                  UpdateExpression: "SET #s = :refunded, refundedAt = :at",
+                  ConditionExpression: "#s = :paid",
+                  ExpressionAttributeNames: { "#s": "status" },
+                  ExpressionAttributeValues: { ":refunded": "refunded", ":paid": "paid", ":at": new Date().toISOString() },
+                },
+              },
+              {
+                Update: {
+                  TableName: this.table,
+                  Key: { pk: `DAY#${reg.date}`, sk: `CLASS#${reg.classId}` },
+                  UpdateExpression: "SET taken = taken - :one",
+                  ConditionExpression: "taken > :zero",
+                  ExpressionAttributeValues: { ":one": 1, ":zero": 0 },
+                },
+              },
+            ],
+          }),
+        ),
+      );
+      return true;
+    } catch (err) {
+      if ((err as { name?: string }).name === "TransactionCanceledException") return false;
+      throw err;
+    }
+  }
+
   async get(id: string) {
     const res = await this.db.send(
       new GetCommand({
@@ -354,6 +403,18 @@ export class MemoryStore implements RegistrationStore {
     const key = `${r.date}|${r.classId}`;
     this.taken.set(key, Math.max(0, (this.taken.get(key) ?? 1) - 1));
   }
+  intents = new Map<string, string>();
+  async linkPaymentIntent(intentId: string, registrationId: string) {
+    this.intents.set(intentId, registrationId);
+  }
+  async refundByPaymentIntent(intentId: string) {
+    const r = this.regs.get(this.intents.get(intentId) ?? "");
+    if (!r || r.status !== "paid") return false;
+    r.status = "refunded";
+    const key = `${r.date}|${r.classId}`;
+    this.taken.set(key, Math.max(0, (this.taken.get(key) ?? 1) - 1));
+    return true;
+  }
   async get(id: string) {
     const r = this.regs.get(id);
     return r ? { ...r } : null;
@@ -382,16 +443,13 @@ export class MemoryStore implements RegistrationStore {
   }
 }
 
-const globalStore = globalThis as unknown as {
-  __martinStore?: RegistrationStore;
-};
+// Only the in-memory store is pinned to globalThis (so dev hot reloads keep its data).
+// The DynamoDB store is stateless, so a module-level instance always matches current code.
+const globalMemory = globalThis as unknown as { __martinMemoryStore?: MemoryStore };
+let dynamo: DynamoStore | null = null;
 
 export function getStore(): RegistrationStore {
-  if (!globalStore.__martinStore) {
-    const table = process.env.MARTIN_TABLE;
-    globalStore.__martinStore = table
-      ? new DynamoStore(table)
-      : new MemoryStore();
-  }
-  return globalStore.__martinStore;
+  const table = process.env.MARTIN_TABLE;
+  if (table) return (dynamo ??= new DynamoStore(table));
+  return (globalMemory.__martinMemoryStore ??= new MemoryStore());
 }

@@ -11,4 +11,6 @@ export const editSections = [
   { href: "/admin/content/hiring", title: "Hiring", desc: "Taking applications, positions, availability" },
   { href: "/admin/content/contact", title: "Contact page", desc: "The intro on the contact page" },
   { href: "/admin/content/site", title: "Contact & links", desc: "Phone, email, address, Facebook, Instagram, store" },
+  { href: "/admin/team", title: "Team", desc: "Add or remove people who can sign in" },
+  { href: "/admin/help", title: "Help & guides", desc: "Owner guide, go-live checklist, race day card" },
 ] as const;

@@ -54,7 +54,7 @@ export async function currentOwner() {
   const email = await sessionEmail();
   if (!email) return null;
   const owner = await getOwner(email);
-  return owner ? { email: owner.email, name: owner.name } : null;
+  return owner ? { email: owner.email, name: owner.name, tempPassword: !!owner.tempPassword } : null;
 }
 
 /** Use at the top of every dashboard page and server action. */
