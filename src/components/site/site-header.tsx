@@ -79,13 +79,13 @@ export function SiteHeader({ site, announcement }: { site: SiteInfo; announcemen
           </SheetTrigger>
           <SheetContent side="right" className="w-full border-white/10 bg-ink p-0 sm:max-w-md">
             <SheetTitle className="sr-only">Menu</SheetTitle>
-            <div className="flex h-full flex-col overflow-y-auto px-6 pb-8 pt-20">
+            <div className="flex h-full flex-col overflow-y-auto px-6 pb-8 pt-16">
               <nav aria-label="Mobile" className="flex flex-col">
                 {[{ href: "/", label: "Home" }, { href: "/register", label: "Register" }, ...primaryNav].map((item) => (
                   <SheetClose asChild key={item.href}>
                     <Link
                       href={item.href}
-                      className="display border-b border-white/10 py-3 text-4xl text-white transition-colors hover:text-volt"
+                      className="display border-b border-white/10 py-3 text-[clamp(1.75rem,9vw,2.25rem)] text-white transition-colors hover:text-volt"
                     >
                       {item.label}
                     </Link>
