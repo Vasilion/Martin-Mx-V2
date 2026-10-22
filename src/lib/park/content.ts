@@ -210,11 +210,17 @@ function client() {
 export async function getContent<K extends ContentName>(name: K): Promise<Content<K>> {
   const table = process.env.MARTIN_TABLE;
   if (table) {
-    const res = await client().send(new GetCommand({ TableName: table, Key: { pk: "CONFIG", sk: name } }));
-    if (res.Item) {
-      const parsed = contentSchemas[name].safeParse(res.Item.value);
-      if (parsed.success) return parsed.data as Content<K>;
-      console.error(`content ${name} failed validation; using defaults`, parsed.error.issues[0]);
+    try {
+      const res = await client().send(new GetCommand({ TableName: table, Key: { pk: "CONFIG", sk: name } }));
+      if (res.Item) {
+        const parsed = contentSchemas[name].safeParse(res.Item.value);
+        if (parsed.success) return parsed.data as Content<K>;
+        console.error(`content ${name} failed validation; using defaults`, parsed.error.issues[0]);
+      }
+    } catch (err) {
+      // No table access (e.g. static pages pre-rendered on the build server) or a
+      // transient DynamoDB error: show the default copy rather than an error page.
+      console.error(`content ${name} unavailable; using defaults`, (err as Error).name);
     }
   }
   return defaults[name]();
