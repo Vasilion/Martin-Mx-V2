@@ -24,7 +24,7 @@ export function GalleryStrip({ heading, shots }: { heading: string; shots: Shot[
       </div>
       <ul className="mt-12 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 [scrollbar-width:none] md:scroll-px-8 md:gap-4 md:px-8 [&::-webkit-scrollbar]:hidden">
         {shots.map((shot) => (
-          <li key={shot.id} className="grain relative h-[52vh] max-h-[560px] min-h-[320px] shrink-0 snap-start overflow-hidden rounded-sm" style={{ aspectRatio: `${shot.width} / ${shot.height}` }}>
+          <li key={shot.id} className="grain relative w-[82vw] max-w-[560px] shrink-0 snap-start overflow-hidden rounded-sm sm:h-[52vh] sm:max-h-[560px] sm:min-h-[320px] sm:w-auto sm:max-w-none" style={{ aspectRatio: `${shot.width} / ${shot.height}` }}>
             <Image src={shot.src} alt={shot.alt} unoptimized={isRemote(shot.src)} fill sizes="(min-width: 768px) 50vw, 85vw" className="object-cover transition-transform duration-700 hover:scale-105" />
           </li>
         ))}

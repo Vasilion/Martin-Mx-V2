@@ -92,20 +92,24 @@ export function SiteHeader({ site, announcement }: { site: SiteInfo; announcemen
                   </SheetClose>
                 ))}
               </nav>
-              <div className="mt-8 grid grid-cols-2 gap-3">
+              <ul className="mt-6">
                 {secondaryNav.map((item) => (
-                  <SheetClose asChild key={item.href}>
-                    <Link href={item.href} className="eyebrow text-white/60 hover:text-white">
-                      {item.label}
-                    </Link>
-                  </SheetClose>
+                  <li key={item.href}>
+                    <SheetClose asChild>
+                      <Link href={item.href} className="block py-2.5 text-lg font-semibold text-white/70 hover:text-white">
+                        {item.label}
+                      </Link>
+                    </SheetClose>
+                  </li>
                 ))}
                 {site.storeUrl && (
-                  <a href={site.storeUrl} target="_blank" rel="noreferrer" className="eyebrow text-white/60 hover:text-white">
-                    Store ↗
-                  </a>
+                  <li>
+                    <a href={site.storeUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 py-2.5 text-lg font-semibold text-white/70 hover:text-white">
+                      Merch store <ArrowUpRight className="size-4" aria-hidden />
+                    </a>
+                  </li>
                 )}
-              </div>
+              </ul>
               <div className="mt-auto pt-10 text-sm text-white/60">
                 <p>{site.addressFull}</p>
                 <a href={site.phoneHref} className="mt-1 block text-white">
