@@ -6,11 +6,8 @@ function getClient() {
   if (client) {
     return client;
   }
-  const region = process.env.AWS_REGION;
-  if (!region) {
-    throw new Error("AWS_REGION is required for SES.");
-  }
-  client = new SESv2Client({ region });
+  // Amplify reserves AWS_* env names, so default to the region everything lives in.
+  client = new SESv2Client({ region: process.env.AWS_REGION ?? "us-east-1" });
   return client;
 }
 

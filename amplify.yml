@@ -3,9 +3,14 @@ frontend:
   phases:
     preBuild:
       commands:
+        - nvm install 20 && nvm use 20
+        - node -v
         - npm ci
     build:
       commands:
+        # Amplify console env vars only reach the build; the SSR runtime reads .env.production.
+        - env | grep -E '^(MARTIN_TABLE|SES_FROM_EMAIL|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SESSION_SECRET|OWNER_NOTIFY_EMAIL|SITE_URL|MEDIA_BASE_URL|MEDIA_BUCKET)=' > .env.production || true
+        - echo "runtime env keys:" && cut -d= -f1 .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
@@ -14,3 +19,4 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
+      - .next/cache/**/*
