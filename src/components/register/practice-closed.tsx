@@ -6,10 +6,12 @@ import { formatDay, formatPrice, formatTimeRange, monthDay, weekdayOf } from "@/
 import type { SiteInfo } from "@/lib/park/content";
 
 /**
- * Shown when no ride day has online registration open. Riders still leave with
+ * Shown when no ride day has online registration open, or the owners switched
+ * practice registration off for the whole site (`switchedOff`). Riders still leave with
  * everything they need: when the next ride day is, what it costs, what to bring.
  */
 export function PracticeClosed({
+  switchedOff = false,
   status,
   upcoming,
   practice,
@@ -18,6 +20,7 @@ export function PracticeClosed({
   gear,
   waivers,
 }: {
+  switchedOff?: boolean;
   site: SiteInfo;
   gear: string[];
   waivers: { id: string; label: string; note: string; href: string }[];
@@ -37,15 +40,21 @@ export function PracticeClosed({
           <div className="grid gap-8 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div>
               <p className="eyebrow flex items-center gap-2 text-caution">
-                <CalendarClock className="size-4" aria-hidden /> Online registration isn&apos;t open yet
+                <CalendarClock className="size-4" aria-hidden /> {switchedOff ? "Practice registration is closed" : "Online registration isn’t open yet"}
               </p>
               <h2 className="display mt-4 text-4xl text-white md:text-5xl">
-                {next ? "Registration opens before each ride day." : "Season's wrapped. See you in spring."}
+                {switchedOff
+                  ? "Online sign-ups aren’t open right now."
+                  : next
+                    ? "Registration opens before each ride day."
+                    : "Season's wrapped. See you in spring."}
               </h2>
               <p className="mt-4 max-w-xl text-white/65">
-                {next
-                  ? "Once the park opens sign-ups for a day, the form appears right here. Check back closer to the day, or follow along on the schedule."
-                  : "New dates and registration post here and on Facebook first."}
+                {switchedOff
+                  ? "When practice registration opens again, the form appears right here. Watch the schedule and Facebook for updates."
+                  : next
+                    ? "Once the park opens sign-ups for a day, the form appears right here. Check back closer to the day, or follow along on the schedule."
+                    : "New dates and registration post here and on Facebook first."}
               </p>
             </div>
             {next && (

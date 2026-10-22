@@ -19,7 +19,17 @@ function report(res: ActionState) {
 }
 
 /** The two decisions owners make most: is practice on, and is online registration open. */
-export function DayControls({ day, compact = false, registered = 0 }: { day: RideDay; compact?: boolean; registered?: number }) {
+export function DayControls({
+  day,
+  compact = false,
+  registered = 0,
+  registrationEnabled = true,
+}: {
+  day: RideDay;
+  compact?: boolean;
+  registered?: number;
+  registrationEnabled?: boolean;
+}) {
   const [pending, start] = useTransition();
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
@@ -63,7 +73,11 @@ export function DayControls({ day, compact = false, registered = 0 }: { day: Rid
         <span>
           <span className="block font-semibold">Online registration</span>
           <span className="block text-sm text-muted-foreground">
-            {day.registrationOpen ? "Riders can sign up and pay" : "Form is hidden on the site"}
+            {!registrationEnabled
+              ? "Practice registration is off for the whole site"
+              : day.registrationOpen
+                ? "Riders can sign up and pay"
+                : "Form is hidden on the site"}
           </span>
         </span>
         <Switch

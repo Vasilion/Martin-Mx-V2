@@ -49,7 +49,15 @@ export default async function RegisterPage({
   }));
 
   const tabs: { id: Tab; label: string; sub: string }[] = [
-    { id: "practice", label: "Practice day", sub: openDays.length ? `${openDays.length} day${openDays.length > 1 ? "s" : ""} open` : "Opens before each ride day" },
+    {
+      id: "practice",
+      label: "Practice day",
+      sub: !practice.registrationEnabled
+        ? "Not open"
+        : openDays.length
+          ? `${openDays.length} day${openDays.length > 1 ? "s" : ""} open`
+          : "Opens before each ride day",
+    },
     { id: "membership", label: "Membership", sub: membership.open ? "Unlimited · all season" : "Not on sale" },
   ];
 
@@ -92,7 +100,7 @@ export default async function RegisterPage({
             ) : openDays.length > 0 ? (
               <PracticeForm days={openDays} classes={classes} initialDate={params.day} />
             ) : (
-              <PracticeClosed status={status} upcoming={upcoming} practice={practice} membership={membership} site={site} gear={info.gear} waivers={waivers} />
+              <PracticeClosed switchedOff={!practice.registrationEnabled} status={status} upcoming={upcoming} practice={practice} membership={membership} site={site} gear={info.gear} waivers={waivers} />
             )}
           </div>
         </div>

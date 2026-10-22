@@ -164,8 +164,9 @@ ${cover("Owner guide", "Run the park", "from your phone.", "Everything the new M
   ${h(3)}
   <p class="lead">The screen you'll use most. It always shows today's ride day, or the next one if there's nothing today.</p>
   <div class="shots">${await fig("today", "Today: status, switches and totals")}${await fig("gate-list", "The gate list")}</div>
-  <h3>The two switches</h3>
+  <h3>The switches</h3>
   <ul>
+    <li><strong>Practice registration on the site</strong>: the master switch for the whole season (also at the top of Schedule). Turn it off and every Register button disappears from the website and the Register page says practice registration is closed. Memberships keep selling either way. Turn it back on and the buttons return for any day with online registration on.</li>
     <li><strong>Practice is on / Cancel</strong>: see chapter 4.</li>
     <li><strong>Online registration</strong>: turn it on and riders can sign up and pay for this day on the website. Turn it off and the form disappears. Sign-ups for a day also stop on their own once that day's riding ends.</li>
   </ul>
@@ -403,7 +404,7 @@ ${cover("Owner guide", "Run the park", "from your phone.", "Everything the new M
     <tr><td>I can't sign in</td><td>Check the email address. After 5 wrong tries, wait 15 minutes. Another owner can issue a new temporary password from Team. Otherwise contact us.</td></tr>
     <tr><td>The site still shows old info</td><td>Pull down to refresh, or close and reopen the page. Saved changes are live immediately.</td></tr>
     <tr><td>A rider says they paid but isn't on the list</td><td>Search Stripe → Payments for their name or email. If there's no payment there, it didn't go through. If there is one, contact us with their name and the time.</td></tr>
-    <tr><td>Registration isn't showing on the website</td><td>Online registration must be switched on for that day, the day can't be cancelled, and it closes when the day ends.</td></tr>
+    <tr><td>Registration isn't showing on the website</td><td>Practice registration on the site must be on, online registration must be switched on for that day, the day can't be cancelled, and it closes when the day ends.</td></tr>
     <tr><td>A class shows Full but the gate isn't</td><td>Raise <strong>Spots per class</strong> in Settings. Spots held by someone mid-payment free up after 30 minutes.</td></tr>
     <tr><td>A photo won't upload</td><td>Try Wi-Fi, or pick a regular photo instead of a Live Photo or screenshot. Very large files may need a second try.</td></tr>
     <tr><td>I refunded someone and they're still on the list</td><td>Only full refunds remove riders. A partial refund keeps them registered.</td></tr>
@@ -466,6 +467,8 @@ ${cover("Before launch", "Go-live", "test checklist.", "Walk through every part 
     ${item("Pay with 4242 4242 4242 4242.", "“You're on the gate list” and a confirmation email in your inbox.")}
     ${item("Open Today (or Riders → the TEST day).", "your pretend rider in the right class, and totals updated.")}
     ${item("Start a second registration but tap the back arrow on the payment page instead of paying.", "you're back on the form, and no rider was added.")}
+    ${item("Today → switch off Practice registration on the site, then refresh the public site.", "no Register buttons anywhere, the Register page says practice registration is closed, and Membership still works.")}
+    ${item("Switch Practice registration on the site back on.", "Register buttons are back.")}
   </ul>
 
   <h3>E. Gate and printing</h3><ul class="check">
@@ -538,7 +541,7 @@ const card = doc(
   <div class="box"><h3>Cancel practice</h3><ol><li>Today → <strong>Cancel</strong></li><li>Tap a reason (Rain, Track conditions…)</li><li>Keep <strong>Email the riders</strong> checked</li><li><strong>Cancel practice</strong>: the site updates instantly</li><li>Back on? <strong>Turn back on</strong></li></ol></div>
   <div class="box"><h3>Check riders in</h3><ol><li>Today → scroll to <strong>Riders</strong></li><li>Search name or number</li><li><strong>Tap the rider</strong> = checked in (green). Tap again to undo.</li><li>Yellow <strong>MINOR</strong> = parent or notarized guardian release required</li></ol></div>
   <div class="box"><h3>Everyone at check-in</h3><ul><li>Signs a waiver before parking, spectators included</li><li>Gear: DOT helmet, goggles, boots over the ankle, long sleeves and pants</li><li>No pit bikes on the Jr track</li></ul></div>
-  <div class="box"><h3>Registration</h3><ul><li>Open or close online sign-ups: Today → <strong>Online registration</strong> switch</li><li>Class full? Raise spots: More → Prices, spots &amp; hours</li><li>Walk-ups paying cash aren't on the list</li></ul></div>
+  <div class="box"><h3>Registration</h3><ul><li>Close practice sign-ups for everything: Today → <strong>Practice registration on the site</strong></li><li>Open or close one day: Today → <strong>Online registration</strong> switch</li><li>Class full? Raise spots: More → Prices, spots &amp; hours</li><li>Walk-ups paying cash aren't on the list</li></ul></div>
   <div class="box wide"><h3>Something wrong?</h3><ul><li><strong>Rider says they paid but isn't listed:</strong> search Stripe → Payments for their name. Payment there? Let them ride and email us their name.</li><li><strong>Refund:</strong> Stripe → Payments → the payment → Refund (full refund removes them from the list).</li><li><strong>Can't sign in:</strong> wait 15 minutes after 5 wrong tries, or have another owner tap New password under More → Team.</li><li><strong>Site down or anything else:</strong> use the printed list and email ${SUPPORT}.</li></ul></div>
 </div>
 <div class="foot"><span>${SITE}</span><span>Unyx Web Solutions · ${SUPPORT}</span></div>

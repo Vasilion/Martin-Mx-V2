@@ -44,6 +44,8 @@ export const practiceSchema = z.object({
   defaultCapacity: z.number().int().positive(),
   hours: z.array(z.object({ day: z.string().min(1), open: time, close: time })),
   hoursNote: z.string(),
+  /** Site-wide switch. Off: no Register buttons anywhere and no practice sign-ups. Memberships keep selling. */
+  registrationEnabled: z.boolean().default(true),
 });
 
 export const membershipSchema = z.object({

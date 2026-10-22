@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ScheduleManager } from "@/components/admin/schedule-manager";
+import { RegistrationSwitch } from "@/components/admin/registration-switch";
 import { getPractice, getSchedule, parkNow } from "@/lib/park/live";
 import { getStore } from "@/lib/registrations/store";
 
@@ -25,7 +26,9 @@ export default async function AdminSchedulePage({ searchParams }: { searchParams
         <h1 className="text-3xl font-bold">Schedule</h1>
         <p className="mt-1 text-muted-foreground">Ride days, cancellations and online registration. Changes show on the site immediately.</p>
       </header>
+      <RegistrationSwitch enabled={practice.registrationEnabled} />
       <ScheduleManager
+        registrationEnabled={practice.registrationEnabled}
         upcoming={upcoming}
         past={past}
         today={today}

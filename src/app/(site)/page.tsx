@@ -12,6 +12,7 @@ import { getWeather } from "@/lib/park/weather";
 import { formatTimeRange } from "@/lib/park/format";
 import { getContent, getSite } from "@/lib/park/content";
 import { pageMetadata } from "@/lib/seo";
+import { practiceRegistrationOpen } from "@/lib/registrations/availability";
 
 export const metadata: Metadata = pageMetadata({
   description:
@@ -25,7 +26,7 @@ export const metadata: Metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [schedule, practice, membership, sponsors, weather, site, home, tracks, gallery] = await Promise.all([
+  const [schedule, practice, membership, sponsors, weather, site, home, tracks, gallery, registerOpen] = await Promise.all([
     getSchedule(),
     getPractice(),
     getMembership(),
@@ -35,6 +36,7 @@ export default async function HomePage() {
     getContent("home"),
     getContent("tracks"),
     getContent("gallery"),
+    practiceRegistrationOpen(),
   ]);
   const status = resolveTrackStatus(schedule);
 
@@ -45,11 +47,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero status={status} weather={weather} home={home} facebook={site.facebook} />
+      <Hero status={status} weather={weather} home={home} facebook={site.facebook} registerOpen={registerOpen} />
       <Marquee items={ticker} className="-rotate-1 scale-[1.02] bg-volt text-ink" />
       <TracksSection practice={practice} tracks={tracks} home={home} />
       <WalkTheTrack eyebrow={home.flyoverEyebrow} heading={home.flyoverHeading} body={home.flyoverBody} />
-      <RideDaySection practice={practice} />
+      <RideDaySection practice={practice} registerOpen={registerOpen} />
       <MembershipBand membership={membership} />
       <GalleryStrip heading={home.galleryHeading} shots={gallery.items.filter((g) => g.featured).slice(0, 10)} />
       <VisitSection sponsors={sponsors} site={site} home={home} />

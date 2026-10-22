@@ -62,7 +62,7 @@ export default async function SchedulePage() {
             {upcoming.length > 0 ? (
               <ul className="mt-4 border-t border-white/10">
                 {upcoming.map((day) => (
-                  <RideDayRow key={day.id} day={day} isToday={day.date === today} forecast={forecastFor(day.date)} />
+                  <RideDayRow key={day.id} day={day} isToday={day.date === today} forecast={forecastFor(day.date)} registrationEnabled={practice.registrationEnabled} />
                 ))}
               </ul>
             ) : (

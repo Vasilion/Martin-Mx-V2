@@ -102,6 +102,19 @@ export async function setRegistrationOpen(date: string, open: boolean): Promise<
   return { ok: true, message: open ? "Online registration is open." : "Online registration is closed." };
 }
 
+/** The site-wide practice registration switch. Memberships aren't affected. */
+export async function setPracticeRegistration(enabled: boolean): Promise<ActionState> {
+  await requireOwner();
+  const practice = await getPractice();
+  await putDoc("practice", { ...practice, registrationEnabled: enabled });
+  refreshSite();
+  revalidatePath("/admin", "layout");
+  return {
+    ok: true,
+    message: enabled ? "Practice registration is on. Register buttons are back on the site." : "Practice registration is off. Register buttons are hidden.",
+  };
+}
+
 const rideDayForm = z
   .object({
     originalDate: z.string().optional(),

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { CalendarPlus, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DayControls } from "@/components/admin/day-controls";
+import { RegistrationSwitch } from "@/components/admin/registration-switch";
+import { getPractice } from "@/lib/park/live";
 import { RiderList } from "@/components/admin/rider-list";
 import { getFocusDay, getRoster } from "@/lib/admin/roster";
 import { formatDay, formatPrice, formatTimeRange } from "@/lib/park/format";
@@ -10,7 +12,7 @@ import { formatDay, formatPrice, formatTimeRange } from "@/lib/park/format";
 export const metadata: Metadata = { title: "Today" };
 
 export default async function TodayPage() {
-  const { day, isToday } = await getFocusDay();
+  const [{ day, isToday }, practice] = await Promise.all([getFocusDay(), getPractice()]);
 
   if (!day) {
     return (
@@ -22,6 +24,9 @@ export default async function TodayPage() {
             <CalendarPlus /> Add a ride day
           </Link>
         </Button>
+        <div className="mt-8">
+          <RegistrationSwitch enabled={practice.registrationEnabled} />
+        </div>
       </div>
     );
   }
@@ -39,7 +44,8 @@ export default async function TodayPage() {
         </p>
       </header>
 
-      <DayControls day={day} registered={riders.length} />
+      <RegistrationSwitch enabled={practice.registrationEnabled} />
+      <DayControls day={day} registered={riders.length} registrationEnabled={practice.registrationEnabled} />
 
       <section aria-label="Totals" className="grid grid-cols-3 gap-3">
         {[

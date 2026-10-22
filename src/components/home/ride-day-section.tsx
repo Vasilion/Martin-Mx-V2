@@ -5,12 +5,13 @@ import { Reveal, RevealLi } from "@/components/motion/reveal";
 import type { Practice } from "@/lib/park/live";
 import { formatPrice, formatTimeRange } from "@/lib/park/format";
 
+const registerStep = {
+  icon: Ticket,
+  title: "Register",
+  body: "Pick your class and ride day online. Your spot is locked in the second you pay.",
+};
+
 const steps = [
-  {
-    icon: Ticket,
-    title: "Register",
-    body: "Pick your class and ride day online. Your spot is locked in the second you pay.",
-  },
   {
     icon: FileSignature,
     title: "Sign in at the gate",
@@ -24,7 +25,9 @@ const steps = [
 ];
 
 /** Light "bone" section: breaks up the dark page and carries the practical info. */
-export function RideDaySection({ practice }: { practice: Practice }) {
+export function RideDaySection({ practice, registerOpen }: { practice: Practice; registerOpen: boolean }) {
+  // With practice registration closed, nothing here points riders at a sign-up they can't do.
+  const shown = registerOpen ? [registerStep, ...steps] : steps;
   return (
     <section className="clip-slant-t relative -mt-[4vw] bg-bone pb-24 pt-[calc(4vw+5rem)] text-ink md:pb-32 md:pt-[calc(4vw+7rem)]">
       <div className="mx-auto max-w-[1440px] px-4 md:px-8">
@@ -39,14 +42,20 @@ export function RideDaySection({ practice }: { practice: Practice }) {
               <span className="text-brand">Ride.</span>
             </h2>
             <Button asChild variant="race" size="xl" className="mt-10 bg-ink text-white hover:bg-brand">
-              <Link href="/register">
-                Register now <ArrowRight aria-hidden />
-              </Link>
+              {registerOpen ? (
+                <Link href="/register">
+                  Register now <ArrowRight aria-hidden />
+                </Link>
+              ) : (
+                <Link href="/schedule">
+                  See the schedule <ArrowRight aria-hidden />
+                </Link>
+              )}
             </Button>
           </Reveal>
 
           <ol className="space-y-px overflow-hidden rounded-sm bg-ink/10 lg:col-span-7">
-            {steps.map((step, i) => (
+            {shown.map((step, i) => (
               <RevealLi key={step.title} delay={i * 0.08} className="flex gap-6 bg-bone py-7 md:gap-10">
                   <span className="display w-14 shrink-0 text-6xl text-ink/15 md:w-20 md:text-7xl">0{i + 1}</span>
                   <div>

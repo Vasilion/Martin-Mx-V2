@@ -10,11 +10,15 @@ export function RideDayRow({
   day,
   isToday,
   forecast,
+  registrationEnabled,
 }: {
   day: RideDay;
   isToday: boolean;
   forecast?: DayForecast;
+  /** Site-wide practice registration switch. */
+  registrationEnabled: boolean;
 }) {
+  const canRegister = registrationEnabled && day.registrationOpen && !day.cancelled;
   const { month, day: dom } = monthDay(day.date);
   return (
     <li
@@ -40,7 +44,7 @@ export function RideDayRow({
               <Ban className="size-3" aria-hidden /> Cancelled
             </span>
           )}
-          {day.registrationOpen && !day.cancelled && (
+          {canRegister && (
             <span className="eyebrow rounded-sm border border-volt/50 px-2 py-1 text-[0.65rem] text-volt">Registration open</span>
           )}
         </div>
@@ -67,7 +71,7 @@ export function RideDayRow({
         <div className="hidden md:block" />
       )}
 
-      {!day.cancelled && day.registrationOpen ? (
+      {canRegister ? (
         <Link
           href={`/register?day=${day.date}`}
           className="eyebrow col-span-2 flex items-center justify-center gap-2 rounded-sm bg-volt px-5 py-3.5 text-ink transition hover:bg-white md:col-span-1"

@@ -16,10 +16,19 @@ export function priceFor(practice: Practice, classId: string) {
   return { cls, amount: cls.track === "main" ? practice.prices.main : practice.prices.junior };
 }
 
+/**
+ * Can a rider sign up for practice online right now? Needs the site-wide switch on
+ * and at least one open ride day. Drives every Register button on the site.
+ */
+export async function practiceRegistrationOpen() {
+  const [schedule, practice] = await Promise.all([getSchedule(), getPractice()]);
+  return practice.registrationEnabled && schedule.some((d) => isRegistrable(d));
+}
+
 /** Open ride days with live spots left per class (capacity minus pending holds and paid). */
 export async function getOpenDays(): Promise<{ days: OpenDayWithSpots[]; practice: Practice }> {
   const [schedule, practice] = await Promise.all([getSchedule(), getPractice()]);
-  const open = schedule.filter((d) => isRegistrable(d));
+  const open = practice.registrationEnabled ? schedule.filter((d) => isRegistrable(d)) : [];
   const store = getStore();
   const days = await Promise.all(
     open.map(async (d) => {

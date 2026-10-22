@@ -2,10 +2,17 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getContent, getSite } from "@/lib/park/content";
+import { getMembership } from "@/lib/park/live";
+import { practiceRegistrationOpen } from "@/lib/registrations/availability";
 
 /** Public site chrome. The owner dashboard (/admin) has its own layout. */
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [site, announcement] = await Promise.all([getSite(), getContent("announcement")]);
+  const [site, announcement, registerOpen, membership] = await Promise.all([
+    getSite(),
+    getContent("announcement"),
+    practiceRegistrationOpen(),
+    getMembership(),
+  ]);
   return (
     <TooltipProvider>
       <a
@@ -14,9 +21,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       >
         Skip to content
       </a>
-      <SiteHeader site={site} announcement={announcement} />
+      <SiteHeader site={site} announcement={announcement} registerOpen={registerOpen} membershipOpen={membership.open} />
       <main id="main-content">{children}</main>
-      <SiteFooter />
+      <SiteFooter registerOpen={registerOpen} />
     </TooltipProvider>
   );
 }

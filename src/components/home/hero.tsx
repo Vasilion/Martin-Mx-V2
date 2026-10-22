@@ -14,7 +14,19 @@ import { isRemote } from "@/lib/media";
  * Mobile: the photo stays clear (rider fully visible), a status chip sits with the
  * headline, and the full card follows directly below the hero.
  */
-export function Hero({ status, weather, home, facebook }: { status: TrackStatus; weather: Weather | null; home: Content<"home">; facebook: string }) {
+export function Hero({
+  status,
+  weather,
+  home,
+  facebook,
+  registerOpen,
+}: {
+  status: TrackStatus;
+  weather: Weather | null;
+  home: Content<"home">;
+  facebook: string;
+  registerOpen: boolean;
+}) {
   return (
     <>
       <section className="grain relative isolate overflow-hidden bg-ink">
@@ -59,11 +71,19 @@ export function Hero({ status, weather, home, facebook }: { status: TrackStatus;
               </Reveal>
             </h1>
             <Reveal delay={0.28} className="mt-6 flex flex-wrap items-center gap-3">
-              <Button asChild variant="race" size="2xl">
-                <Link href="/register">
-                  Register to ride <ArrowRight aria-hidden />
-                </Link>
-              </Button>
+              {registerOpen ? (
+                <Button asChild variant="race" size="2xl">
+                  <Link href="/register">
+                    Register to ride <ArrowRight aria-hidden />
+                  </Link>
+                </Button>
+              ) : (
+                <Button asChild variant="race" size="2xl">
+                  <Link href="/schedule">
+                    Ride schedule <ArrowRight aria-hidden />
+                  </Link>
+                </Button>
+              )}
               <Button asChild variant="race-outline" size="2xl">
                 <Link href="/track-info">Track info</Link>
               </Button>

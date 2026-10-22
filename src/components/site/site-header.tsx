@@ -12,7 +12,18 @@ import { primaryNav, secondaryNav } from "@/components/site/nav-links";
 import type { SiteInfo, Content } from "@/lib/park/content";
 import { AnnouncementBar } from "@/components/site/announcement-bar";
 
-export function SiteHeader({ site, announcement }: { site: SiteInfo; announcement: Content<"announcement"> }) {
+/** `registerOpen`: practice sign-ups are live. Off, the Register CTA gives way to Membership (always on sale). */
+export function SiteHeader({
+  site,
+  announcement,
+  registerOpen,
+  membershipOpen,
+}: {
+  site: SiteInfo;
+  announcement: Content<"announcement">;
+  registerOpen: boolean;
+  membershipOpen: boolean;
+}) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -67,13 +78,20 @@ export function SiteHeader({ site, announcement }: { site: SiteInfo; announcemen
           )}
         </nav>
 
-        <Button asChild variant="race" size="lg" className="ml-auto h-10 px-5 lg:ml-2">
-          <Link href="/register">Register</Link>
-        </Button>
+        {(registerOpen || membershipOpen) && (
+          <Button asChild variant="race" size="lg" className="ml-auto h-10 px-5 lg:ml-2">
+            {registerOpen ? <Link href="/register">Register</Link> : <Link href="/register?tab=membership">Membership</Link>}
+          </Button>
+        )}
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon-lg" className="-mr-2 text-white lg:hidden" aria-label="Open menu">
+            <Button
+              variant="ghost"
+              size="icon-lg"
+              className={cn("-mr-2 text-white lg:hidden", !registerOpen && !membershipOpen && "ml-auto")}
+              aria-label="Open menu"
+            >
               <Menu className="size-6" />
             </Button>
           </SheetTrigger>
@@ -81,7 +99,7 @@ export function SiteHeader({ site, announcement }: { site: SiteInfo; announcemen
             <SheetTitle className="sr-only">Menu</SheetTitle>
             <div className="flex h-full flex-col overflow-y-auto px-6 pb-8 pt-16">
               <nav aria-label="Mobile" className="flex flex-col">
-                {[{ href: "/", label: "Home" }, { href: "/register", label: "Register" }, ...primaryNav].map((item) => (
+                {[{ href: "/", label: "Home" }, ...(registerOpen ? [{ href: "/register", label: "Register" }] : []), ...primaryNav].map((item) => (
                   <SheetClose asChild key={item.href}>
                     <Link
                       href={item.href}

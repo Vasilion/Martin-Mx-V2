@@ -5,7 +5,7 @@ import { Logo } from "@/components/site/logo";
 import { primaryNav, secondaryNav } from "@/components/site/nav-links";
 import { getSite } from "@/lib/park/content";
 
-export async function SiteFooter() {
+export async function SiteFooter({ registerOpen }: { registerOpen: boolean }) {
   const site = await getSite();
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-ink">
@@ -41,7 +41,7 @@ export async function SiteFooter() {
           <div>
             <p className="eyebrow text-white/40">Ride</p>
             <ul className="mt-4 space-y-2.5">
-              <li><Link href="/register" className="text-white/80 hover:text-volt">Register</Link></li>
+              {registerOpen && <li><Link href="/register" className="text-white/80 hover:text-volt">Register</Link></li>}
               {primaryNav.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-white/80 hover:text-volt">{item.label}</Link>

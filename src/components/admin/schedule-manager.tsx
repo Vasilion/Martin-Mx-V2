@@ -31,6 +31,7 @@ export function ScheduleManager({
   registered,
   defaults,
   startOpen,
+  registrationEnabled,
 }: {
   upcoming: RideDay[];
   past: RideDay[];
@@ -38,6 +39,7 @@ export function ScheduleManager({
   registered: Record<string, number>;
   defaults: { start: string; end: string };
   startOpen: boolean;
+  registrationEnabled: boolean;
 }) {
   const side = useSheetSide();
   const [editing, setEditing] = useState<RideDay | undefined>();
@@ -104,7 +106,7 @@ export function ScheduleManager({
                           <Ban className="size-3" /> Cancelled
                         </span>
                       )}
-                      {!d.cancelled && d.registrationOpen && (
+                      {!d.cancelled && d.registrationOpen && registrationEnabled && (
                         <span className="rounded bg-brand/12 px-1.5 py-0.5 text-[11px] font-bold uppercase text-brand">Reg open</span>
                       )}
                     </span>
@@ -117,7 +119,7 @@ export function ScheduleManager({
                 </button>
                 {isOpen && (
                   <div className="space-y-3 border-t bg-background/60 p-4">
-                    <DayControls day={d} compact registered={count} />
+                    <DayControls day={d} compact registered={count} registrationEnabled={registrationEnabled} />
                     <div className="flex gap-2">
                       <Button
                         variant="outline"

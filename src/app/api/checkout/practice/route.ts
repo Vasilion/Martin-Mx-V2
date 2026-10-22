@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
   const [schedule, practice] = await Promise.all([getSchedule(), getPractice()]);
   const day = schedule.find((d) => d.date === input.date);
-  if (!day || !isRegistrable(day)) {
+  if (!practice.registrationEnabled || !day || !isRegistrable(day)) {
     return NextResponse.json({ error: "Registration for that day is closed. Pick another day." }, { status: 409 });
   }
   const priced = priceFor(practice, input.classId);
