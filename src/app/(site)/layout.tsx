@@ -5,6 +5,9 @@ import { getContent, getSite } from "@/lib/park/content";
 import { getMembership } from "@/lib/park/live";
 import { practiceRegistrationOpen } from "@/lib/registrations/availability";
 
+// Header/footer CTAs follow the live registration switch, so nothing under here is pre-rendered at build.
+export const dynamic = "force-dynamic";
+
 /** Public site chrome. The owner dashboard (/admin) has its own layout. */
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [site, announcement, registerOpen, membership] = await Promise.all([
