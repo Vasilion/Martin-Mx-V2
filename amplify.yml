@@ -9,7 +9,7 @@ frontend:
     build:
       commands:
         # Amplify console env vars only reach the build; the SSR runtime reads .env.production.
-        - env | grep -E '^(MARTIN_TABLE|SES_FROM_EMAIL|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SESSION_SECRET|OWNER_NOTIFY_EMAIL|SITE_URL|MEDIA_BASE_URL|MEDIA_BUCKET)=' > .env.production || true
+        - env | grep -E '^(MARTIN_TABLE|SES_FROM_EMAIL|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SESSION_SECRET|OWNER_NOTIFY_EMAIL|SITE_URL|MEDIA_BASE_URL|MEDIA_BUCKET|STAGING_PASSWORD)=' > .env.production || true
         - echo "runtime env keys:" && cut -d= -f1 .env.production
         - npm run build
   artifacts:
