@@ -117,7 +117,7 @@ export function ScheduleManager({
                 </button>
                 {isOpen && (
                   <div className="space-y-3 border-t bg-background/60 p-4">
-                    <DayControls day={d} compact />
+                    <DayControls day={d} compact registered={count} />
                     <div className="flex gap-2">
                       <Button
                         variant="outline"

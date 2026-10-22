@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   allowedDevOrigins: ["127.0.0.1"],
+  devIndicators: false,
+  // Owner PDFs are read from disk by /admin/guides/[file]; ship them with the server bundle.
+  outputFileTracingIncludes: {
+    "/admin/guides/[file]": ["./docs/owner/**/*"],
+  },
   async redirects() {
     return [
       { source: "/home", destination: "/", permanent: true },

@@ -20,6 +20,9 @@ import { getStore } from "@/lib/registrations/store";
 import { contentSchemas, putContent, type ContentName } from "@/lib/park/content";
 import { presignUpload, type UploadKind } from "@/lib/uploads";
 import { updateInboxItem } from "@/lib/inbox/store";
+import { getSite } from "@/lib/park/content";
+import { sendEmail } from "@/lib/email/ses";
+import { practiceCancelledEmail } from "@/lib/email/templates";
 
 /**
  * Every action re-checks the session: server actions are public POST endpoints,
@@ -67,10 +70,30 @@ async function updateDay(date: string, patch: Partial<RideDay>) {
   refreshSite();
 }
 
-export async function setCancelled(date: string, cancelled: boolean, reason = ""): Promise<ActionState> {
+export async function setCancelled(date: string, cancelled: boolean, reason = "", notifyRiders = false): Promise<ActionState> {
   await requireOwner();
-  await updateDay(date, { cancelled, cancelReason: cancelled ? reason.trim().slice(0, 140) : "" });
-  return { ok: true, message: cancelled ? "Practice cancelled. The site shows it now." : "Practice is back on." };
+  const cancelReason = cancelled ? reason.trim().slice(0, 140) : "";
+  await updateDay(date, { cancelled, cancelReason });
+  if (!cancelled) return { ok: true, message: "Practice is back on." };
+  if (!notifyRiders) return { ok: true, message: "Practice cancelled. The site shows it now." };
+  const sent = await emailCancellation(date, cancelReason);
+  return { ok: true, message: `Practice cancelled. Emailed ${sent} rider${sent === 1 ? "" : "s"}.` };
+}
+
+/** One email per paid registration (a parent registering two kids gets two, each naming the rider). */
+async function emailCancellation(date: string, reason: string) {
+  const [day, site, regs] = await Promise.all([
+    getSchedule().then((s) => s.find((d) => d.date === date)),
+    getSite(),
+    getStore().listByDay(date),
+  ]);
+  if (!day) return 0;
+  const paid = regs.filter((r) => r.status === "paid");
+  const results = await Promise.allSettled(
+    paid.map((r) => sendEmail({ to: r.email, replyTo: site.email, ...practiceCancelledEmail(site, { firstName: r.firstName, date, start: day.start, end: day.end, reason }) })),
+  );
+  results.forEach((x) => x.status === "rejected" && console.error("cancel email failed", x.reason));
+  return results.filter((x) => x.status === "fulfilled").length;
 }
 
 export async function setRegistrationOpen(date: string, open: boolean): Promise<ActionState> {

@@ -19,10 +19,11 @@ function report(res: ActionState) {
 }
 
 /** The two decisions owners make most: is practice on, and is online registration open. */
-export function DayControls({ day, compact = false }: { day: RideDay; compact?: boolean }) {
+export function DayControls({ day, compact = false, registered = 0 }: { day: RideDay; compact?: boolean; registered?: number }) {
   const [pending, start] = useTransition();
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
+  const [notify, setNotify] = useState(true);
 
   const run = (fn: () => Promise<ActionState>) => start(async () => report(await fn()));
 
@@ -78,7 +79,7 @@ export function DayControls({ day, compact = false }: { day: RideDay; compact?: 
         <DialogContent className="theme-admin max-w-md">
           <DialogTitle>Cancel practice?</DialogTitle>
           <DialogDescription>
-            The site shows it as cancelled right away. Riders who already paid aren&apos;t refunded automatically.
+            The site shows it as cancelled right away. Refunds aren&apos;t automatic: issue them in Stripe if you want to.
           </DialogDescription>
           <div className="flex flex-wrap gap-2">
             {quickReasons.map((r) => (
@@ -102,6 +103,15 @@ export function DayControls({ day, compact = false }: { day: RideDay; compact?: 
             placeholder="Reason riders will see (optional)"
             className="min-h-20 text-base"
           />
+          {registered > 0 && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-lg border bg-card p-3">
+              <input type="checkbox" checked={notify} onChange={(e) => setNotify(e.target.checked)} className="mt-1 size-5 accent-[var(--brand)]" />
+              <span>
+                <span className="block font-semibold">Email the {registered} rider{registered === 1 ? "" : "s"} who registered</span>
+                <span className="block text-sm text-muted-foreground">They get a cancellation notice with your reason and your phone number.</span>
+              </span>
+            </label>
+          )}
           <DialogFooter className="gap-2 sm:gap-2">
             <Button variant="outline" className="h-11" onClick={() => setOpen(false)}>
               Keep it on
@@ -112,7 +122,7 @@ export function DayControls({ day, compact = false }: { day: RideDay; compact?: 
               disabled={pending}
               onClick={() =>
                 run(async () => {
-                  const res = await setCancelled(day.date, true, reason);
+                  const res = await setCancelled(day.date, true, reason, registered > 0 && notify);
                   if (!res.error) {
                     setOpen(false);
                     setReason("");

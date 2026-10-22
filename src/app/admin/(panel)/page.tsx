@@ -39,7 +39,7 @@ export default async function TodayPage() {
         </p>
       </header>
 
-      <DayControls day={day} />
+      <DayControls day={day} registered={riders.length} />
 
       <section aria-label="Totals" className="grid grid-cols-3 gap-3">
         {[

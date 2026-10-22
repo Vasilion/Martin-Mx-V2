@@ -183,3 +183,19 @@ export function inboxReceiptEmail(site: SiteInfo, item: { kind: "application" | 
     : `Hi ${first}, we got your message and will get back to you soon.`;
   return { subject: isApp ? "We got your application" : "We got your message", html, text };
 }
+
+/** To each registered rider when the owners cancel a ride day. No refund promise: that's the owners' call. */
+export function practiceCancelledEmail(site: SiteInfo, r: { firstName: string; date: string; start: string; end: string; reason: string }) {
+  const when = `${formatDay(r.date, "long")}, ${formatTimeRange(r.start, r.end)}`;
+  const html = layout({
+    site,
+    preheader: `Practice on ${formatDay(r.date)} is cancelled.`,
+    eyebrow: "Practice cancelled",
+    title: "No riding this day.",
+    body: `<p style="margin:0;">Hi ${esc(r.firstName)}, we had to cancel practice on <strong>${esc(when)}</strong>${r.reason ? ` (${esc(r.reason)})` : ""}. Sorry for the change of plans.</p>
+      <p style="margin:16px 0 0;">Questions about your registration? Reply to this email or call <a href="${site.phoneHref}" style="color:${C.volt};">${esc(site.phone)}</a>.</p>
+      <p style="margin:24px 0 0;">${button(`${park.url}/schedule`, "See the schedule")}</p>`,
+  });
+  const text = `Hi ${r.firstName}, we had to cancel practice on ${when}${r.reason ? ` (${r.reason})` : ""}. Questions about your registration? Reply to this email or call ${site.phone}.\n\nSchedule: ${park.url}/schedule`;
+  return { subject: `Cancelled: practice on ${formatDay(r.date)}`, html, text };
+}

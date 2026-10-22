@@ -10,8 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { addTeamMember, removeTeamMember, resetTeamPassword } from "@/app/admin/actions";
 import type { TeamMember } from "@/lib/auth/owners";
 
-function when(iso?: string) {
-  return iso ? new Date(iso).toLocaleDateString("en-US", { timeZone: "America/Detroit", month: "short", day: "numeric", year: "numeric" }) : "never";
+function when(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { timeZone: "America/Detroit", month: "short", day: "numeric", year: "numeric" });
 }
 
 /** Shows a new temporary password once, with copy + "email it" shortcuts. */
@@ -70,15 +70,15 @@ export function TeamManager({ team, me, signInUrl }: { team: TeamMember[]; me: s
                 </span>
                 <span className="block truncate text-sm text-muted-foreground">{m.email}</span>
                 <span className="block text-xs text-muted-foreground">
-                  Last signed in {when(m.lastLoginAt)}
+                  {m.lastLoginAt ? `Last signed in ${when(m.lastLoginAt)}` : "Hasn't signed in yet"}
                   {m.tempPassword && <span className="ml-2 rounded bg-caution/30 px-1.5 py-0.5 font-semibold text-[#7a4b00]">Temporary password</span>}
                 </span>
               </span>
               {m.email !== me && (
-                <span className="flex gap-2">
+                <span className="flex w-full gap-2 pl-13 sm:w-auto sm:pl-0">
                   <Button
                     variant="outline"
-                    className="h-10"
+                    className="h-10 flex-1 sm:flex-none"
                     disabled={pending}
                     onClick={() =>
                       start(async () => {
