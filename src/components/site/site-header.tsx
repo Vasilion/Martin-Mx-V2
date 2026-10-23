@@ -79,7 +79,7 @@ export function SiteHeader({
         </nav>
 
         {(registerOpen || membershipOpen) && (
-          <Button asChild variant="race" size="lg" className="ml-auto h-9 px-3 text-[0.8rem] min-[380px]:h-10 min-[380px]:px-5 min-[380px]:text-sm lg:ml-2">
+          <Button asChild variant="race" size="lg" className="ml-auto hidden h-9 px-3 text-[0.8rem] min-[340px]:inline-flex min-[380px]:h-10 min-[380px]:px-5 min-[380px]:text-sm lg:ml-2">
             {registerOpen ? <Link href="/register">Register</Link> : <Link href="/register?tab=membership">Membership</Link>}
           </Button>
         )}
@@ -89,7 +89,7 @@ export function SiteHeader({
             <Button
               variant="ghost"
               size="icon-lg"
-              className={cn("-mr-2 text-white lg:hidden", !registerOpen && !membershipOpen && "ml-auto")}
+              className={cn("-mr-2 shrink-0 text-white lg:hidden", registerOpen || membershipOpen ? "max-[339px]:ml-auto" : "ml-auto")}
               aria-label="Open menu"
             >
               <Menu className="size-6" />

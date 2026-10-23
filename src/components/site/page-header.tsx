@@ -47,7 +47,7 @@ export function PageHeader({
             <span className="h-px w-10 bg-volt" aria-hidden />
             {eyebrow}
           </p>
-          <h1 className={`display mt-5 text-white ${compact ? "text-[clamp(2.75rem,5.5vw,5rem)]" : "text-[clamp(3.5rem,10vw,9.5rem)]"}`}>
+          <h1 className={`display mt-5 text-white ${compact ? "text-[clamp(1.75rem,calc((100vw-2rem)/6.2),2.75rem)] sm:text-[clamp(2.75rem,5.5vw,5rem)]" : "text-[clamp(2rem,calc((100vw-2rem)/6.2),3.5rem)] sm:text-[clamp(3.5rem,10vw,9.5rem)]"}`}>
             {title}
             {accent && <span className={compact ? "text-volt sm:ml-[0.25em]" : "block text-volt"}>{compact && <br className="sm:hidden" />}{accent}</span>}
           </h1>

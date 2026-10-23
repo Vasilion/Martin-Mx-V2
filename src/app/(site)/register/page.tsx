@@ -86,13 +86,13 @@ export default async function RegisterPage({
                 scroll={false}
                 aria-current={tab === t.id ? "page" : undefined}
                 className={cn(
-                  "relative py-5 pr-3 transition-colors sm:mr-10 sm:pr-1",
+                  "relative py-5 pr-3 transition-colors max-sm:@container sm:mr-10 sm:pr-1",
                   tab === t.id ? "text-white" : "text-white/45 hover:text-white/80",
                   "after:absolute after:inset-x-0 after:-bottom-px after:h-[3px] after:bg-volt after:transition-transform",
                   tab === t.id ? "after:scale-x-100" : "after:scale-x-0",
                 )}
               >
-                <span className="block font-display text-[clamp(1.25rem,6.5vw,1.5rem)] font-bold uppercase italic leading-tight md:text-3xl">{t.label}</span>
+                <span className="block whitespace-nowrap font-display text-[min(1.5rem,15.5cqi)] font-bold uppercase italic leading-tight md:text-3xl">{t.label}</span>
                 <span className="eyebrow mt-1 block text-[0.65rem] text-white/45">{t.sub}</span>
               </Link>
             ))}

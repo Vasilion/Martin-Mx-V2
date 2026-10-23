@@ -37,10 +37,10 @@ export function MonthCalendar({ days, today, startMonth }: { days: RideDay[]; to
   };
 
   return (
-    <div className="rounded-sm border border-white/10 bg-ink-2 p-4 md:p-8">
-      <div className="flex items-center justify-between">
+    <div className="rounded-sm border border-white/10 bg-ink-2 p-3 min-[360px]:p-4 md:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="display text-3xl text-white sm:text-4xl md:text-5xl">{label}</h3>
-        <div className="flex gap-2">
+        <div className="ml-auto flex gap-2">
           <Button variant="race-outline" size="icon-lg" onClick={() => shift(-1)} aria-label="Previous month">
             <ChevronLeft />
           </Button>
@@ -53,7 +53,8 @@ export function MonthCalendar({ days, today, startMonth }: { days: RideDay[]; to
       <div className="mt-6 grid grid-cols-7 gap-1 md:gap-2" role="grid" aria-label={label}>
         {weekdays.map((w) => (
           <div key={w} className="eyebrow pb-2 text-center text-[0.65rem] tracking-[0.08em] text-white/45 sm:tracking-[0.2em]" role="columnheader">
-            {w}
+            <span className="min-[400px]:hidden">{w[0]}</span>
+            <span className="max-[399px]:hidden">{w}</span>
           </div>
         ))}
         {Array.from({ length: lead }).map((_, i) => (

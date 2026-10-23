@@ -16,7 +16,7 @@ export function GalleryStrip({ heading, shots }: { heading: string; shots: Shot[
       <div className="mx-auto flex max-w-[1440px] items-end justify-between gap-6 px-4 md:px-8">
         <Reveal>
           <p className="eyebrow text-white/50">From the track</p>
-          <h2 className="display mt-4 text-[clamp(3rem,7vw,6.5rem)] text-white">{heading}</h2>
+          <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3rem)] sm:text-[clamp(3rem,7vw,6.5rem)] text-white">{heading}</h2>
         </Reveal>
         <Link href="/gallery" className="eyebrow group hidden shrink-0 items-center gap-2 pb-3 text-white/80 hover:text-volt sm:flex">
           Full gallery <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />

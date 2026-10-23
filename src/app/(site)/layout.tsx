@@ -1,3 +1,4 @@
+import { FitDisplayText } from "@/components/site/fit-display-text";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -27,6 +28,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <SiteHeader site={site} announcement={announcement} registerOpen={registerOpen} membershipOpen={membership.open} />
       <main id="main-content">{children}</main>
       <SiteFooter registerOpen={registerOpen} />
+      <FitDisplayText />
     </TooltipProvider>
   );
 }

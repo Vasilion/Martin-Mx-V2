@@ -34,7 +34,7 @@ export function RideDayRow({
         </span>
       </div>
 
-      <div className="min-w-0">
+      <div className="min-w-0 @container">
         <div className="flex flex-wrap items-center gap-2">
           {isToday && !day.cancelled && (
             <span className="eyebrow rounded-sm bg-volt px-2 py-1 text-[0.65rem] text-ink">Today</span>
@@ -48,11 +48,15 @@ export function RideDayRow({
             <span className="eyebrow rounded-sm border border-volt/50 px-2 py-1 text-[0.65rem] text-volt">Registration open</span>
           )}
         </div>
-        <p className="mt-2 font-display text-[clamp(1.5rem,8vw,1.875rem)] font-bold uppercase italic text-white md:text-4xl">
+        <p className="mt-2 whitespace-nowrap font-display text-[min(1.875rem,16.5cqi)] font-bold uppercase italic text-white md:text-4xl">
           {weekdayOf(day.date, "long")}
         </p>
         <p className="mt-1 text-white/65">
-          {day.title} · {formatTimeRange(day.start, day.end)}
+          {day.title}
+          <span className="max-sm:block">
+            <span className="max-sm:hidden"> · </span>
+            {formatTimeRange(day.start, day.end)}
+          </span>
         </p>
         {day.cancelled && day.cancelReason && <p className="mt-2 text-sm text-danger">{day.cancelReason}</p>}
       </div>

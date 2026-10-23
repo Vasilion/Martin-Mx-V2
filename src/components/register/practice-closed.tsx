@@ -35,12 +35,12 @@ export function PracticeClosed({
         {/* Status */}
         <section className="overflow-hidden rounded-sm border border-white/12 bg-ink-2">
           <div className="h-1 bg-caution" aria-hidden />
-          <div className="grid gap-8 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
-            <div>
+          <div className="grid gap-8 p-5 sm:p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+            <div className="@container">
               <p className="eyebrow flex items-center gap-2 text-caution">
                 <CalendarClock className="size-4 shrink-0" aria-hidden /> Online practice registration is closed
               </p>
-              <h2 className="display mt-4 text-[clamp(2rem,9vw,3rem)] text-white">
+              <h2 className="display mt-4 text-[min(3rem,14cqi)] text-white">
                 {next ? "No online sign-ups right now." : "Season's wrapped. See you in spring."}
               </h2>
               <p className="mt-4 max-w-xl text-white/65">
@@ -52,7 +52,7 @@ export function PracticeClosed({
             {next && (
               <div className="rounded-sm border border-white/10 bg-ink p-5 md:min-w-56">
                 <p className="eyebrow text-[0.65rem] text-white/50">Next ride day</p>
-                <div className="mt-2 flex items-end gap-3">
+                <div className="mt-2 flex flex-wrap items-end gap-x-3 gap-y-2">
                   <span className="display text-6xl leading-[0.8] text-white">{monthDay(next.date).day}</span>
                   <span className="pb-0.5">
                     <span className="block font-display text-xl font-bold uppercase italic text-white">{weekdayOf(next.date, "long")}</span>
@@ -137,10 +137,10 @@ export function PracticeClosed({
       {/* Membership promo */}
       <aside className="lg:col-span-4">
         {membership.open && (
-          <div className="grain relative overflow-hidden rounded-sm bg-brand p-5 sm:p-7 lg:sticky lg:top-28">
+          <div className="grain relative overflow-hidden rounded-sm bg-brand p-5 @container sm:p-7 lg:sticky lg:top-28">
             <p className="eyebrow text-white/80">Ride all season</p>
-            <p className="display mt-3 text-[clamp(2.25rem,10vw,3rem)] text-white">Unlimited membership</p>
-            <p className="mt-5 flex items-baseline gap-2">
+            <p className="display mt-3 text-[min(3rem,16cqi)] text-white">Unlimited membership</p>
+            <p className="mt-5 flex flex-wrap items-baseline gap-x-2">
               <span className="display text-6xl text-white">{formatPrice(membership.price)}</span>
               <span className="eyebrow text-white/80">/ year</span>
             </p>

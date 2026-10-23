@@ -34,7 +34,7 @@ export function RideDaySection({ practice, registerOpen }: { practice: Practice;
         <div className="grid gap-16 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <p className="eyebrow text-brand">Ride day</p>
-            <h2 className="display mt-4 text-[clamp(3rem,7vw,6.5rem)]">
+            <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3rem)] sm:text-[clamp(3rem,7vw,6.5rem)]">
               Load up.
               <br />
               Show up.
@@ -77,13 +77,13 @@ export function RideDaySection({ practice, registerOpen }: { practice: Practice;
             { label: "Junior track", value: formatPrice(practice.prices.junior), sub: "per rider" },
             { label: "Spectators", value: formatPrice(practice.prices.spectator), sub: "5 & under free" },
           ].map((p) => (
-            <div key={p.label} className="border-b border-white/10 p-7 md:border-r lg:border-b-0">
+            <div key={p.label} className="border-b border-white/10 p-5 sm:p-7 md:border-r lg:border-b-0">
               <p className="eyebrow text-white/50">{p.label}</p>
               <p className="display mt-3 text-6xl text-volt">{p.value}</p>
               <p className="mt-1 text-sm text-white/60">{p.sub}</p>
             </div>
           ))}
-          <div className="p-7">
+          <div className="p-5 sm:p-7">
             <p className="eyebrow text-white/50">Regular hours</p>
             <ul className="mt-4 space-y-2">
               {practice.hours.map((h) => (

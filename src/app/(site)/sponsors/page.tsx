@@ -124,7 +124,7 @@ export default async function SponsorsPage() {
         <div className="mx-auto grid max-w-[1440px] gap-12 px-4 py-24 md:px-8 md:py-32 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">
             <p className="eyebrow text-volt">Become a sponsor</p>
-            <h2 className="display mt-4 text-[clamp(3rem,7vw,6.5rem)] text-white">
+            <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3rem)] sm:text-[clamp(3rem,7vw,6.5rem)] text-white">
               Put your brand <span className="text-volt">trackside.</span>
             </h2>
             <p className="mt-6 max-w-xl text-lg text-white/70">

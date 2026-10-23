@@ -33,7 +33,7 @@ function SectionTitle({ eyebrow, title, accent }: { eyebrow: string; title: stri
   return (
     <Reveal>
       <p className="eyebrow text-volt">{eyebrow}</p>
-      <h2 className="display mt-3 text-[clamp(2.75rem,6vw,5.5rem)] text-white">
+      <h2 className="display mt-3 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),2.75rem)] sm:text-[clamp(2.75rem,6vw,5.5rem)] text-white">
         {title} {accent && <span className="text-outline">{accent}</span>}
       </h2>
     </Reveal>
@@ -78,7 +78,7 @@ export default async function TrackInfoPage() {
         <section id="hours" className="mx-auto max-w-[1440px] scroll-mt-36 px-4 py-20 md:px-8 md:py-28">
           <SectionTitle eyebrow="Hours & pricing" title="When we ride." />
           <div className="mt-12 grid gap-px overflow-hidden rounded-sm bg-white/10 lg:grid-cols-2">
-            <div className="bg-ink-2 p-7 md:p-10">
+            <div className="bg-ink-2 p-5 sm:p-7 md:p-10">
               <p className="eyebrow text-white/50">Regular hours · bikes only</p>
               <ul className="mt-6 divide-y divide-white/10">
                 {practice.hours.map((h) => (
@@ -101,12 +101,12 @@ export default async function TrackInfoPage() {
                 { label: "Junior track", value: formatPrice(practice.prices.junior), sub: "per rider" },
                 { label: "Spectators", value: formatPrice(practice.prices.spectator), sub: "ages 5 & under free" },
               ].map((p) => (
-                <div key={p.label} className="flex items-center justify-between gap-4 bg-ink-2 p-7 sm:flex-col sm:items-start lg:flex-row lg:items-center">
+                <div key={p.label} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 bg-ink-2 p-5 sm:flex-col sm:flex-nowrap sm:p-7 sm:items-start lg:flex-row lg:items-center">
                   <div>
                     <p className="eyebrow text-white/50">{p.label}</p>
                     <p className="mt-1 text-sm text-white/55">{p.sub}</p>
                   </div>
-                  <p className="display text-6xl text-volt">{p.value}</p>
+                  <p className="display shrink-0 text-6xl text-volt">{p.value}</p>
                 </div>
               ))}
             </div>
@@ -129,11 +129,11 @@ export default async function TrackInfoPage() {
               </div>
               <ul className="grid gap-px self-start overflow-hidden rounded-sm bg-white/10 sm:grid-cols-2 lg:col-span-7">
                 {info.gear.map((item, i) => (
-                  <RevealLi key={i} delay={i * 0.04} className="flex h-full items-center gap-4 bg-ink-2 p-6">
+                  <RevealLi key={i} delay={i * 0.04} className="flex h-full items-center gap-3 bg-ink-2 p-4 sm:gap-4 sm:p-6">
                       <span className="grid size-10 shrink-0 place-items-center rounded-sm bg-volt text-ink">
                         <Check className="size-5" strokeWidth={3} aria-hidden />
                       </span>
-                      <span className="font-display text-xl font-bold uppercase italic text-white">{item}</span>
+                      <span className="min-w-0 font-display text-[min(1.25rem,calc((100vw-7rem)/7.6))] font-bold uppercase italic text-white">{item}</span>
                   </RevealLi>
                 ))}
               </ul>
@@ -147,7 +147,7 @@ export default async function TrackInfoPage() {
             <div className="grid gap-12 lg:grid-cols-12">
               <Reveal className="lg:col-span-5">
                 <p className="eyebrow text-brand">Riders under 18</p>
-                <h2 className="display mt-3 text-[clamp(2.75rem,6vw,5.5rem)]">Minor riders.</h2>
+                <h2 className="display mt-3 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),2.75rem)] sm:text-[clamp(2.75rem,6vw,5.5rem)]">Minor riders.</h2>
                 <p className="mt-6 max-w-md text-lg text-ink/75">{info.minorIntro}</p>
               </Reveal>
               <div className="lg:col-span-7">
@@ -191,11 +191,11 @@ export default async function TrackInfoPage() {
                       href={w.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group flex h-full flex-col justify-between gap-10 rounded-sm border border-white/12 bg-ink-2 p-5 transition hover:border-volt hover:bg-ink-3 sm:p-7"
+                      className="group flex h-full flex-col justify-between gap-10 rounded-sm border border-white/12 bg-ink-2 p-5 @container transition hover:border-volt hover:bg-ink-3 sm:p-7"
                     >
                       <div>
                         <p className={w.id === "guardian" ? "eyebrow text-caution" : "eyebrow text-white/50"}>{w.note}</p>
-                        <p className="display mt-3 text-[clamp(2.25rem,11vw,3rem)] text-white">{w.label}</p>
+                        <p className="display mt-3 text-[min(3rem,18cqi)] text-white">{w.label}</p>
                       </div>
                       <span className="eyebrow flex items-center gap-2 text-volt">
                         <ArrowDownToLine className="size-4 transition-transform group-hover:translate-y-0.5" aria-hidden />

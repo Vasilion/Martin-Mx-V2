@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NoBreakHyphens } from "@/components/site/no-break-hyphens";
 import { Reveal } from "@/components/motion/reveal";
 import { TrackStatusCard, TrackStatusChip } from "@/components/home/track-status-card";
 import type { TrackStatus } from "@/lib/park/live";
@@ -59,10 +60,12 @@ export function Hero({
             <Reveal>
               <p className="eyebrow flex items-center gap-3 text-white/70">
                 <span className="h-px w-10 bg-volt" aria-hidden />
-                {home.heroEyebrow}
+                <span>
+                  <NoBreakHyphens text={home.heroEyebrow} />
+                </span>
               </p>
             </Reveal>
-            <h1 className="display mt-4 text-[clamp(2.5rem,calc((100vw-2rem)/6.2),4.5rem)] text-white md:text-[clamp(3.75rem,min(11.5vw,16vh),12rem)]">
+            <h1 className="display mt-4 text-[min(4.5rem,calc((100vw-2rem)/6.2))] text-white md:text-[clamp(3.75rem,min(11.5vw,16vh),12rem)]">
               <Reveal delay={0.08}>
                 <span className="block">{home.heroLine1}</span>
               </Reveal>

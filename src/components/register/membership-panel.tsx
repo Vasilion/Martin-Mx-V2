@@ -39,10 +39,10 @@ export function MembershipPanel({ membership, phone, phoneHref }: { membership: 
       <section className="grain relative isolate overflow-hidden rounded-sm bg-brand lg:col-span-7">
         <Image src="/photos/roost-292.jpg" alt="" fill sizes="(min-width: 1024px) 58vw, 100vw" className="-z-10 object-cover object-[70%_center] opacity-30 mix-blend-luminosity" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand via-brand/90 to-brand/40" />
-        <div className="flex h-full flex-col justify-between gap-12 p-5 sm:p-7 md:p-10">
+        <div className="flex h-full flex-col justify-between gap-12 p-5 @container sm:p-7 md:p-10">
           <div>
             <p className="eyebrow text-white/80">Yearly membership</p>
-            <h2 className="display mt-4 text-[clamp(2.5rem,6vw,5.5rem)] text-white">
+            <h2 className="display mt-4 text-[min(5.5rem,18cqi)] text-white">
               Unlimited.
               <br />
               All season.
@@ -50,7 +50,7 @@ export function MembershipPanel({ membership, phone, phoneHref }: { membership: 
           </div>
           <div>
             <p className="flex flex-wrap items-baseline gap-x-3">
-              <span className="display text-[clamp(4rem,22vw,6rem)] text-white">{formatPrice(membership.price)}</span>
+              <span className="display text-[min(6rem,30cqi)] text-white">{formatPrice(membership.price)}</span>
               <span className="eyebrow text-white/85">/ year</span>
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">

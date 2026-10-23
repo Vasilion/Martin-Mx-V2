@@ -34,9 +34,9 @@ export default async function ContactPage() {
                 <li key={w.label}>
                   <a href={w.href} target={w.icon === MapPin ? "_blank" : undefined} rel="noreferrer" className="group flex gap-4 py-5">
                     <w.icon className="mt-0.5 size-5 shrink-0 text-volt" aria-hidden />
-                    <span>
+                    <span className="min-w-0 [overflow-wrap:anywhere]">
                       <span className="eyebrow block text-[0.65rem] text-white/50">{w.label}</span>
-                      <span className="text-white group-hover:text-volt">{w.value}</span>
+                      <span className="text-[clamp(0.875rem,4.4vw,1rem)] text-white group-hover:text-volt">{w.value}</span>
                     </span>
                   </a>
                 </li>

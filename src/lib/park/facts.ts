@@ -184,7 +184,7 @@ export const trackRules: { title: string; body: string }[] = [
 ];
 
 export const concessions = {
-  body: "Water ($1) and Monster ($2) at the check-in building. Bring your own food. There's a gas station and Subway half a mile away.",
+  body: "Bring your own food. There's a gas station and Subway half a mile away.",
 };
 
 export const specialEventPolicies = [

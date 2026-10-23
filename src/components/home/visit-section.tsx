@@ -34,7 +34,7 @@ export function VisitSection({ sponsors, site, home }: { sponsors: Sponsor[]; si
       <div className="mx-auto mt-24 grid max-w-[1440px] gap-10 px-4 md:mt-32 md:px-8 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
           <p className="eyebrow text-white/50">Find us</p>
-          <h2 className="display mt-4 text-[clamp(2.75rem,7vw,6.5rem)] text-white">
+          <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),2.75rem)] sm:text-[clamp(2.75rem,7vw,6.5rem)] text-white">
             {home.visitHeading} {home.visitAccent && <span className="inline-block text-volt">{home.visitAccent}</span>}
           </h2>
           <address className="mt-8 not-italic text-xl text-white/80">
@@ -50,7 +50,9 @@ export function VisitSection({ sponsors, site, home }: { sponsors: Sponsor[]; si
               </a>
             </Button>
             <Button asChild variant="race-outline" size="xl">
-              <a href={site.phoneHref}>Call {site.phone}</a>
+              <a href={site.phoneHref}>
+                Call <span className="whitespace-nowrap">{site.phone}</span>
+              </a>
             </Button>
           </div>
         </Reveal>

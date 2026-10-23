@@ -21,7 +21,7 @@ export function MembershipBand({ membership }: { membership: Membership }) {
       <div className="mx-auto grid max-w-[1440px] gap-10 px-4 py-24 md:px-8 md:py-32 lg:grid-cols-2">
         <Reveal>
           <p className="eyebrow text-white/80">Yearly membership</p>
-          <h2 className="display mt-4 text-[clamp(3.25rem,8vw,8rem)] text-white">
+          <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3.25rem)] sm:text-[clamp(3.25rem,8vw,8rem)] text-white">
             Unlimited.
             <br />
             All season.
@@ -29,8 +29,8 @@ export function MembershipBand({ membership }: { membership: Membership }) {
         </Reveal>
         <Reveal delay={0.1} className="flex flex-col justify-end lg:items-end">
           <div className="w-full max-w-md">
-            <p className="flex items-baseline gap-3">
-              <span className="display text-8xl text-white">{formatPrice(membership.price)}</span>
+            <p className="flex flex-wrap items-baseline gap-x-3">
+              <span className="display text-[clamp(4rem,26vw,6rem)] text-white">{formatPrice(membership.price)}</span>
               <span className="eyebrow text-white/80">/ year</span>
             </p>
             <ul className="mt-6 space-y-3">

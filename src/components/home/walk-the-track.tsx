@@ -52,7 +52,7 @@ export function WalkTheTrack({ eyebrow, heading, body }: { eyebrow: string; head
         <div className="mx-auto flex h-full max-w-[1440px] flex-col justify-end px-4 pb-14 md:px-8 md:pb-20">
           <Reveal className="max-w-2xl">
             {eyebrow && <p className="eyebrow text-volt">{eyebrow}</p>}
-            <h2 className="display mt-4 text-[clamp(3rem,8vw,7.5rem)] text-white">{heading}</h2>
+            <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3rem)] sm:text-[clamp(3rem,8vw,7.5rem)] text-white">{heading}</h2>
             {body && <p className="mt-5 max-w-lg text-lg text-white/75">{body}</p>}
           </Reveal>
           <Reveal delay={0.1} className="mt-8 flex flex-wrap items-center gap-3">

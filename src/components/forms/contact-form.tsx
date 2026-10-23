@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { ChoiceGroup, Honeypot, SiteInput, SiteTextarea, SubmitButton, useSiteForm } from "@/components/forms/site-form";
 
-const topics = ["Practice & riding", "Membership", "Events", "Sponsoring", "Other"] as const;
+const topics = ["Practice & Riding", "Membership", "Events", "Sponsoring", "Other"] as const;
 
 export function ContactForm() {
   const f = useSiteForm("/api/contact");

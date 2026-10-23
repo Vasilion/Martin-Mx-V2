@@ -9,8 +9,8 @@ export async function SiteFooter({ registerOpen }: { registerOpen: boolean }) {
   const site = await getSite();
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-ink">
-      <div className="mx-auto grid max-w-[1440px] gap-12 px-4 pb-10 pt-16 md:grid-cols-12 md:px-8 md:pt-24">
-        <div className="md:col-span-5">
+      <div className="mx-auto grid max-w-[1440px] gap-12 px-4 pb-10 pt-16 md:px-8 md:pt-24 lg:grid-cols-12">
+        <div className="lg:col-span-5">
           <p className="display text-5xl text-white md:text-6xl">
             See you <span className="text-volt">at the gate.</span>
           </p>
@@ -37,7 +37,7 @@ export async function SiteFooter({ registerOpen }: { registerOpen: boolean }) {
           </ul>
         </div>
 
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 md:col-span-4 md:col-start-7">
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-x-4 gap-y-8 sm:max-w-md sm:gap-8 lg:col-span-4 lg:col-start-7 lg:max-w-none">
           <div>
             <p className="eyebrow text-white/40">Ride</p>
             <ul className="mt-4 space-y-2.5">
@@ -68,7 +68,7 @@ export async function SiteFooter({ registerOpen }: { registerOpen: boolean }) {
           </div>
         </nav>
 
-        <div className="flex gap-3 md:col-span-2 md:justify-end">
+        <div className="flex gap-3 lg:col-span-2 lg:justify-end">
           {site.facebook && (
             <a href={site.facebook} target="_blank" rel="noreferrer" aria-label="Martin MX on Facebook" className="grid size-11 place-items-center rounded-sm border border-white/15 text-white/80 transition hover:border-volt hover:text-volt">
               <FacebookIcon className="size-5" />

@@ -21,7 +21,7 @@ function Shell({ eyebrow, title, accent, children }: { eyebrow: string; title: s
           <Check className="size-7" strokeWidth={3} aria-hidden />
         </span>
         <p className="eyebrow mt-8 text-volt">{eyebrow}</p>
-        <h1 className="display mt-4 text-[clamp(3rem,8vw,6rem)] text-white">
+        <h1 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3rem)] sm:text-[clamp(3rem,8vw,6rem)] text-white">
           {title} <span className="block text-volt">{accent}</span>
         </h1>
         {children}

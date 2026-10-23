@@ -39,10 +39,10 @@ function TrackPanel({ id, track: t, price, flip }: { id: TrackId; track: Content
         <p className="eyebrow text-volt">Track {number}</p>
         <h3 className="display mt-3 text-[clamp(2.75rem,14vw,3.75rem)] text-white md:text-7xl">{t.name}</h3>
         <p className="mt-4 text-xl font-medium text-white/85">{t.tagline}</p>
-        <dl className="mt-8 grid grid-cols-3 border-y border-white/10">
+        <dl className="mt-8 grid border-y border-white/10 min-[360px]:grid-cols-3">
           {t.stats.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse border-r border-white/10 py-5 pr-2 last:border-r-0 sm:pr-3 [&:not(:first-child)]:pl-3 sm:[&:not(:first-child)]:pl-4">
-              <dt className="eyebrow mt-1 text-[0.6rem] tracking-[0.1em] text-white/50 sm:text-[0.65rem] sm:tracking-[0.2em]">{s.label}</dt>
+            <div key={s.label} className="flex items-baseline justify-between gap-3 border-b border-white/10 py-3 last:border-b-0 min-[360px]:flex-col-reverse min-[360px]:items-stretch min-[360px]:justify-start min-[360px]:gap-0 min-[360px]:border-r min-[360px]:border-b-0 min-[360px]:py-5 min-[360px]:pr-2 min-[360px]:last:border-r-0 sm:pr-3 min-[360px]:[&:not(:first-child)]:pl-3 sm:[&:not(:first-child)]:pl-4">
+              <dt className="eyebrow text-[0.6rem] min-[360px]:mt-1 tracking-[0.1em] text-white/50 sm:text-[0.65rem] sm:tracking-[0.2em]">{s.label}</dt>
               <dd className="display text-[clamp(1.625rem,8vw,2.25rem)] text-white">{s.value}</dd>
             </div>
           ))}
@@ -67,7 +67,7 @@ export function TracksSection({ practice, tracks, home }: { practice: Practice; 
       <div className="mx-auto max-w-[1440px] px-4 md:px-8">
         <Reveal className="max-w-3xl">
           <p className="eyebrow text-white/50">The tracks</p>
-          <h2 className="display mt-4 text-[clamp(3rem,8vw,7.5rem)] text-white">
+          <h2 className="display mt-4 text-[clamp(1.75rem,calc((100vw-2rem)/5.6),3rem)] sm:text-[clamp(3rem,8vw,7.5rem)] text-white">
             {home.tracksHeading} {home.tracksAccent && <span className="text-outline text-white">{home.tracksAccent}</span>}
           </h2>
         </Reveal>
