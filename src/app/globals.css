@@ -139,6 +139,15 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    /* Owners edit every word: a long word or URL wraps instead of pushing the page sideways. */
+    overflow-wrap: break-word;
+    /* Decorative bleeds (the tilted ticker, oversized track numbers) never make the page pan sideways. */
+    overflow-x: clip;
+  }
+  /* Grid cells shrink to their track instead of growing to their widest word (the default
+     min-width:auto lets one long line widen a whole column past a phone screen). */
+  :where(.grid) > * {
+    min-width: 0;
   }
   ::selection {
     background: var(--volt);

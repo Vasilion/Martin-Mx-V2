@@ -37,13 +37,13 @@ function TrackPanel({ id, track: t, price, flip }: { id: TrackId; track: Content
 
       <Reveal delay={0.1} className={cn("lg:col-span-5", flip && "lg:order-1 lg:col-span-5 lg:col-start-1")}>
         <p className="eyebrow text-volt">Track {number}</p>
-        <h3 className="display mt-3 text-6xl text-white md:text-7xl">{t.name}</h3>
+        <h3 className="display mt-3 text-[clamp(2.75rem,14vw,3.75rem)] text-white md:text-7xl">{t.name}</h3>
         <p className="mt-4 text-xl font-medium text-white/85">{t.tagline}</p>
         <dl className="mt-8 grid grid-cols-3 border-y border-white/10">
           {t.stats.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse border-r border-white/10 py-5 pr-3 last:border-r-0 [&:not(:first-child)]:pl-4">
-              <dt className="eyebrow mt-1 text-[0.65rem] text-white/50">{s.label}</dt>
-              <dd className="display text-4xl text-white">{s.value}</dd>
+            <div key={s.label} className="flex flex-col-reverse border-r border-white/10 py-5 pr-2 last:border-r-0 sm:pr-3 [&:not(:first-child)]:pl-3 sm:[&:not(:first-child)]:pl-4">
+              <dt className="eyebrow mt-1 text-[0.6rem] tracking-[0.1em] text-white/50 sm:text-[0.65rem] sm:tracking-[0.2em]">{s.label}</dt>
+              <dd className="display text-[clamp(1.625rem,8vw,2.25rem)] text-white">{s.value}</dd>
             </div>
           ))}
         </dl>

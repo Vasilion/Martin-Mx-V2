@@ -57,7 +57,7 @@ export function RideDaySection({ practice, registerOpen }: { practice: Practice;
           <ol className="space-y-px overflow-hidden rounded-sm bg-ink/10 lg:col-span-7">
             {shown.map((step, i) => (
               <RevealLi key={step.title} delay={i * 0.08} className="flex gap-6 bg-bone py-7 md:gap-10">
-                  <span className="display w-14 shrink-0 text-6xl text-ink/15 md:w-20 md:text-7xl">0{i + 1}</span>
+                  <span className="display shrink-0 whitespace-nowrap text-5xl text-ink/15 sm:min-w-16 sm:text-6xl md:min-w-20 md:text-7xl">0{i + 1}</span>
                   <div>
                     <h3 className="flex items-center gap-3 font-display text-2xl font-bold uppercase italic">
                       <step.icon className="size-5 text-brand" aria-hidden />

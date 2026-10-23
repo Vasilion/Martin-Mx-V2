@@ -8,8 +8,14 @@ export function formatTime(hhmm: string) {
   return m === 0 ? `${hour}${suffix}` : `${hour}:${String(m).padStart(2, "0")}${suffix}`;
 }
 
-export function formatTimeRange(start: string, end: string) {
+/** Plain text, for emails and Stripe. */
+export function formatTimeRangeText(start: string, end: string) {
   return `${formatTime(start)}–${formatTime(end)}`;
+}
+
+/** For pages: word joiners keep "10AM–3PM" on one line (browsers otherwise break after the dash on phones). */
+export function formatTimeRange(start: string, end: string) {
+  return `${formatTime(start)}⁠–⁠${formatTime(end)}`;
 }
 
 /** Calendar date treated as a plain date (noon UTC avoids off-by-one in any zone). */

@@ -41,11 +41,11 @@ function Forecast({ weather, date }: { weather: Weather | null; date: string }) 
 function BigDate({ day }: { day: RideDay }) {
   const { month, day: dom } = monthDay(day.date);
   return (
-    <div className="flex items-end gap-4">
-      <p className="display text-[5.5rem] leading-[0.8] text-white">{dom}</p>
-      <div className="pb-1">
-        <p className="display text-3xl text-white">{weekdayOf(day.date, "long")}</p>
-        <p className="eyebrow mt-1 text-white/60">
+    <div className="flex items-end gap-3 sm:gap-4">
+      <p className="display shrink-0 text-[clamp(3.75rem,20vw,5.5rem)] leading-[0.8] text-white">{dom}</p>
+      <div className="min-w-0 pb-1">
+        <p className="display text-[clamp(1.375rem,7.5vw,1.875rem)] text-white">{weekdayOf(day.date, "long")}</p>
+        <p className="eyebrow mt-1 text-[0.7rem] text-white/60 sm:text-xs">
           {month} · {formatTimeRange(day.start, day.end)}
         </p>
       </div>
@@ -97,7 +97,7 @@ export function TrackStatusCard({ status, weather, facebook = "" }: { status: Tr
         <div className="flex items-center justify-between gap-4">
           <p className="eyebrow text-white/50">Track status</p>
           {weather && (
-            <p className="flex items-center gap-3 text-xs text-white/60">
+            <p className="flex shrink-0 items-center gap-3 whitespace-nowrap text-xs text-white/60">
               <span>
                 Now <span className="font-semibold text-white">{weather.current.tempF}°F</span>
               </span>

@@ -4,7 +4,7 @@ import { getPractice, getSchedule } from "@/lib/park/live";
 import { isRegistrable, priceFor } from "@/lib/registrations/availability";
 import { getStore, SoldOutError, type Registration } from "@/lib/registrations/store";
 import { getStripe, siteOrigin } from "@/lib/stripe";
-import { formatDay, formatTimeRange } from "@/lib/park/format";
+import { formatDay, formatTimeRangeText } from "@/lib/park/format";
 
 export const runtime = "nodejs";
 
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
             unit_amount: Math.round(reg.amount * 100),
             product_data: {
               name: `Practice day: ${priced.cls.label} (${priced.cls.track === "main" ? "Main" : "Junior"} track)`,
-              description: `${formatDay(day.date, "long")}, ${formatTimeRange(day.start, day.end)} · ${reg.firstName} ${reg.lastName} #${reg.riderNumber}`,
+              description: `${formatDay(day.date, "long")}, ${formatTimeRangeText(day.start, day.end)} · ${reg.firstName} ${reg.lastName} #${reg.riderNumber}`,
             },
           },
         },

@@ -6,12 +6,11 @@ import { formatDay, formatPrice, formatTimeRange, monthDay, weekdayOf } from "@/
 import type { SiteInfo } from "@/lib/park/content";
 
 /**
- * Shown when no ride day has online registration open, or the owners switched
- * practice registration off for the whole site (`switchedOff`). Riders still leave with
+ * Shown when online practice registration isn't open (no open ride day, or the
+ * owners switched it off site-wide). Never promises when it opens. Riders still leave with
  * everything they need: when the next ride day is, what it costs, what to bring.
  */
 export function PracticeClosed({
-  switchedOff = false,
   status,
   upcoming,
   practice,
@@ -20,7 +19,6 @@ export function PracticeClosed({
   gear,
   waivers,
 }: {
-  switchedOff?: boolean;
   site: SiteInfo;
   gear: string[];
   waivers: { id: string; label: string; note: string; href: string }[];
@@ -40,21 +38,15 @@ export function PracticeClosed({
           <div className="grid gap-8 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div>
               <p className="eyebrow flex items-center gap-2 text-caution">
-                <CalendarClock className="size-4" aria-hidden /> {switchedOff ? "Practice registration is closed" : "Online registration isn’t open yet"}
+                <CalendarClock className="size-4 shrink-0" aria-hidden /> Online practice registration is closed
               </p>
-              <h2 className="display mt-4 text-4xl text-white md:text-5xl">
-                {switchedOff
-                  ? "Online sign-ups aren’t open right now."
-                  : next
-                    ? "Registration opens before each ride day."
-                    : "Season's wrapped. See you in spring."}
+              <h2 className="display mt-4 text-[clamp(2rem,9vw,3rem)] text-white">
+                {next ? "No online sign-ups right now." : "Season's wrapped. See you in spring."}
               </h2>
               <p className="mt-4 max-w-xl text-white/65">
-                {switchedOff
-                  ? "When practice registration opens again, the form appears right here. Watch the schedule and Facebook for updates."
-                  : next
-                    ? "Once the park opens sign-ups for a day, the form appears right here. Check back closer to the day, or follow along on the schedule."
-                    : "New dates and registration post here and on Facebook first."}
+                {next
+                  ? "Ride days, times and any changes are on the schedule, and we post updates on Facebook."
+                  : "New dates post here and on Facebook first."}
               </p>
             </div>
             {next && (
@@ -99,9 +91,9 @@ export function PracticeClosed({
                   ["Junior track", formatPrice(practice.prices.junior), "/ rider"],
                   ["Spectators", formatPrice(practice.prices.spectator), "5 & under free"],
                 ].map(([label, price, sub]) => (
-                  <li key={label} className="flex items-baseline justify-between gap-3">
+                  <li key={label} className="flex flex-wrap items-baseline justify-between gap-x-3">
                     <span className="text-white/75">{label}</span>
-                    <span className="text-right">
+                    <span className="whitespace-nowrap text-right">
                       <span className="display text-2xl text-volt">{price}</span>
                       <span className="ml-1.5 text-xs text-white/45">{sub}</span>
                     </span>
@@ -145,9 +137,9 @@ export function PracticeClosed({
       {/* Membership promo */}
       <aside className="lg:col-span-4">
         {membership.open && (
-          <div className="grain relative overflow-hidden rounded-sm bg-brand p-7 lg:sticky lg:top-28">
+          <div className="grain relative overflow-hidden rounded-sm bg-brand p-5 sm:p-7 lg:sticky lg:top-28">
             <p className="eyebrow text-white/80">Ride all season</p>
-            <p className="display mt-3 text-5xl text-white">Unlimited membership</p>
+            <p className="display mt-3 text-[clamp(2.25rem,10vw,3rem)] text-white">Unlimited membership</p>
             <p className="mt-5 flex items-baseline gap-2">
               <span className="display text-6xl text-white">{formatPrice(membership.price)}</span>
               <span className="eyebrow text-white/80">/ year</span>

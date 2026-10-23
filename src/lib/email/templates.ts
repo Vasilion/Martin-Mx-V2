@@ -1,6 +1,6 @@
 import { park } from "@/lib/park/facts";
 import type { SiteInfo } from "@/lib/park/content";
-import { formatDay, formatPrice, formatTimeRange } from "@/lib/park/format";
+import { formatDay, formatPrice, formatTimeRangeText } from "@/lib/park/format";
 import { emailLogoUrl } from "@/lib/media";
 
 /**
@@ -63,7 +63,7 @@ export function practiceConfirmationEmail(site: SiteInfo, r: {
   end: string;
   amount: number;
 }) {
-  const when = `${formatDay(r.date, "long")}, ${formatTimeRange(r.start, r.end)}`;
+  const when = `${formatDay(r.date, "long")}, ${formatTimeRangeText(r.start, r.end)}`;
   const details: [string, string][] = [
     ["Rider", `${r.firstName} ${r.lastName}`],
     ["Rider number", `#${r.riderNumber}`],
@@ -186,7 +186,7 @@ export function inboxReceiptEmail(site: SiteInfo, item: { kind: "application" | 
 
 /** To each registered rider when the owners cancel a ride day. No refund promise: that's the owners' call. */
 export function practiceCancelledEmail(site: SiteInfo, r: { firstName: string; date: string; start: string; end: string; reason: string }) {
-  const when = `${formatDay(r.date, "long")}, ${formatTimeRange(r.start, r.end)}`;
+  const when = `${formatDay(r.date, "long")}, ${formatTimeRangeText(r.start, r.end)}`;
   const html = layout({
     site,
     preheader: `Practice on ${formatDay(r.date)} is cancelled.`,

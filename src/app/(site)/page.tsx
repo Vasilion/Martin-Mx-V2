@@ -48,7 +48,10 @@ export default async function HomePage() {
   return (
     <>
       <Hero status={status} weather={weather} home={home} facebook={site.facebook} registerOpen={registerOpen} />
-      <Marquee items={ticker} className="-rotate-1 scale-[1.02] bg-volt text-ink" />
+      {/* The tilted strip bleeds past both edges; clip sideways only so the corners still overlap above and below. */}
+      <div className="overflow-x-clip">
+        <Marquee items={ticker} className="-rotate-1 scale-[1.02] bg-volt text-ink" />
+      </div>
       <TracksSection practice={practice} tracks={tracks} home={home} />
       <WalkTheTrack eyebrow={home.flyoverEyebrow} heading={home.flyoverHeading} body={home.flyoverBody} />
       <RideDaySection practice={practice} registerOpen={registerOpen} />

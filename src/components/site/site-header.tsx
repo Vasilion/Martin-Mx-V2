@@ -46,9 +46,9 @@ export function SiteHeader({
       )}
     >
       <AnnouncementBar announcement={announcement} />
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-6 px-4 md:h-20 md:px-8">
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-3 px-4 sm:gap-6 md:h-20 md:px-8">
         <Link href="/" aria-label="Martin MX Park home" className="shrink-0">
-          <Logo className="h-[18px] w-auto md:h-[22px]" />
+          <Logo className="h-[15px] w-auto min-[380px]:h-[18px] md:h-[22px]" />
         </Link>
 
         <nav aria-label="Primary" className="ml-auto hidden items-center gap-1 lg:flex">
@@ -79,7 +79,7 @@ export function SiteHeader({
         </nav>
 
         {(registerOpen || membershipOpen) && (
-          <Button asChild variant="race" size="lg" className="ml-auto h-10 px-5 lg:ml-2">
+          <Button asChild variant="race" size="lg" className="ml-auto h-9 px-3 text-[0.8rem] min-[380px]:h-10 min-[380px]:px-5 min-[380px]:text-sm lg:ml-2">
             {registerOpen ? <Link href="/register">Register</Link> : <Link href="/register?tab=membership">Membership</Link>}
           </Button>
         )}
@@ -95,7 +95,7 @@ export function SiteHeader({
               <Menu className="size-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-full border-white/10 bg-ink p-0 sm:max-w-md">
+          <SheetContent side="right" className="border-white/10 bg-ink p-0 data-[side=right]:w-full data-[side=right]:sm:max-w-md">
             <SheetTitle className="sr-only">Menu</SheetTitle>
             <div className="flex h-full flex-col overflow-y-auto px-6 pb-8 pt-16">
               <nav aria-label="Mobile" className="flex flex-col">

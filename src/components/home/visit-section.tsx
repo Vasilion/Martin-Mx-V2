@@ -34,8 +34,8 @@ export function VisitSection({ sponsors, site, home }: { sponsors: Sponsor[]; si
       <div className="mx-auto mt-24 grid max-w-[1440px] gap-10 px-4 md:mt-32 md:px-8 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
           <p className="eyebrow text-white/50">Find us</p>
-          <h2 className="display mt-4 text-[clamp(3rem,7vw,6.5rem)] text-white">
-            {home.visitHeading} {home.visitAccent && <span className="text-volt">{home.visitAccent}</span>}
+          <h2 className="display mt-4 text-[clamp(2.75rem,7vw,6.5rem)] text-white">
+            {home.visitHeading} {home.visitAccent && <span className="inline-block text-volt">{home.visitAccent}</span>}
           </h2>
           <address className="mt-8 not-italic text-xl text-white/80">
             {site.street}

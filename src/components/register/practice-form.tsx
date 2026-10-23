@@ -202,7 +202,7 @@ export function PracticeForm({ days, classes, initialDate }: { days: OpenDay[]; 
                   />
                   <span>
                     <span className="eyebrow block text-[0.65rem] text-white/50">{c.track === "main" ? "Main track" : "Junior track"}</span>
-                    <span className="display mt-2 block text-4xl text-white">{c.label}</span>
+                    <span className="display mt-2 block text-[clamp(1.5rem,8vw,2.25rem)] text-white">{c.label}</span>
                   </span>
                   <span className="flex items-end justify-between gap-2">
                     <span className="display text-2xl text-volt">{formatPrice(c.price)}</span>
@@ -331,17 +331,17 @@ export function PracticeForm({ days, classes, initialDate }: { days: OpenDay[]; 
             <p className="eyebrow text-white/50">Your registration</p>
             <dl className="mt-5 space-y-4 text-sm">
               <div className="flex justify-between gap-4 border-b border-white/10 pb-4">
-                <dt className="text-white/55">Ride day</dt>
+                <dt className="shrink-0 text-white/55">Ride day</dt>
                 <dd className="text-right font-semibold text-white">
                   {day ? `${formatDay(day.date)} · ${formatTimeRange(day.start, day.end)}` : "—"}
                 </dd>
               </div>
               <div className="flex justify-between gap-4 border-b border-white/10 pb-4">
-                <dt className="text-white/55">Class</dt>
-                <dd className="font-semibold text-white">{cls ? `${cls.label} · ${cls.track === "main" ? "Main" : "Junior"} track` : "—"}</dd>
+                <dt className="shrink-0 text-white/55">Class</dt>
+                <dd className="text-right font-semibold text-white">{cls ? `${cls.label} · ${cls.track === "main" ? "Main" : "Junior"} track` : "—"}</dd>
               </div>
               <div className="flex justify-between gap-4 border-b border-white/10 pb-4">
-                <dt className="text-white/55">Rider</dt>
+                <dt className="shrink-0 text-white/55">Rider</dt>
                 <dd className="truncate text-right font-semibold text-white">
                   {fields.firstName || fields.lastName ? `${fields.firstName} ${fields.lastName}`.trim() : "—"}
                   {fields.riderNumber && <span className="text-white/55"> #{fields.riderNumber}</span>}

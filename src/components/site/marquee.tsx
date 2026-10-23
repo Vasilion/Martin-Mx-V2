@@ -13,7 +13,7 @@ export function Marquee({ items, className }: { items: string[]; className?: str
     </ul>
   );
   return (
-    <div className={cn("overflow-hidden whitespace-nowrap py-3", className)}>
+    <div data-marquee className={cn("overflow-hidden whitespace-nowrap py-3", className)}>
       <div className="flex w-max animate-marquee motion-reduce:animate-none">
         {row(false)}
         {row(true)}

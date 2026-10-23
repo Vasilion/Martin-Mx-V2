@@ -62,7 +62,7 @@ export function Hero({
                 {home.heroEyebrow}
               </p>
             </Reveal>
-            <h1 className="display mt-4 text-[clamp(3.75rem,min(11.5vw,16vh),12rem)] text-white">
+            <h1 className="display mt-4 text-[clamp(2.5rem,calc((100vw-2rem)/6.2),4.5rem)] text-white md:text-[clamp(3.75rem,min(11.5vw,16vh),12rem)]">
               <Reveal delay={0.08}>
                 <span className="block">{home.heroLine1}</span>
               </Reveal>

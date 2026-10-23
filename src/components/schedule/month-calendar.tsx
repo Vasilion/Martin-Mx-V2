@@ -52,7 +52,7 @@ export function MonthCalendar({ days, today, startMonth }: { days: RideDay[]; to
 
       <div className="mt-6 grid grid-cols-7 gap-1 md:gap-2" role="grid" aria-label={label}>
         {weekdays.map((w) => (
-          <div key={w} className="eyebrow pb-2 text-center text-[0.65rem] text-white/45" role="columnheader">
+          <div key={w} className="eyebrow pb-2 text-center text-[0.65rem] tracking-[0.08em] text-white/45 sm:tracking-[0.2em]" role="columnheader">
             {w}
           </div>
         ))}

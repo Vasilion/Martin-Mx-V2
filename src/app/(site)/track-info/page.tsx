@@ -62,7 +62,7 @@ export default async function TrackInfoPage() {
 
       {/* Sticky jump nav */}
       <nav aria-label="On this page" className="sticky top-16 z-30 border-y border-white/10 bg-ink/90 backdrop-blur-md md:top-20">
-        <ul className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto px-4 py-2 [scrollbar-width:none] md:px-8 [&::-webkit-scrollbar]:hidden">
+        <ul className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto px-4 py-2 [mask-image:linear-gradient(to_right,black_85%,transparent)] [scrollbar-width:none] md:px-8 md:[mask-image:none] [&::-webkit-scrollbar]:hidden">
           {sections.map((s) => (
             <li key={s.id} className="shrink-0">
               <a href={`#${s.id}`} className="eyebrow block rounded-sm px-3 py-2 text-white/65 transition hover:bg-white/5 hover:text-white">
@@ -82,9 +82,9 @@ export default async function TrackInfoPage() {
               <p className="eyebrow text-white/50">Regular hours · bikes only</p>
               <ul className="mt-6 divide-y divide-white/10">
                 {practice.hours.map((h) => (
-                  <li key={h.day} className="flex items-baseline justify-between py-4">
-                    <span className="font-display text-3xl font-bold uppercase italic text-white">{h.day}</span>
-                    <span className="text-lg text-white/75">{formatTimeRange(h.open, h.close)}</span>
+                  <li key={h.day} className="flex flex-col gap-1 py-4 min-[400px]:flex-row min-[400px]:items-baseline min-[400px]:justify-between min-[400px]:gap-4">
+                    <span className="font-display text-[clamp(1.5rem,8vw,1.875rem)] font-bold uppercase italic text-white">{h.day}</span>
+                    <span className="whitespace-nowrap text-lg text-white/75">{formatTimeRange(h.open, h.close)}</span>
                   </li>
                 ))}
               </ul>
@@ -191,11 +191,11 @@ export default async function TrackInfoPage() {
                       href={w.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group flex h-full flex-col justify-between gap-10 rounded-sm border border-white/12 bg-ink-2 p-7 transition hover:border-volt hover:bg-ink-3"
+                      className="group flex h-full flex-col justify-between gap-10 rounded-sm border border-white/12 bg-ink-2 p-5 transition hover:border-volt hover:bg-ink-3 sm:p-7"
                     >
                       <div>
                         <p className={w.id === "guardian" ? "eyebrow text-caution" : "eyebrow text-white/50"}>{w.note}</p>
-                        <p className="display mt-3 text-5xl text-white">{w.label}</p>
+                        <p className="display mt-3 text-[clamp(2.25rem,11vw,3rem)] text-white">{w.label}</p>
                       </div>
                       <span className="eyebrow flex items-center gap-2 text-volt">
                         <ArrowDownToLine className="size-4 transition-transform group-hover:translate-y-0.5" aria-hidden />

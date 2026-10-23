@@ -48,7 +48,7 @@ export function RideDayRow({
             <span className="eyebrow rounded-sm border border-volt/50 px-2 py-1 text-[0.65rem] text-volt">Registration open</span>
           )}
         </div>
-        <p className="mt-2 font-display text-3xl font-bold uppercase italic text-white md:text-4xl">
+        <p className="mt-2 font-display text-[clamp(1.5rem,8vw,1.875rem)] font-bold uppercase italic text-white md:text-4xl">
           {weekdayOf(day.date, "long")}
         </p>
         <p className="mt-1 text-white/65">
