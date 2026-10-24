@@ -1,4 +1,5 @@
 import { FitDisplayText } from "@/components/site/fit-display-text";
+import { SameHashScroll } from "@/components/site/same-hash-scroll";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -29,6 +30,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <main id="main-content">{children}</main>
       <SiteFooter registerOpen={registerOpen} />
       <FitDisplayText />
+      <SameHashScroll />
     </TooltipProvider>
   );
 }
