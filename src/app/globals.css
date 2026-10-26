@@ -132,6 +132,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* iOS Safari gives date/time inputs a fixed intrinsic width that ignores the grid; let them shrink. */
+  input[type="time"],
+  input[type="date"] {
+    min-width: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    text-align: left;
+  }
   html {
     @apply font-sans;
     color-scheme: dark;

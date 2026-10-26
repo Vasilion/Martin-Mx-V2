@@ -26,7 +26,8 @@ import type { PracticeRegistration } from "@/lib/register/schema";
  * With no table configured (local dev without AWS, tests), an in-memory store is used.
  */
 
-export type RegistrationStatus = "pending" | "paid" | "expired" | "refunded";
+/** removed = an owner took a paid rider off the gate list (no refund by itself). */
+export type RegistrationStatus = "pending" | "paid" | "expired" | "refunded" | "removed";
 
 export type Registration = Omit<PracticeRegistration, "waiverAck"> & {
   id: string;
@@ -35,6 +36,7 @@ export type Registration = Omit<PracticeRegistration, "waiverAck"> & {
   createdAt: string;
   paidAt?: string;
   stripeSessionId?: string;
+  paymentIntentId?: string;
   checkedIn?: boolean;
 };
 
@@ -68,6 +70,8 @@ export interface RegistrationStore {
   linkPaymentIntent(intentId: string, registrationId: string): Promise<void>;
   /** paid -> refunded and gives the spot back. Returns false if it wasn't paid. */
   refundByPaymentIntent(intentId: string): Promise<boolean>;
+  /** paid -> removed and gives the spot back (owner took them off the list). Returns false if it wasn't paid. */
+  removeRider(id: string): Promise<boolean>;
   get(id: string): Promise<Registration | null>;
   /** Gate check-in (paid registrations only). */
   setCheckedIn(id: string, checkedIn: boolean): Promise<void>;
@@ -240,13 +244,34 @@ class DynamoStore implements RegistrationStore {
 
   async linkPaymentIntent(intentId: string, registrationId: string) {
     await this.db.send(new PutCommand({ TableName: this.table, Item: { pk: `PI#${intentId}`, sk: "PI", registrationId } }));
+    await this.db.send(
+      new UpdateCommand({
+        TableName: this.table,
+        Key: { pk: `REG#${registrationId}`, sk: "REG" },
+        UpdateExpression: "SET paymentIntentId = :pi",
+        ConditionExpression: "attribute_exists(pk)",
+        ExpressionAttributeValues: { ":pi": intentId },
+      }),
+    ).catch((err) => {
+      if (!(err instanceof ConditionalCheckFailedException)) throw err;
+    });
   }
 
   async refundByPaymentIntent(intentId: string) {
     const link = await this.db.send(new GetCommand({ TableName: this.table, Key: { pk: `PI#${intentId}`, sk: "PI" } }));
     const id = link.Item?.registrationId as string | undefined;
     const reg = id ? await this.get(id) : null;
-    if (!reg || reg.status !== "paid") return false;
+    return reg ? this.closePaid(reg, "refunded") : false;
+  }
+
+  async removeRider(id: string) {
+    const reg = await this.get(id);
+    return reg ? this.closePaid(reg, "removed") : false;
+  }
+
+  /** paid -> refunded/removed and frees the spot, in one transaction so a retry can't free it twice. */
+  private async closePaid(reg: Registration, status: "refunded" | "removed") {
+    if (reg.status !== "paid") return false;
     try {
       await withConflictRetry(() =>
         this.db.send(
@@ -256,10 +281,10 @@ class DynamoStore implements RegistrationStore {
                 Update: {
                   TableName: this.table,
                   Key: { pk: `REG#${reg.id}`, sk: "REG" },
-                  UpdateExpression: "SET #s = :refunded, refundedAt = :at",
+                  UpdateExpression: "SET #s = :status, #at = :at",
                   ConditionExpression: "#s = :paid",
-                  ExpressionAttributeNames: { "#s": "status" },
-                  ExpressionAttributeValues: { ":refunded": "refunded", ":paid": "paid", ":at": new Date().toISOString() },
+                  ExpressionAttributeNames: { "#s": "status", "#at": `${status}At` },
+                  ExpressionAttributeValues: { ":status": status, ":paid": "paid", ":at": new Date().toISOString() },
                 },
               },
               {
@@ -406,11 +431,19 @@ export class MemoryStore implements RegistrationStore {
   intents = new Map<string, string>();
   async linkPaymentIntent(intentId: string, registrationId: string) {
     this.intents.set(intentId, registrationId);
+    const r = this.regs.get(registrationId);
+    if (r) r.paymentIntentId = intentId;
   }
   async refundByPaymentIntent(intentId: string) {
-    const r = this.regs.get(this.intents.get(intentId) ?? "");
+    return this.closePaid(this.intents.get(intentId) ?? "", "refunded");
+  }
+  async removeRider(id: string) {
+    return this.closePaid(id, "removed");
+  }
+  private closePaid(id: string, status: "refunded" | "removed") {
+    const r = this.regs.get(id);
     if (!r || r.status !== "paid") return false;
-    r.status = "refunded";
+    r.status = status;
     const key = `${r.date}|${r.classId}`;
     this.taken.set(key, Math.max(0, (this.taken.get(key) ?? 1) - 1));
     return true;

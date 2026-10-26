@@ -69,6 +69,19 @@ describe("MemoryStore (mirrors the DynamoDB contract)", () => {
     expect(await s.spotsTaken("2099-06-01")).toEqual({ C: 0 });
   });
 
+  it("removing a rider frees the spot once, and a later refund doesn't free it again", async () => {
+    const s = new MemoryStore();
+    await s.reserve(reg("1"), 1);
+    await s.markPaid("1", "t");
+    await s.linkPaymentIntent("pi_1", "1");
+    expect((await s.get("1"))?.paymentIntentId).toBe("pi_1");
+    expect(await s.removeRider("1")).toBe(true);
+    expect(await s.removeRider("1")).toBe(false);
+    expect(await s.refundByPaymentIntent("pi_1")).toBe(false);
+    expect((await s.get("1"))?.status).toBe("removed");
+    expect(await s.spotsTaken("2099-06-01")).toEqual({ C: 0 });
+  });
+
   it("membership writes once per Stripe session", async () => {
     const s = new MemoryStore();
     const m = { id: "cs_1", name: "M", email: "m@x.co", amount: 750, year: 2026, stripeSessionId: "cs_1", createdAt: "t" };

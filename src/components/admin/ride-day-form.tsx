@@ -50,7 +50,7 @@ export function RideDayForm({
     });
   };
 
-  const field = "h-12 bg-card text-base";
+  const field = "h-12 w-full bg-card text-base";
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -64,7 +64,7 @@ export function RideDayForm({
             <Label htmlFor="rd-date">Date</Label>
             <Input id="rd-date" type="date" required value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={field} />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 min-[480px]:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="rd-start">Opens</Label>
               <Input id="rd-start" type="time" required value={form.start} onChange={(e) => setForm({ ...form, start: e.target.value })} className={field} />

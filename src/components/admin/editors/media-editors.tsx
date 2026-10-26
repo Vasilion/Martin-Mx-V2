@@ -107,7 +107,7 @@ export function GalleryEditor({ initial }: { initial: Content<"gallery"> }) {
 
   return (
     <div className="space-y-4">
-      <Section title="Photos" hint={`${items.length} photos · ${featured} on the home page. Starred photos show in the home page strip (first 10).`}>
+      <Section title="Photos" hint={`${items.length} photos · ${featured} starred. Every photo shows on the Gallery page; starred ones (yellow star) also show in the home page photo strip, first 10. Tap a star to turn it on or off.`}>
         <Button type="button" className="h-12 w-full text-base sm:w-auto" disabled={!!progress} onClick={() => input.current?.click()}>
           {progress ? <Loader2 className="animate-spin" /> : <ImagePlus />}
           {progress ? `Uploading ${progress.done + 1} of ${progress.total}…` : "Add photos"}
@@ -140,8 +140,8 @@ export function GalleryEditor({ initial }: { initial: Content<"gallery"> }) {
                       <ArrowDown />
                     </Button>
                   </div>
-                  <Button type="button" variant="ghost" size="icon-lg" className="size-9 text-destructive" onClick={() => setItems(items.filter((_, j) => j !== i))} aria-label="Delete photo">
-                    <Trash2 />
+                  <Button type="button" variant="ghost" className="h-9 px-2 text-destructive" onClick={() => setItems(items.filter((_, j) => j !== i))}>
+                    <Trash2 /> Delete
                   </Button>
                 </div>
               </div>

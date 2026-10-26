@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PrintButton, DayPicker } from "@/components/admin/riders-toolbar";
+import { RiderList } from "@/components/admin/rider-list";
 import { getFocusDay, getRoster } from "@/lib/admin/roster";
 import { getSchedule } from "@/lib/park/live";
 import { formatDay, formatTimeRange } from "@/lib/park/format";
@@ -23,7 +24,7 @@ export default async function RidersPage({ searchParams }: { searchParams: Promi
       <header className="flex flex-wrap items-end justify-between gap-4 print:hidden">
         <div>
           <h1 className="text-3xl font-bold">Riders</h1>
-          <p className="mt-1 text-muted-foreground">Paid online registrations, grouped by class.</p>
+          <p className="mt-1 text-muted-foreground">Paid online registrations, A to Z by last name. Print groups them by class.</p>
         </div>
         <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           <DayPicker value={date} options={options} />
@@ -44,47 +45,20 @@ export default async function RidersPage({ searchParams }: { searchParams: Promi
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 print:hidden">
-        <span className="rounded-full bg-ink px-3.5 py-1.5 text-sm font-semibold text-white">{riders.length} total</span>
-        {classes.map((c) => (
-          <span key={c.id} className="rounded-full border bg-card px-3.5 py-1.5 text-sm font-semibold">
-            {c.label} {c.paid}
-          </span>
-        ))}
+      <div className="print:hidden">
+        <RiderList riders={riders} classes={classes} />
       </div>
-
-      {riders.length === 0 && (
-        <div className="rounded-lg border border-dashed bg-card p-8 text-center text-muted-foreground">No paid registrations for this day.</div>
-      )}
 
       {classes
         .filter((c) => c.paid > 0)
         .map((c) => {
           const list = riders.filter((r) => r.classId === c.id);
           return (
-            <section key={c.id} className="break-inside-avoid">
+            <section key={c.id} className="hidden break-inside-avoid print:block">
               <h2 className="mb-2 text-lg font-bold">
                 {c.label} <span className="font-normal text-muted-foreground">· {list.length}</span>
               </h2>
-              {/* Phone: cards. Desktop + print: table. */}
-              <ul className="divide-y rounded-lg border bg-card md:hidden print:hidden">
-                {list.map((r) => (
-                  <li key={r.id} className="flex items-center gap-4 px-4 py-3">
-                    <span className="w-10 text-center font-display text-xl font-bold italic">{r.riderNumber}</span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold">{r.name}</span>
-                      <span className="block text-sm text-muted-foreground">
-                        {r.bikeSize}cc · {r.ageGroup === "minor" ? "Minor" : "Adult"} ·{" "}
-                        <a href={`tel:${r.phone}`} className="underline">
-                          {r.phone}
-                        </a>
-                      </span>
-                    </span>
-                    {r.checkedIn && <span className="text-xs font-bold uppercase text-brand">In</span>}
-                  </li>
-                ))}
-              </ul>
-              <table className="hidden w-full overflow-hidden rounded-lg border bg-card text-left text-sm md:table print:table print:text-xs">
+              <table className="w-full overflow-hidden rounded-lg border bg-card text-left text-xs">
                 <thead className="bg-muted/60 text-xs uppercase tracking-wider text-muted-foreground">
                   <tr>
                     <th className="w-8 px-3 py-2 print:px-2">In</th>

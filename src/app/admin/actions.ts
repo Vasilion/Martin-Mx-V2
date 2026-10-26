@@ -164,7 +164,7 @@ export async function deleteRideDay(date: string): Promise<ActionState> {
   await requireOwner();
   const taken = await getStore().spotsTaken(date);
   if (Object.values(taken).some((n) => n > 0)) {
-    return { error: "Riders are registered for this day. Cancel it instead so they see it on the site." };
+    return { error: "Riders are registered for this day. Cancel it instead so they see it on the site, or remove the riders first (Riders → … → Remove from list)." };
   }
   await removeRideDay(date);
   refreshSite();
@@ -178,6 +178,15 @@ export async function setCheckedIn(id: string, checkedIn: boolean): Promise<Acti
   await getStore().setCheckedIn(id, checkedIn);
   revalidatePath("/admin", "layout");
   return { ok: true };
+}
+
+/** Takes a paid rider off the gate list and frees their spot. Refunds are separate (in Stripe). */
+export async function removeRider(id: string): Promise<ActionState> {
+  await requireOwner();
+  const removed = await getStore().removeRider(id);
+  revalidatePath("/admin", "layout");
+  refreshSite();
+  return removed ? { ok: true, message: "Rider removed. Their spot is open again." } : { error: "That rider is already off the list." };
 }
 
 // --- settings -----------------------------------------------------------------

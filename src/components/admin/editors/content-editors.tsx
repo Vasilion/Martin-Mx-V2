@@ -228,6 +228,11 @@ export function AnnouncementEditor({ initial }: { initial: Content<"announcement
             Preview: {v.message}
           </div>
         )}
+        {v.message && !v.active && (
+          <p className="rounded-md border border-caution bg-caution/15 px-4 py-3 text-sm font-medium">
+            The banner is switched off, so the site doesn&apos;t show it. Turn on <strong>Show the banner</strong> at the top, then save.
+          </p>
+        )}
       </Section>
       <SaveBar pending={e.pending} dirty={e.dirty} onSave={e.onSave} />
     </div>

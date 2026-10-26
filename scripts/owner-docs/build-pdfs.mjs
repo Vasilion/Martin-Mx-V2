@@ -178,6 +178,9 @@ ${cover("Owner guide", "Run the park", "from your phone.", "Everything the new M
     <li><strong>Tap the rider</strong> to check them in. The circle turns green. Tap again to undo.</li>
     <li>A yellow <strong>MINOR</strong> tag means they're under 18: make sure a parent or a notarized guardian release is there.</li>
   </ol>
+  <p>Riders are listed A to Z by last name. The same list, with search, is on the <strong>Riders</strong> tab for any ride day: pick the day at the top.</p>
+  <h3>A rider cancels</h3>
+  <p>Tap <strong>…</strong> next to their name. You'll see their phone and email, plus two buttons: <strong>Refund in Stripe</strong> opens their payment in Stripe so you can refund it (a full refund takes them off the list on its own), and <strong>Remove from list</strong> takes them off without a refund. Either way their spot opens up for someone else.</p>
   ${tip("Walk-ups", "Riders who pay cash at the gate aren't in this list; it only shows online registrations. Keep handling walk-ups the way you do today.")}
 </section>
 
@@ -241,6 +244,7 @@ ${cover("Owner guide", "Run the park", "from your phone.", "Everything the new M
     <li>Go to <strong>Payments</strong> and search for the rider's name or email.</li>
     <li>Open the payment and tap <strong>Refund</strong>. Choose the full amount and confirm.</li>
   </ol>
+  ${tip("Shortcut", "In the dashboard, tap … next to the rider, then Refund in Stripe. It opens that rider's payment directly.")}
   <p>For a <strong>full refund</strong>, the site automatically removes the rider from your gate list and frees their spot within a few seconds. A <strong>partial refund</strong> keeps them registered.</p>
   ${tip("Stripe fees", "Stripe keeps its processing fee on refunded payments. That's standard for card processing, not something the website controls.")}
 </section>
@@ -303,7 +307,7 @@ ${cover("Owner guide", "Run the park", "from your phone.", "Everything the new M
         <li>They upload one at a time (they're shrunk on your phone first, so it's quick even on cell signal).</li>
         <li>Tap the <strong>star</strong> on a photo to show it in the home page photo strip (the first 10 starred show there). Every photo appears on the Gallery page.</li>
         <li>Optionally type a short description under each photo (helps Google and screen readers).</li>
-        <li>Use the arrows to reorder and the trash can to delete, then ${ui("Save changes")}.</li>
+        <li>Use the arrows to reorder and <strong>Delete</strong> to remove a photo, then ${ui("Save changes")}.</li>
       </ol>
       <h3>Sponsors</h3>
       <p>More → <strong>Sponsors</strong>: upload a logo, add their name and website or Facebook link, and choose <strong>Show on site</strong>. Turn on <strong>Title sponsor</strong> to give someone the big spot. A PNG logo with a transparent background looks best.</p>
@@ -472,7 +476,7 @@ ${cover("Before launch", "Go-live", "test checklist.", "Walk through every part 
   </ul>
 
   <h3>E. Gate and printing</h3><ul class="check">
-    ${item("Search for the pretend rider and tap them.", "the green check. Tap again to undo.")}
+    ${item("Riders tab → pick the TEST day → search for the pretend rider and tap them.", "the green check. Tap again to undo.")}
     ${item("Riders → TEST day → Print (from a computer).", "a clean sheet grouped by class.")}
   </ul>
 
@@ -484,7 +488,7 @@ ${cover("Before launch", "Go-live", "test checklist.", "Walk through every part 
 
 <section>
   <h3>G. Refund (test site)</h3><ul class="check">
-    ${item("With your web team, refund the pretend payment in Stripe's test mode.", "the rider disappears from the TEST day list.")}
+    ${item("Riders → TEST day → tap … next to the pretend rider → Refund in Stripe → Refund the full amount.", "the rider disappears from the TEST day list.")}
   </ul>
 
   <h3>H. Editing the site</h3><ul class="check">
@@ -506,7 +510,7 @@ ${cover("Before launch", "Go-live", "test checklist.", "Walk through every part 
   </ul>
 
   <h3>K. Clean up</h3><ul class="check">
-    ${item("Delete the TEST ride day (if it won't delete because of the pretend rider, cancel it; your web team will clear test data before launch).", "it's no longer on the schedule.")}
+    ${item("Delete the TEST ride day. If a rider is still on it, remove them first (Riders → … → Remove from list).", "it's no longer on the schedule.")}
   </ul>
 
   <div class="signoff"><div>Tested by</div><div>Date</div></div>
@@ -542,7 +546,7 @@ const card = doc(
   <div class="box"><h3>Check riders in</h3><ol><li>Today → scroll to <strong>Riders</strong></li><li>Search name or number</li><li><strong>Tap the rider</strong> = checked in (green). Tap again to undo.</li><li>Yellow <strong>MINOR</strong> = parent or notarized guardian release required</li></ol></div>
   <div class="box"><h3>Everyone at check-in</h3><ul><li>Signs a waiver before parking, spectators included</li><li>Gear: DOT helmet, goggles, boots over the ankle, long sleeves and pants</li><li>No pit bikes on the Jr track</li></ul></div>
   <div class="box"><h3>Registration</h3><ul><li>Close practice sign-ups for everything: Today → <strong>Practice registration on the site</strong></li><li>Open or close one day: Today → <strong>Online registration</strong> switch</li><li>Class full? Raise spots: More → Prices, spots &amp; hours</li><li>Walk-ups paying cash aren't on the list</li></ul></div>
-  <div class="box wide"><h3>Something wrong?</h3><ul><li><strong>Rider says they paid but isn't listed:</strong> search Stripe → Payments for their name. Payment there? Let them ride and email us their name.</li><li><strong>Refund:</strong> Stripe → Payments → the payment → Refund (full refund removes them from the list).</li><li><strong>Can't sign in:</strong> wait 15 minutes after 5 wrong tries, or have another owner tap New password under More → Team.</li><li><strong>Site down or anything else:</strong> use the printed list and email ${SUPPORT}.</li></ul></div>
+  <div class="box wide"><h3>Something wrong?</h3><ul><li><strong>Rider says they paid but isn't listed:</strong> search Stripe → Payments for their name. Payment there? Let them ride and email us their name.</li><li><strong>Rider cancels:</strong> Riders → <strong>…</strong> next to them → Refund in Stripe (a full refund removes them), or Remove from list.</li><li><strong>Can't sign in:</strong> wait 15 minutes after 5 wrong tries, or have another owner tap New password under More → Team.</li><li><strong>Site down or anything else:</strong> use the printed list and email ${SUPPORT}.</li></ul></div>
 </div>
 <div class="foot"><span>${SITE}</span><span>Unyx Web Solutions · ${SUPPORT}</span></div>
 `,

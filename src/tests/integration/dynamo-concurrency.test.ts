@@ -35,4 +35,30 @@ describe.skipIf(!table)("DynamoDB spot reservation under concurrency", () => {
     for (const r of regs.Items ?? []) await db.send(new DeleteCommand({ TableName: table, Key: { pk: r.pk, sk: r.sk } }));
     await db.send(new DeleteCommand({ TableName: table, Key: { pk: `DAY#${date}`, sk: "CLASS#AB" } }));
   }, 30000);
+
+  it("removing a paid rider frees the spot once; a later refund is a no-op", async () => {
+    process.env.MARTIN_TABLE = table;
+    const { getStore } = await import("@/lib/registrations/store");
+    const store = getStore();
+    const date = "2099-02-01";
+    const id = crypto.randomUUID();
+    const pi = `pi_test_${id}`;
+    await store.reserve(
+      { id, status: "pending", amount: 40, createdAt: new Date().toISOString(), date, classId: "C", firstName: "R", lastName: "T", email: "t@t.co", phone: "6165550100", riderNumber: "1", bikeSize: 250, ageGroup: "adult" },
+      5,
+    );
+    await store.linkPaymentIntent(pi, id);
+    await store.markPaid(id, new Date().toISOString());
+    expect((await store.get(id))?.paymentIntentId).toBe(pi);
+    expect(await store.removeRider(id)).toBe(true);
+    expect(await store.removeRider(id)).toBe(false);
+    expect(await store.refundByPaymentIntent(pi)).toBe(false);
+    expect((await store.get(id))?.status).toBe("removed");
+    expect(await store.spotsTaken(date)).toEqual({ C: 0 });
+
+    const db = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "us-east-1" }));
+    for (const Key of [{ pk: `REG#${id}`, sk: "REG" }, { pk: `PI#${pi}`, sk: "PI" }, { pk: `DAY#${date}`, sk: "CLASS#C" }]) {
+      await db.send(new DeleteCommand({ TableName: table, Key }));
+    }
+  }, 30000);
 });

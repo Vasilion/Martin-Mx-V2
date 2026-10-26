@@ -78,7 +78,7 @@ export function SettingsForm({ practice, membership }: { practice: Practice; mem
       <Section title="Regular hours" hint="Shown on the site and used by “Fill next 4 weeks” on the schedule.">
         <ul className="space-y-3">
           {hours.map((h, i) => (
-            <li key={i} className="grid grid-cols-[1fr_auto] items-end gap-2 rounded-lg border p-3 sm:grid-cols-[1.4fr_1fr_1fr_auto] sm:border-0 sm:p-0">
+            <li key={i} className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2 rounded-lg border p-3 sm:grid-cols-[1.4fr_1fr_1fr_auto] sm:border-0 sm:p-0">
               <div className="col-span-2 space-y-1.5 sm:col-span-1">
                 <Label htmlFor={`h-day-${i}`} className="text-xs">Day</Label>
                 <select
@@ -92,14 +92,14 @@ export function SettingsForm({ practice, membership }: { practice: Practice; mem
                   ))}
                 </select>
               </div>
-              <div className="grid grid-cols-2 gap-2 sm:contents">
+              <div className="grid gap-2 min-[480px]:grid-cols-2 sm:contents">
                 <div className="space-y-1.5">
                   <Label htmlFor={`h-open-${i}`} className="text-xs">Opens</Label>
-                  <Input id={`h-open-${i}`} type="time" value={h.open} onChange={(e) => setHours(hours.map((x, j) => (j === i ? { ...x, open: e.target.value } : x)))} className="h-12 text-base" />
+                  <Input id={`h-open-${i}`} type="time" value={h.open} onChange={(e) => setHours(hours.map((x, j) => (j === i ? { ...x, open: e.target.value } : x)))} className="h-12 w-full text-base" />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor={`h-close-${i}`} className="text-xs">Closes</Label>
-                  <Input id={`h-close-${i}`} type="time" value={h.close} onChange={(e) => setHours(hours.map((x, j) => (j === i ? { ...x, close: e.target.value } : x)))} className="h-12 text-base" />
+                  <Input id={`h-close-${i}`} type="time" value={h.close} onChange={(e) => setHours(hours.map((x, j) => (j === i ? { ...x, close: e.target.value } : x)))} className="h-12 w-full text-base" />
                 </div>
               </div>
               <Button type="button" variant="ghost" size="icon-lg" className="size-12" aria-label={`Remove ${h.day}`} onClick={() => setHours(hours.filter((_, j) => j !== i))}>

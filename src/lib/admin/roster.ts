@@ -17,9 +17,17 @@ export type RosterRider = {
   amount: number;
   checkedIn: boolean;
   paidAt?: string;
+  /** Opens this payment in the Stripe dashboard (where refunds are issued). */
+  stripeUrl: string;
 };
 
 export type ClassCount = { id: string; label: string; paid: number; held: number; capacity: number };
+
+/** The payment itself when we know it, else a dashboard search for the rider's email (older test records). */
+function stripePaymentUrl(intentId: string | undefined, email: string) {
+  const base = `https://dashboard.stripe.com/${process.env.STRIPE_SECRET_KEY?.includes("_test_") ? "test/" : ""}`;
+  return intentId ? `${base}payments/${intentId}` : `${base}search?query=${encodeURIComponent(email)}`;
+}
 
 /** Paid riders for a day plus per-class counts. Pending checkouts count as held spots only. */
 export async function getRoster(date: string) {
@@ -42,6 +50,7 @@ export async function getRoster(date: string) {
       amount: r.amount,
       checkedIn: !!r.checkedIn,
       paidAt: r.paidAt,
+      stripeUrl: stripePaymentUrl(r.paymentIntentId, r.email),
     }))
     .sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
   const classes: ClassCount[] = practice.classes.map((c) => ({
