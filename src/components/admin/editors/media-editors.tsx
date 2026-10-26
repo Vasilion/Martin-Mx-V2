@@ -131,19 +131,18 @@ export function GalleryEditor({ initial }: { initial: Content<"gallery"> }) {
               </div>
               <div className="space-y-2 p-2">
                 <Input value={p.alt} maxLength={160} placeholder="Describe the photo" onChange={(ev) => setItems(items.map((x, j) => (j === i ? { ...x, alt: ev.target.value } : x)))} className="h-10 text-sm" aria-label="Photo description" />
-                <div className="flex justify-between">
-                  <div className="flex">
-                    <Button type="button" variant="ghost" size="icon-lg" className="size-9" disabled={i === 0} onClick={() => setItems(move(items, i, -1))} aria-label="Move earlier">
-                      <ArrowUp />
-                    </Button>
-                    <Button type="button" variant="ghost" size="icon-lg" className="size-9" disabled={i === items.length - 1} onClick={() => setItems(move(items, i, 1))} aria-label="Move later">
-                      <ArrowDown />
-                    </Button>
-                  </div>
-                  <Button type="button" variant="ghost" className="h-9 px-2 text-destructive" onClick={() => setItems(items.filter((_, j) => j !== i))}>
-                    <Trash2 /> Delete
+                <div className="flex justify-center gap-1">
+                  <Button type="button" variant="ghost" size="icon-lg" className="size-9" disabled={i === 0} onClick={() => setItems(move(items, i, -1))} aria-label="Move earlier">
+                    <ArrowUp />
+                  </Button>
+                  <Button type="button" variant="ghost" size="icon-lg" className="size-9" disabled={i === items.length - 1} onClick={() => setItems(move(items, i, 1))} aria-label="Move later">
+                    <ArrowDown />
                   </Button>
                 </div>
+                {/* Own full-width row: on narrow phones it was clipped off the side of the card. */}
+                <Button type="button" variant="outline" className="h-10 w-full bg-card text-destructive" onClick={() => setItems(items.filter((_, j) => j !== i))}>
+                  <Trash2 /> Delete
+                </Button>
               </div>
             </li>
           ))}
