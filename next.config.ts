@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
       { source: "/hiring-form", destination: "/hiring", permanent: true },
       { source: "/print-list", destination: "/admin/riders", permanent: true },
       { source: "/print", destination: "/admin/riders", permanent: false },
+      // Old site waiver links (shared on Facebook, printed QR codes).
+      { source: "/images/waivers/:file", destination: "/media/waivers/:file", permanent: true },
     ];
   },
 };
