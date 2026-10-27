@@ -109,6 +109,9 @@ export function ScheduleManager({
                       {!d.cancelled && d.registrationOpen && registrationEnabled && (
                         <span className="rounded bg-brand/12 px-1.5 py-0.5 text-[11px] font-bold uppercase text-brand">Reg open</span>
                       )}
+                      {!d.cancelled && !(d.registrationOpen && registrationEnabled) && (
+                        <span className="rounded bg-muted px-1.5 py-0.5 text-[11px] font-bold uppercase text-muted-foreground">Cash only</span>
+                      )}
                     </span>
                     <span className="mt-0.5 block truncate text-sm text-muted-foreground">
                       {d.title} · {formatTimeRange(d.start, d.end)}

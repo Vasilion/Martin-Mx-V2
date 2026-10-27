@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Ban, CloudRain } from "lucide-react";
+import { ArrowRight, Ban, Banknote, CloudRain } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { RideDay } from "@/lib/park/live";
 import type { DayForecast } from "@/lib/park/weather";
@@ -19,6 +19,8 @@ export function RideDayRow({
   registrationEnabled: boolean;
 }) {
   const canRegister = registrationEnabled && day.registrationOpen && !day.cancelled;
+  // Owners turn online sign-up off per day when riders just pay at the gate.
+  const cashOnly = !canRegister && !day.cancelled;
   const { month, day: dom } = monthDay(day.date);
   return (
     <li
@@ -46,6 +48,11 @@ export function RideDayRow({
           )}
           {canRegister && (
             <span className="eyebrow rounded-sm border border-volt/50 px-2 py-1 text-[0.65rem] text-volt">Registration open</span>
+          )}
+          {cashOnly && (
+            <span className="eyebrow flex items-center gap-1.5 rounded-sm border border-white/25 px-2 py-1 text-[0.65rem] text-white/80">
+              <Banknote className="size-3" aria-hidden /> Cash only
+            </span>
           )}
         </div>
         <p className="mt-2 whitespace-nowrap font-display text-[min(1.875rem,16.5cqi)] font-bold uppercase italic text-white md:text-4xl">
@@ -82,6 +89,10 @@ export function RideDayRow({
         >
           Register <ArrowRight className="size-4" aria-hidden />
         </Link>
+      ) : cashOnly ? (
+        <p className="col-span-2 text-sm text-white/65 md:col-span-1 md:max-w-40 md:text-right">
+          No online sign-up. Pay cash at the gate.
+        </p>
       ) : (
         <div className="hidden md:block" />
       )}

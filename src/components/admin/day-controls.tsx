@@ -74,10 +74,10 @@ export function DayControls({
           <span className="block font-semibold">Online registration</span>
           <span className="block text-sm text-muted-foreground">
             {!registrationEnabled
-              ? "Practice registration is off for the whole site"
+              ? "Off for the whole site, so this day shows Cash only"
               : day.registrationOpen
                 ? "Riders can sign up and pay"
-                : "Form is hidden on the site"}
+                : "Off: the site shows this day as Cash only"}
           </span>
         </span>
         <Switch
